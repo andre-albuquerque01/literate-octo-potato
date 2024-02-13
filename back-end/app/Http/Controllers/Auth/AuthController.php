@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthLoginRequest;
 use App\Services\AuthService;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -21,8 +22,13 @@ class AuthController extends Controller
         return $this->authService->login($input['email'], $input['password']);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        //
+        try {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['message' => 'sucess'], 204);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
