@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('lastName');
             $table->string('DDD');
             $table->string('phoneNumber');
+            $table->string('role');
             $table->string('cpf')->unique();
             $table->string('email')->unique();
             $table->boolean('term_aceite')->nullable(false);
