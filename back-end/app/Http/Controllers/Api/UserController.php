@@ -67,9 +67,14 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
-        //
+        try {
+            $validet = $request->validated();
+            return $this->userService->update($validet, $id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -77,6 +82,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            return $this->userService->destroy($id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
