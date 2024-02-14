@@ -23,38 +23,37 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'firstName' => 'required|min:3|max:60',
-            'lastName' => 'required|min:3|max:60',
-            'DDD' => 'required|min:2|max:3',
-            'phoneNumber' => 'required|min:8|max:12',
-            'role' => 'required|min:2|max:10',
-            'cpf' => 'required|min:11|max:11|unique:users,cpf',
-            'term_aceite' => 'required',
-            'email' => [
-                'required',
-                'email',
-                'max:120',
-                'min:2',
-                'unique:users'
+            "firstName" => "required|min:3|max:60",
+            "lastName" => "required|min:3|max:60",
+            "DDD" => "required|min:2|max:3",
+            "phoneNumber" => "required|min:8|max:12",
+            "cpf" => "required|min:11|max:11",
+            "term_aceite" => "required",
+            "email" => [
+                "required",
+                "email",
+                "max:255",
+                "min:2",
+                "unique:users",
             ],
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)
-                    ->mixedCase()
-                    ->letters()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
+            "password" => [
+                "required",
+                "confirmed",
+                    Password::min(8)
+                        ->mixedCase()
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised(),
             ],
             "password_confirmation" => [
-                'required',
-                Password::min(8)
-                    ->mixedCase()
-                    ->letters()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
+                "required",
+                    Password::min(8)
+                        ->mixedCase()
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised(),
             ],
         ];
 

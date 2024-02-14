@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -16,29 +15,13 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(UserRequest $request)
     {
         try {
-            $validet = $request->validated();
-            return $this->userService->store($validet);
+            $data = $request->validated();
+            return $this->userService->store($data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -50,18 +33,10 @@ class UserController extends Controller
     public function show(string $id)
     {
         try {
-            return $this->userService->show($id);
+            // return $this->userService->show($id);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -71,7 +46,7 @@ class UserController extends Controller
     {
         try {
             $validet = $request->validated();
-            return $this->userService->update($validet, $id);
+            // return $this->userService->update($validet, $id);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -83,7 +58,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         try {
-            return $this->userService->destroy($id);
+            // return $this->userService->destroy($id);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
