@@ -33,7 +33,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         try {
-            // return $this->userService->show($id);
+            return $this->userService->show($id);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         try {
             $validet = $request->validated();
-            // return $this->userService->update($validet, $id);
+            return $this->userService->update($validet, $id);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -58,7 +58,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         try {
-            // return $this->userService->destroy($id);
+            return $this->userService->destroy($id);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

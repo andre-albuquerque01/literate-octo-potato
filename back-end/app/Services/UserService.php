@@ -50,7 +50,7 @@ class UserService
     public function destroy(string $id)
     {
         try {
-            $find = User::findOrFail($id)->destroy();
+            $find = User::findOrFail($id)->delete();
             return response()->json(['message:' => 'Sucess'], 204);
         } catch (\Exception $e) {
             return $e->getMessage();
