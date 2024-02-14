@@ -50,9 +50,9 @@ class UserController extends Controller
     public function show(string $id)
     {
         try {
-            
-        } catch (\Throwable $th) {
-            //throw $th;
+            return $this->userService->show($id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
 
