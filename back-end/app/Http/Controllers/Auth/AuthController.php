@@ -18,8 +18,12 @@ class AuthController extends Controller
 
     public function login(AuthLoginRequest $request)
     {
-        $input = $request->validated();
-        return $this->authService->login($input['email'], $input['password']);
+        try {
+            $input = $request->validated();
+            return $this->authService->login($input['email'], $input['password']);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public function logout(Request $request)

@@ -17,12 +17,16 @@ class AuthService
 
     public function login(string $email, string $password)
     {
-        $login = ['email' => $email, 'password' => $password];
+        try {
+            $login = ['email' => $email, 'password' => $password];
 
-        if (!Auth::attempt($login)) {
-            throw new LoginInvalidException;
+            if (!Auth::attempt($login)) {
+                throw new LoginInvalidException;
+            }
+            $token = $this->request->user()->createToken('user', ['*'], now()->addHours(2))->plainTextToken;
+            return new AuthLoginResource(['token' => $token]);
+        } catch (\Exception $e) {
+            throw $e;
         }
-        $token = $this->request->user()->createToken('user', ['*'], now()->addHours(2))->plainTextToken;
-        return new AuthLoginResource(['token' => $token]);
     }
 }
