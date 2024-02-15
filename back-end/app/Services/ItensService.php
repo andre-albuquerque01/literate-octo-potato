@@ -18,6 +18,16 @@ class ItensService
         }
     }
 
+    public function indexAll()
+    {
+        try {
+            $iten = Itens::paginate();
+            return ItensResouce::collection($iten);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function store(array $data)
     {
         try {
@@ -33,7 +43,10 @@ class ItensService
     {
         try {
             $iten = Itens::findOrFail($id);
-            return ItensResouce::collection($iten);
+            if ($iten === null) {
+                throw new \Exception("Item not found");
+            }
+            return new ItensResouce($iten);
         } catch (\Throwable $th) {
             throw $th;
         }

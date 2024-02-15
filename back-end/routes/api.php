@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ItensController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -20,6 +21,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('/user', UserController::class);
+    Route::apiResource('/itens', ItensController::class);
+    Route::get('/itensa', [ItensController::class, 'indexAll']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

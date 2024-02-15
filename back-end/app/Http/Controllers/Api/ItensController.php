@@ -26,6 +26,15 @@ class ItensController extends Controller
         }
     }
 
+    public function indexAll()
+    {
+        try {
+            return $this->itensService->indexAll();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -45,7 +54,7 @@ class ItensController extends Controller
     public function show(string $id)
     {
         try {
-            $this->itensService->show($id);
+            return $this->itensService->show($id);
         } catch (\Throwable $th) {
             throw $th;
         }
