@@ -21,7 +21,7 @@ class ItensRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'title' => 'required|min:2|max:60',
             'desc' => 'required|min:2|max:255',
             'value' => 'required|min:2|max:8',
@@ -31,5 +31,48 @@ class ItensRequest extends FormRequest
             'rate' => 'required|min:1|max:100',
             'urlImage' => 'required|min:1|max:100',
         ];
+
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            $rules['title'] = [
+                "nullable",
+                "min:2",
+                "max:60",
+            ];
+            $rules['desc'] = [
+                "nullable",
+                "min:2",
+                "max:255",
+            ];
+            $rules['value'] = [
+                "nullable",
+                "min:1",
+                "max:8",
+            ];
+            $rules['statusIten'] = [
+                "nullable",
+            ];
+            $rules['qtdIten'] = [
+                "nullable",
+                "min:1",
+                "max:100",
+            ];
+            $rules['slug'] = [
+                "nullable",
+                "min:1",
+                "max:100",
+            ];
+            $rules['rate'] = [
+                "nullable",
+                "min:1",
+                "max:100",
+            ];
+            $rules['urlImage'] = [
+                "nullable",
+                "min:1",
+                "max:100",
+            ];
+        }
+
+        return $rules;
     }
 }
