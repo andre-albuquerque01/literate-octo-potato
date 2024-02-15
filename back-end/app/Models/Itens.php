@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Itens extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = "idItens";
+    protected $table = "itens";
+    protected $fillable = [
+        'codigo',
+        'title',
+        'desc',
+        'value',
+        'statusIten',
+        'qtdIten',
+        'slug',
+        'rate',
+        'urlImage',
+    ];
 }
