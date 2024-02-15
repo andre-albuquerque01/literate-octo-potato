@@ -11,7 +11,7 @@ class ItensRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class ItensRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|min:2|max:60',
+            'desc' => 'required|min:2|max:255',
+            'value' => 'required|min:2|max:8',
+            'statusIten' => 'required|',
+            'qtdIten' => 'required|min:1|max:100',
+            'slug' => 'required|min:1|max:100',
+            'rate' => 'required|min:1|max:100',
+            'urlImage' => 'required|min:1|max:100',
         ];
     }
 }
