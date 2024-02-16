@@ -19,6 +19,10 @@ return new class extends Migration
             $table->foreign('idTable')->references('idTable')->on('table')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idItens');
             $table->foreign('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('status', 20);
+            $table->integer('quatidade');
+            $table->string('methodPay');
+            $table->string('value');
             $table->timestamps();
         });
     }
