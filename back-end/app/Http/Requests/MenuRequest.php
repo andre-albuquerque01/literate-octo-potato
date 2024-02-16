@@ -21,8 +21,30 @@ class MenuRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            "idTable" => "requerid",
+            "idItens" => "nullable",
+            "statusOrder" => "requerid",
+            "quantidade" => "nullable",
+            "methodPay" => "nullable",
+            "value" => "nullable",
         ];
+
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            $rules['idItens'] = [
+                "requerid",
+            ];
+            $rules['quantidade'] = [
+                "required",
+            ];
+            $rules['methodPay'] = [
+                "required",
+            ];
+            $rules['value'] = [
+                "required",
+            ];
+        }
+
+        return $rules;
     }
 }

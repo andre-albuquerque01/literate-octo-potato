@@ -28,7 +28,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('/menu', MenuController::class);
     Route::get('/itensa', [ItensController::class, 'indexAll']);
     Route::get('/itenss/{slug}', [ItensController::class, 'showSlug']);
-    Route::get('/menu/{cpf}', [MenuController::class, 'showCPF']);
+    Route::get('/menucpf/{cpf}', [MenuController::class, 'showCPF']);
+    Route::get('/menuCodigo/{codigo}', [MenuController::class, 'showCodigo']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

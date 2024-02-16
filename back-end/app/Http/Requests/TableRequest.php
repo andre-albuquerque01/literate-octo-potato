@@ -29,10 +29,10 @@ class TableRequest extends FormRequest
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $rules['numberTable'] = [
                 "nullable",
-            ];;
+            ];
             $rules['statusTable'] = [
                 "required",
-            ];;
+            ];
         }
 
         return $rules;

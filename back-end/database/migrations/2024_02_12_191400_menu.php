@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('menu', function (Blueprint $table) {
             $table->id('idMenu');
+            $table->string('codigo')->unique();
             $table->unsignedBigInteger('idUser');
             $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idTable');
             $table->foreign('idTable')->references('idTable')->on('table')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idItens');
             $table->foreign('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('status', 20);
+            $table->string('statusOrder', 20);
             $table->integer('quatidade');
             $table->string('methodPay');
             $table->string('value');
