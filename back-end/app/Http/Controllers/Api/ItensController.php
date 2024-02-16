@@ -60,6 +60,15 @@ class ItensController extends Controller
         }
     }
 
+    public function showSlug(string $slug)
+    {
+        try {
+            return $this->itensService->showSlug($slug);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */

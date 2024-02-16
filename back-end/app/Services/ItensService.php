@@ -51,6 +51,18 @@ class ItensService
             throw $th;
         }
     }
+    public function showSlug(string $slug)
+    {
+        try {
+            $iten = Itens::where('slug', $slug);
+            if ($iten === null) {
+                throw new \Exception("Item not found");
+            }
+            return ItensResouce::collection($iten);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
     public function update(array $data, string $id)
     {
