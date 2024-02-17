@@ -30,6 +30,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/itenss/{slug}', [ItensController::class, 'showSlug']);
     Route::get('/menucpf/{cpf}', [MenuController::class, 'showCPF']);
     Route::get('/menuCodigo/{codigo}', [MenuController::class, 'showCodigo']);
+    Route::post('/reSendEmail', [UserController::class, 'reSendEmail']);
+    Route::get('/verifyEmail/{email}', [UserController::class, 'verifyEmail']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -50,6 +50,18 @@ class UserService
         }
     }
 
+    public function verifyEmail(string $email)
+    {
+        try {
+            User::where('email', Crypt::decryptString($email))->update([
+                'email_verified_at' => now()
+            ]);
+            return response()->json(['message' => 'E-mail verificado'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
     public function update(array $dados, string $id)
     {
         try {

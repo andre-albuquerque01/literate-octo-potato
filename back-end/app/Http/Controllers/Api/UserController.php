@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -34,6 +35,27 @@ class UserController extends Controller
     {
         try {
             return $this->userService->show($id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function verifyEmail(string $email)
+    {
+        try {
+            return $this->userService->verifyEmail($email);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function reSendEmail(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email'
+            ]);
+            return $this->userService->verifyEmail($request->email);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
