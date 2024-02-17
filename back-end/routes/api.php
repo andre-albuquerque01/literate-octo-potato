@@ -32,6 +32,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/menuCodigo/{codigo}', [MenuController::class, 'showCodigo']);
     Route::post('/reSendEmail', [UserController::class, 'reSendEmail']);
     Route::get('/verifyEmail/{email}', [UserController::class, 'verifyEmail']);
+    Route::post('/sendTokenRecover', [UserController::class, 'sendTokenRecover']);
+    Route::post('/verifyTokenRecover', [UserController::class, 'verifyTokenRecover']);
+    Route::put('/updatePassword/{token}', [UserController::class, 'updatePassword/']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
