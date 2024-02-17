@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\ItensController;
 use App\Http\Controllers\Api\MenuController;
-use App\Http\Controllers\Api\TableController;
+use App\Http\Controllers\Api\MesaController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/itens', ItensController::class);
-    Route::apiResource('/table', TableController::class);
+    Route::apiResource('/table', MesaController::class);
     Route::apiResource('/menu', MenuController::class);
     Route::get('/itensa', [ItensController::class, 'indexAll']);
     Route::get('/itenss/{slug}', [ItensController::class, 'showSlug']);

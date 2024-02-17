@@ -19,7 +19,7 @@ class MenuService
     public function index()
     {
         try {
-            $menu = Menu::join('table as t', 't.idTable', '=', 'menu.idTable')->join('itens as i', 'i.idItens', '=', 'menu.idItens')->join('user as u', 'u.idUser', '=', 'menu.idUser')->where('u.idUser', '=', $this->user->idUser);
+            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('itens', 'itens.idItens', '=', 'menu.idItens')->join('users', 'users.idUser', '=', 'menu.idUser')->where('menu.idUser', '=', $this->user->idUser)->paginate();
             return MenuResource::collection($menu);
         } catch (\Throwable $th) {
             throw $th;
@@ -29,7 +29,7 @@ class MenuService
     public function store(array $data)
     {
         try {
-            $data['codigo'] = Str::random(10);
+            $data['codigo'] = strtoupper(Str::random(10));
             $data['idUser'] = $this->user->idUser;
             Menu::create($data);
             return response()->json(['message' => 'sucess'], 200);
@@ -51,7 +51,7 @@ class MenuService
     public function showCPF(string $cpf)
     {
         try {
-            $menu = Menu::join('user', 'user.idUser', '=', 'menu.idUser')->where('user.idUser', $cpf);
+            $menu = Menu::join('users', 'user.idUser', '=', 'menu.idUser')->where('user.idUser', $cpf);
             return new MenuResource($menu);
         } catch (\Throwable $th) {
             throw $th;

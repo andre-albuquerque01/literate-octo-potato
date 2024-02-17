@@ -42,7 +42,7 @@ class ItensController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->itensService->store($data);
+            return $this->itensService->store($data);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -76,7 +76,7 @@ class ItensController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->itensService->update($data, $id);
+            return $this->itensService->update($data, $id);
         } catch (\Throwable $th) {
             throw $th;
         }

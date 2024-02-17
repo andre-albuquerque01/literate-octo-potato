@@ -14,7 +14,7 @@ class Menu extends Model
     protected $fillable = [
         'codigo',
         'idUser',
-        'idTable',
+        'idMesa',
         'idItens',
         'statusOrder',
         'quantidade',

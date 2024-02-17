@@ -11,7 +11,7 @@ class MenuRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,9 +22,9 @@ class MenuRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            "idTable" => "requerid",
+            "idMesa" => "required",
             "idItens" => "nullable",
-            "statusOrder" => "requerid",
+            "statusOrder" => "required",
             "quantidade" => "nullable",
             "methodPay" => "nullable",
             "value" => "nullable",
@@ -32,7 +32,7 @@ class MenuRequest extends FormRequest
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $rules['idItens'] = [
-                "requerid",
+                "required",
             ];
             $rules['quantidade'] = [
                 "required",
