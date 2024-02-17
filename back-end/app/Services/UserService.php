@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Http\Resources\UserResource;
+use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserService
 {
@@ -16,6 +19,7 @@ class UserService
             $data['role'] = 'user';
             $data['password'] = Hash::make($data['password']);
             User::create($data);
+            $this->sendsEmail($data['email']);
             return response()->json(['message:' => 'Sucess'], 200);
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -31,6 +35,21 @@ class UserService
             return $e->getMessage();
         }
     }
+
+    public function sendsEmail(string $email)
+    {
+        try {
+            Mail::to($email)->send(new VerifyEmail([
+                'toEmail' => $email,
+                'subject' => 'Verificação do e-mail',
+                'message' => Crypt::encryptString($email)
+            ]));
+            return response()->json(['message' => 'sucess'], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function update(array $dados, string $id)
     {
         try {
