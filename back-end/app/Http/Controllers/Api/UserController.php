@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -40,27 +41,6 @@ class UserController extends Controller
         }
     }
 
-    public function verifyEmail(string $email)
-    {
-        try {
-            return $this->userService->verifyEmail($email);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    public function reSendEmail(Request $request)
-    {
-        try {
-            $request->validate([
-                'email' => 'required|email'
-            ]);
-            return $this->userService->verifyEmail($request->email);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
     /**
      * Update the specified resource in storage.
      */
@@ -81,6 +61,61 @@ class UserController extends Controller
     {
         try {
             return $this->userService->destroy($id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function verifyEmail(string $email)
+    {
+        try {
+            return $this->userService->verifyEmail($email);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function reSendEmail(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email'
+            ]);
+            return $this->userService->sendsEmail($request->email, 'Verificação do e-mail');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function sendTokenRecover(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email'
+            ]);
+            return $this->userService->sendTokenRecover($request->email);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function verifyTokenRecover(Request $request)
+    {
+        try {
+            $request->validate([
+                'token' => 'required'
+            ]);
+            return $this->userService->verifyTokenRecover($request->token);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request, string $token)
+    {
+        try {
+            $data = $request->validated();
+            return $this->userService->updatePassword($data, $token);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
