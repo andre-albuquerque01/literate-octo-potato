@@ -142,9 +142,9 @@ class UserService
     public function verifyTokenRecover(string $token)
     {
         try {
-            $token = DB::table('password_reset_tokens')->where('token', $token)->first();
-            if ($token) {
-                $expiration = (Carbon::make($token->created_at))->addMinutes(10);
+            $user = DB::table('password_reset_tokens')->where('token', $token)->first();
+            if ($user) {
+                $expiration = (Carbon::make($user->created_at))->addMinutes(10);
                 if (now()->greaterThanOrEqualTo($expiration)) {
                     return response()->json(['message' => 'token expirado'], 400);
                 } else {
@@ -170,7 +170,7 @@ class UserService
             } else {
                 if ($check) {
                     User::where('email', $check->email)->update([
-                        'password' => bcrypt($data['password'])
+                        'password' => Hash::make($data['password'])
                     ]);
                     return response()->json(['message' => 'sucess'], 200);
                 } else {
