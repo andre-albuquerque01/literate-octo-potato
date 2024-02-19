@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('role', 10);
             $table->string('cpf', 14)->unique();
             $table->string('email', 120)->unique();
-            $table->boolean('term_aceite')->nullable(false);
+            $table->boolean('term_aceite');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

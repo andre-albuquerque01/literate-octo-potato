@@ -18,8 +18,7 @@ return new class extends Migration
             $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idMesa');
             $table->foreign('idMesa')->references('idMesa')->on('mesa')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('statusOrder', 20);
-            $table->integer('quantidade');
+            $table->string('statusOrder', 20)->nullable();
             $table->string('methodPay');
             $table->string('value');
             $table->timestamps();
