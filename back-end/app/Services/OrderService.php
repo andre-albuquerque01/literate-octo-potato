@@ -10,7 +10,7 @@ class OrderService
     public function index()
     {
         try {
-            $order = Order::join('menu', 'menu.idMenu', '=', 'order.idMenu')->join('itens', 'itens.idItens', '=', 'order.idItens');
+            $order = Order::join('menu', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->paginate();
             return OrderResource::collection($order);
         } catch (\Throwable $th) {
             throw $th;
@@ -30,7 +30,7 @@ class OrderService
     public function show(string $id)
     {
         try {
-            $order = Order::join('menu', 'menu.idMenu', '=', 'order.idMenu')->join('itens', 'itens.idItens', '=', 'order.idItens')->where('idOrder', $id);
+            $order = Order::join('menu', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->where('orders.idOrder', $id)->paginate();
             return OrderResource::collection($order);
         } catch (\Throwable $th) {
             throw $th;

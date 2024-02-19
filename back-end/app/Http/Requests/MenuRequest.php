@@ -23,20 +23,12 @@ class MenuRequest extends FormRequest
     {
         $rules = [
             "idMesa" => "required",
-            "idItens" => "nullable",
             "statusOrder" => "required",
-            "quantidade" => "nullable",
             "methodPay" => "nullable",
             "value" => "nullable",
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            $rules['idItens'] = [
-                "required",
-            ];
-            $rules['quantidade'] = [
-                "required",
-            ];
             $rules['methodPay'] = [
                 "required",
             ];

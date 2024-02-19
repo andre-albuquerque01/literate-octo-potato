@@ -15,9 +15,7 @@ class Menu extends Model
         'codigo',
         'idUser',
         'idMesa',
-        'idItens',
         'statusOrder',
-        'quantidade',
         'methodPay',
         'value',
     ];
