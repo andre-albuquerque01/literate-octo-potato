@@ -20,12 +20,15 @@ class UserService
     public function sendsEmail(string $email, string $assunto)
     {
         try {
-            Mail::to($email)->send(new VerifyEmail([
-                'toEmail' => $email,
-                'subject' => $assunto,
-                'message' => Crypt::encryptString($email)
-            ]));
-            return response()->json(['message' => 'sucess'], 200);
+            if (User::where('email', $email)->exists()) {
+                Mail::to($email)->send(new VerifyEmail([
+                    'toEmail' => $email,
+                    'subject' => $assunto,
+                    'message' => Crypt::encryptString($email)
+                ]));
+                return response()->json(['message' => 'sucess'], 200);
+            }
+            return response()->json(['message' => 'E-mail não cadastrado.'], 200);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -99,8 +102,8 @@ class UserService
     public function verifyEmail(string $email)
     {
         try {
-            User::where('email', Crypt::decryptString($email))->update([
-                'email_verified_at' => now()
+            User::where('email', '=', Crypt::decryptString($email))->update([
+                'email_verified_at' => now(),
             ]);
             return response()->json(['message' => 'E-mail verificado'], 200);
         } catch (\Exception $e) {
