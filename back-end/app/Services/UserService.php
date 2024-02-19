@@ -55,8 +55,10 @@ class UserService
             $data = $dados;
             $data['role'] = 'user';
             $data['password'] = Hash::make($data['password']);
-            User::create($data);
-            $this->sendsEmail($data['email'], 'Verificação do e-mail');
+            $user = User::create($data);
+            if ($user->firstName !== '') {
+                $this->sendsEmail($data['email'], 'Verificação do e-mail');
+            }
             return response()->json(['message:' => 'Sucess'], 200);
         } catch (\Exception $e) {
             return $e->getMessage();
