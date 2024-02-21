@@ -65,36 +65,35 @@ class UserService
         }
     }
 
-    public function show(string $id)
+    public function show()
     {
         try {
-            $find = User::findOrFail($id);
+            $user = Auth::user();
+            $find = User::findOrFail($user->idUser);
             return new UserResource($find);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(array $dados, string $id)
+    public function update(array $dados)
     {
         try {
             $user = Auth::user();
-            if ($user->idUser == $id)
-                return response()->json(['message' => 'not found'], 404);
-
             $data = $dados;
             if (Hash::check($data['password'], $user->password)) {
-                User::where('idUser', $id)->update($data);
+                User::where('idUser', $user->idUser)->update($data);
                 return response()->json(['message:' => 'Sucess'], 200);
             }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-    public function destroy(string $id)
+    public function destroy()
     {
         try {
-            $find = User::findOrFail($id)->delete();
+            $user = Auth::user();
+            User::findOrFail($user->idUserid)->delete();
             return response()->json(['message:' => 'Sucess'], 204);
         } catch (\Exception $e) {
             return $e->getMessage();
