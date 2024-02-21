@@ -23,8 +23,13 @@ class AuthService
             if (!Auth::attempt($login)) {
                 throw new LoginInvalidException;
             }
-            $token = $this->request->user()->createToken('user', ['*'], now()->addHours(2))->plainTextToken;
-            return new AuthLoginResource(['token' => $token]);
+            $user = Auth::user();
+            $scopes = ($user->role == "admin") ? ['admin'] : ['user'];
+            $token = $this->request->user()->createToken('user', $scopes, now()->addHours(2))->plainTextToken;
+            if ($user->role == 'user') $role = 'u';
+            elseif ($user->role == 'admin') $role = 'JesusIsKingADM';
+            else $role = 'u';
+            return new AuthLoginResource(['token' => $token, 'r' => $role]);
         } catch (\Exception $e) {
             throw $e;
         }
