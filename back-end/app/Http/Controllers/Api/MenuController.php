@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckAdminToken;
 use App\Http\Requests\MenuRequest;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class MenuController extends Controller
     public function __construct(MenuService $menuService)
     {
         $this->menuService = $menuService;
+        $this->middleware(CheckAdminToken::class)->only(['store', 'show', 'showCPF', 'showCodigo', 'update', 'destroy']);
     }
     /**
      * Display a listing of the resource.

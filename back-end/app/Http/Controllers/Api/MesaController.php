@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckAdminToken;
 use App\Http\Requests\MesaRequest;
 use App\Services\MesaService;
 
@@ -14,6 +15,7 @@ class MesaController extends Controller
     public function __construct(MesaService $mesaService)
     {
         $this->mesaService = $mesaService;
+        $this->middleware(CheckAdminToken::class)->only(['index','store', 'show', 'update', 'destroy']);
     }
 
     /**

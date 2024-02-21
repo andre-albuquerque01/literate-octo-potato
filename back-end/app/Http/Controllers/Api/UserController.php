@@ -14,6 +14,7 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
+        $this->middleware('auth:sanctum')->only(['show', 'update', 'destroy']);
     }
 
     /**
@@ -32,10 +33,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
         try {
-            return $this->userService->show($id);
+            return $this->userService->show();
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -44,11 +45,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, string $id)
+    public function update(UserRequest $request)
     {
         try {
             $validet = $request->validated();
-            return $this->userService->update($validet, $id);
+            return $this->userService->update($validet);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -57,10 +58,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
         try {
-            return $this->userService->destroy($id);
+            return $this->userService->destroy();
         } catch (\Exception $e) {
             return $e->getMessage();
         }

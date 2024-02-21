@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckAdminToken;
 use App\Http\Requests\OrderRequest;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class OrderController extends Controller
     public function __construct(OrderService $orderService)
     {
         $this->orderService = $orderService;
+        $this->middleware(CheckAdminToken::class)->only(['store', 'show', 'update', 'destroy']);
     }
 
     /**
