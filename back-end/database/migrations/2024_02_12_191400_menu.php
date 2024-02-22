@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('menu', function (Blueprint $table) {
             $table->id('idMenu');
             $table->string('codigo')->unique();
-            $table->unsignedBigInteger('idUser');
+            $table->unsignedBigInteger('idUser')->nullable();
             $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idMesa');
             $table->foreign('idMesa')->references('idMesa')->on('mesa')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('cpf', 14);
             $table->string('statusOrder', 20)->nullable();
             $table->string('methodPay');
             $table->string('value');
+            // Adicionar quem atendeu
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('idMenu')->references('idMenu')->on('menu')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idItens');
             $table->foreign('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('quantidade')->nullable();
+            $table->integer('qtdOrder')->nullable();
             $table->timestamps();
         });
     }
