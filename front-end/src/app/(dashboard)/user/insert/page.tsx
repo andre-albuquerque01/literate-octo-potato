@@ -1,7 +1,8 @@
+import { BtnForm } from '@/components/btnForm'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-export default function Login() {
+export default function InsertUser() {
   return (
     <div className="flex flex-col mx-auto justify-center h-screen w-full items-center">
       <Link
@@ -21,7 +22,7 @@ export default function Login() {
             type="text"
             name="firstName"
             id="firstName"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -33,7 +34,7 @@ export default function Login() {
             type="text"
             name="lastName"
             id="lastName"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -45,7 +46,7 @@ export default function Login() {
             type="number"
             name="DDD"
             id="DDD"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -57,7 +58,7 @@ export default function Login() {
             type="number"
             name="phoneNumber"
             id="phoneNumber"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -69,7 +70,7 @@ export default function Login() {
             type="number"
             name="cpf"
             id="cpf"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -81,7 +82,7 @@ export default function Login() {
             type="email"
             name="email"
             id="email"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -93,7 +94,7 @@ export default function Login() {
             type="password"
             name="password"
             id="password"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -105,7 +106,7 @@ export default function Login() {
             type="password"
             name="password_confirmation"
             id="password_confirmation"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
@@ -115,9 +116,7 @@ export default function Login() {
             Termos de aceitação <span className="text-red-600">*</span>
           </Link>
         </div>
-        <button className="w-96 h-10 bg-red-600 text-zinc-50 rounded-[5px] mt-3 max-md:w-80 max-md:mb-5 hover:bg-red-500">
-          Cadastrar
-        </button>
+        <BtnForm title="Cadastrar" />
       </form>
     </div>
   )

@@ -1,3 +1,4 @@
+import { BtnForm } from '@/components/btnForm'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
@@ -43,14 +44,13 @@ export default function Login() {
         >
           Esquece a senha?
         </Link>
-        <div className="flex justify-center">
-          <button className="mx-auto w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[5px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500">
-            Entrar
-          </button>
-        </div>
+        <BtnForm title="Entrar" />
       </form>
       <div className="w-80 max-md:w-64 mt-5 max-md:mt-2 h-[0.5px] bg-black"></div>
-      <Link href="" className="text-xs mt-3 max-md:mt-2 hover:text-zinc-600">
+      <Link
+        href="/user/insert"
+        className="text-xs mt-3 max-md:mt-2 hover:text-zinc-600"
+      >
         Não tem cadastro? Clique para cadastrar
       </Link>
     </div>
