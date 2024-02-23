@@ -11,14 +11,14 @@ export default function SearchIten() {
           type="text"
           name="search"
           id="search"
-          placeholder="Pesquisar"
+          placeholder="Pesquisar item"
           className="flex-1 bg-transparent text-sm outline-none "
         />
       </form>
       <div className="space-y-3">
-        <h1 className="font-bold">Categorias</h1>
-        <div className="space-y-3">
-          <div className="relative w-80 h-10">
+        <h1 className="font-normal text-[20px]">Categorias</h1>
+        <div className="space-y-[19px]">
+          <div className="relative w-80 h-11">
             <Link href="">
               <Image
                 src="https://cdn.pixabay.com/photo/2020/05/17/14/15/bean-stew-5181818_1280.jpg"
@@ -27,7 +27,7 @@ export default function SearchIten() {
                 alt="Imagem de fundo"
                 className="absolute w-full h-full object-cover rounded-xl"
               />
-              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-bold">
+              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal">
                 Promoções
               </span>
             </Link>
@@ -41,7 +41,7 @@ export default function SearchIten() {
                 alt="Imagem de fundo"
                 className="absolute w-full h-full object-cover rounded-xl"
               />
-              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-bold">
+              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal">
                 Pizza
               </span>
             </Link>
@@ -55,7 +55,7 @@ export default function SearchIten() {
                 alt="Imagem de fundo"
                 className="absolute w-full h-full object-cover rounded-xl"
               />
-              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-bold">
+              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal">
                 Sobremesa
               </span>
             </Link>
@@ -69,7 +69,7 @@ export default function SearchIten() {
                 alt="Imagem de fundo"
                 className="absolute w-full h-full object-cover rounded-xl"
               />
-              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-bold">
+              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal">
                 Bebidas
               </span>
             </Link>
@@ -83,7 +83,7 @@ export default function SearchIten() {
                 alt="Imagem de fundo"
                 className="absolute w-full h-full object-cover rounded-xl"
               />
-              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-bold">
+              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal">
                 Lanches
               </span>
             </Link>
@@ -97,7 +97,7 @@ export default function SearchIten() {
                 alt="Imagem de fundo"
                 className="absolute w-full h-full object-cover rounded-xl"
               />
-              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-bold">
+              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal">
                 Almoço
               </span>
             </Link>
@@ -111,7 +111,7 @@ export default function SearchIten() {
                 alt="Imagem de fundo"
                 className="absolute w-full h-full object-cover rounded-xl"
               />
-              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-bold">
+              <span className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal">
                 Jantas
               </span>
             </Link>
