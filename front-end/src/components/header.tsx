@@ -5,8 +5,8 @@ import Link from 'next/link'
 export const Header = () => {
   return (
     <>
-      <div className="invisible max-md:visible max-md:bottom-0 w-full h-[0.2px] bg-slate-950"></div>
-      <header className="max-md:fixed max-md:bottom-0 flex items-center w-full justify-between max-md:justify-center">
+      <div className="invisible max-md:visible max-md:fixed max-md:bottom-12 w-full h-[0.2px] bg-slate-950"></div>
+      <header className="max-md:fixed max-md:bottom-3 flex items-center w-full justify-between max-md:justify-center shadow-md">
         <Link href="">
           <Image
             src="https://img.freepik.com/vetores-gratis/vetor-de-gradiente-de-logotipo-colorido-de-passaro_343694-1365.jpg?t=st=1708610933~exp=1708614533~hmac=b7ae02de9def519177ee4614802feff375e2c37e04794c3417ac641d1427c623&w=826"
@@ -27,7 +27,7 @@ export const Header = () => {
             <span className="max-md:hidden">Home</span>
           </Link>
           <Link
-            href=""
+            href="/itens/search"
             className="flex items-center gap-2 hover:text-lg"
             title="Pesquisar"
           >
@@ -44,7 +44,7 @@ export const Header = () => {
           </Link>
           <Link
             href=""
-            className="flex items-center gap-2 hover:text-lg"
+            className="flex items-center gap-2 mr-2 hover:text-lg"
             title="Perfil"
           >
             <CircleUser className="h-6 w-6" />{' '}
@@ -52,7 +52,7 @@ export const Header = () => {
           </Link>
         </nav>
       </header>
-      <div className="max-md:hidden w-full h-[0.2px] bg-slate-950"></div>
+      {/* <div className="max-md:hidden w-[80%] mx-auto h-[0.2px] bg-slate-950"></div> */}
     </>
   )
 }
