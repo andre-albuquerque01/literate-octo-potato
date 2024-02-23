@@ -19,7 +19,7 @@ class MenuService
     public function index()
     {
         try {
-            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('itens', 'itens.idItens', '=', 'menu.idItens')->join('users', 'users.idUser', '=', 'menu.idUser')->where('menu.idUser', '=', $this->user->idUser)->paginate();
+            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'itens.idItens', '=', 'orders.idOrder')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.idUser', '=', 'menu.idUser')->where('menu.cpf', '=', $this->user->cpf)->paginate();
             return MenuResource::collection($menu);
         } catch (\Throwable $th) {
             throw $th;
