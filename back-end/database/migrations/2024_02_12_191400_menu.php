@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('statusOrder', 20)->nullable();
             $table->string('methodPay');
             $table->string('value');
-            // Adicionar quem atendeu
             $table->timestamps();
         });
     }
