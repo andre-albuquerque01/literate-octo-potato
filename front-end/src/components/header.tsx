@@ -43,7 +43,7 @@ export const Header = () => {
             <span className="max-md:hidden">Pedido</span>
           </Link>
           <Link
-            href=""
+            href="/user"
             className="flex items-center gap-2 mr-2 hover:text-lg"
             title="Perfil"
           >
