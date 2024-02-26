@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->boolean('rate')->nullable();
             $table->string('urlImage');
+            $table->unsignedBigInteger('idCategory');
+            $table->foreign("idCategory")->on("categories")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });
     }
