@@ -11,7 +11,7 @@ class ItensService
     public function index()
     {
         try {
-            $iten = Itens::where('statusIten', '=', 1)->paginate();
+            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('statusIten', '=', 1)->paginate();
             return ItensResouce::collection($iten);
         } catch (\Throwable $th) {
             throw $th;
