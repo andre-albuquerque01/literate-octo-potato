@@ -21,5 +21,7 @@ class Itens extends Model
         'slug',
         'rate',
         'urlImage',
+        'idCategory',
+        'waitTime',
     ];
 }

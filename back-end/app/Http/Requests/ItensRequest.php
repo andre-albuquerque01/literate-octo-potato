@@ -29,7 +29,9 @@ class ItensRequest extends FormRequest
             'qtdIten' => 'required|min:1|max:100',
             'slug' => 'required|min:1|max:100',
             'rate' => 'required|min:1|max:100',
-            'urlImage' => 'required|min:1|max:100',
+            'urlImage' => 'required|min:1',
+            'waitTime' => 'required|min:1|max:100',
+            'idCategory' => 'required',
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
@@ -69,7 +71,12 @@ class ItensRequest extends FormRequest
             $rules['urlImage'] = [
                 "nullable",
                 "min:1",
-                "max:100",
+            ];
+            $rules['waitTime'] = [
+                "nullable",
+            ];
+            $rules['idCategory'] = [
+                "nullable",
             ];
         }
 

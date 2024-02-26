@@ -22,7 +22,8 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'typeCategory'
+            'typeCategory' => 'required',
+            'urlImageCategory' => 'nullable'
         ];
     }
 }
