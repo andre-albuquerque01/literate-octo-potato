@@ -88,6 +88,30 @@ export default function InsertItens() {
             required
           />
         </div>
+        <div className="flex flex-col mt-3">
+          <label htmlFor="waitTime">
+            Tempo de espera: <span className="text-red-600">*</span>{' '}
+          </label>
+          <input
+            type="text"
+            name="waitTime"
+            id="waitTime"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            required
+          />
+        </div>
+        <div className="flex flex-col mt-3">
+          <label htmlFor="idCategory">
+            Categoria: <span className="text-red-600">*</span>{' '}
+          </label>
+          <input
+            type="text"
+            name="idCategory"
+            id="idCategory"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            required
+          />
+        </div>
         <BtnForm title="Cadastrar" />
       </form>
     </div>
