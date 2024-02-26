@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function User() {
   return (
-    <div className="mt-6 space-y-3 w-36">
+    <div className="mt-6 space-y-3 w-36 max-md:p-8 max-md:mt-0 max-md:w-56">
       <Link href="/itens/search" className="flex items-center gap-2">
         <Search className="h-5 w-5" />
         Pesquisar
@@ -16,7 +16,7 @@ export default function User() {
         <ListIcon className="h-5 w-5" />
         Pedido
       </Link>
-      <Link href="" className="flex items-center gap-2">
+      <Link href="/order/historic/" className="flex items-center gap-2">
         <History className="h-5 w-5" />
         Historico
       </Link>
