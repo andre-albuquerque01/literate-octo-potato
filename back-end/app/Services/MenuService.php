@@ -30,7 +30,7 @@ class MenuService
     {
         try {
             $data['codigo'] = strtoupper(Str::random(10));
-            $data['idUser'] = 1;
+            $data['idUser'] = $this->user->idUser;
             Menu::create($data);
             return response()->json(['message' => 'sucess'], 200);
         } catch (\Throwable $th) {
