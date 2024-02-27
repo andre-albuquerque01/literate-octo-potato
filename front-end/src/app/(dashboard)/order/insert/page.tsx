@@ -12,7 +12,9 @@ export default function InsertOrder() {
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
-      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Seu cadastro</p>
+      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
+        Cadastro do pedido
+      </p>
       <form>
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="idMenu">
