@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ItensController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MesaController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\RateController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -48,6 +50,12 @@ Route::prefix('v1')->group(function () {
     Route::post('/sendTokenRecover', [UserController::class, 'sendTokenRecover']);
     Route::post('/verifyTokenRecover', [UserController::class, 'verifyTokenRecover']);
     Route::put('/updatePassword/{token}', [UserController::class, 'updatePassword']);
+    // Avaliação
+    Route::post('/rate', [RateController::class, 'store']);
+    Route::get('/rate', [RateController::class, 'index']);
+    Route::delete('/rate', [RateController::class, 'destroy']);
+    // Categoria
+    Route::apiResource('/category', CategoryController::class);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
