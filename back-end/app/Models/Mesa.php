@@ -13,6 +13,7 @@ class Mesa extends Model
     protected $primaryKey = "idMesa";
     protected $fillable = [
         'numberMesa',
+        'lotacao',
         'statusMesa',
     ];
 }

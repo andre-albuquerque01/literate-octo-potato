@@ -23,11 +23,15 @@ class MesaRequest extends FormRequest
     {
         $rules = [
             "numberMesa" => "required|unique:mesa",
+            "lotacao" => "required|min:1",
             "statusMesa" => "required",
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $rules['numberMesa'] = [
+                "nullable",
+            ];
+            $rules['lotacao'] = [
                 "nullable",
             ];
             $rules['statusMesa'] = [
