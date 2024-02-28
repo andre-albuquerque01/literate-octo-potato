@@ -1,9 +1,11 @@
 import { ListItens } from '@/components/ListItens'
+import { FormSearch } from '@/components/form-search'
 
 export default function ListItensens() {
   return (
-    <div className="mt-5 space-y-5">
-      <p className="text-md font-normal max-md:px-8">
+    <div className="max-md:w-[360px] mx-auto mt-5 space-y-5">
+      <FormSearch />
+      <p className="text-md font-normal">
         Pesquisado por: <span className="font-medium">Pão</span>
       </p>
       <div className="flex flex-wrap max-md:justify-center gap-5">
