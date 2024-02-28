@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mesa', function (Blueprint $table) {
             $table->id('idMesa');
             $table->string('numberMesa');
+            $table->string('lotacao');
             $table->boolean('statusMesa');
             $table->timestamps();
         });

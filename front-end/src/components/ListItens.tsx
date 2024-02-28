@@ -14,7 +14,7 @@ interface TypeSearch {
 
 export const ListItens = (search: TypeSearch) => {
   return (
-    <Link href={search.href} className="flex gap-4 shadow-xl p-5">
+    <Link href={search.href} className="flex gap-4 max-md:w-full shadow-xl p-5">
       <Image
         src={search.src}
         alt={search.alt}
