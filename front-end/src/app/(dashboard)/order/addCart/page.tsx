@@ -1,5 +1,7 @@
-import { Plus, Search } from 'lucide-react'
+import { BtnForm } from '@/components/btnForm'
+import { ArrowLeft, Plus, Search } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function AddCart() {
   return (
@@ -14,6 +16,9 @@ export default function AddCart() {
           className="flex-1 bg-transparent text-sm outline-none "
         />
       </form>
+      <Link href="" className="flex items-center  md:hidden">
+        <ArrowLeft className="w-5 h-5" /> Voltar
+      </Link>
       <p className="text-md font-normal">Adicionar na comanda</p>
       <div className="flex flex-wrap gap-5 w-[350px]">
         <div className="flex justify-between gap-4 max-md:w-full shadow-xl p-4 border border-zinc-200 rounded-lg">
@@ -34,6 +39,9 @@ export default function AddCart() {
             <Plus className="w-5 h-5 rounded-full border border-zinc-800 hover:bg-zinc-700 hover:text-white" />
           </div>
         </div>
+      </div>
+      <div>
+        <BtnForm title="Adicionar" />
       </div>
     </div>
   )
