@@ -55,6 +55,8 @@ class UserService
             $data = $dados;
             $data['role'] = 'user';
             $data['password'] = Hash::make($data['password']);
+            if ($data['term_aceite'] == 'on')
+                $data['term_aceite'] = 1;
             $user = User::create($data);
             if ($user->firstName !== '') {
                 $this->sendsEmail($data['email'], 'Verificação do e-mail');
