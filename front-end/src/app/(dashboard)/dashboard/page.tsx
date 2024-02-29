@@ -4,7 +4,7 @@ import { DinnerCarrossel } from '@/components/dinnerCarousel'
 import { DrinksCarrossel } from '@/components/drinksCarousel'
 import { LunchCarrossel } from '@/components/lunchCarousel'
 
-export default function Home() {
+export default function Dashboard() {
   return (
     <div>
       <div>
