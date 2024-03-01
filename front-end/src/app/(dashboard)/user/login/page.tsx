@@ -14,7 +14,8 @@ async function postLogin(body: object) {
       },
       body: JSON.stringify(body),
     })
-    if (response.ok) return response.json()
+    if (response.ok) alert('Sucess')
+    else return 'E-mail ou senha inválida'
   } catch (error) {
     console.error(error)
   }
@@ -29,7 +30,7 @@ export default function Login() {
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
     const req = await postLogin(data)
-    setError(req)
+    if (req) setError(req)
   }
 
   return (
