@@ -3,34 +3,40 @@ import { cookies } from 'next/headers'
 
 export async function POST(request: Request) {
   try {
-    const reqBody = await request.json()
+    const requestBody = await request.json()
 
     const cookiesStore = cookies()
-    const xsrf = cookiesStore.get('XSRF-TOKEN')
 
     const response = await ApiRoute('/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': xsrf?.value,
-        application: 'application/json',
       },
-      body: JSON.stringify(reqBody),
+      body: JSON.stringify(requestBody),
     })
 
     const data = await response.json()
+    console.log(data)
 
-    cookiesStore.set('token', data.token, {
+    cookiesStore.set('token', data.data.token, {
       expires: Date.now() + 2 * 60 * 60 * 1000,
       secure: true,
     })
-    cookiesStore.set('r', data.r, {
-      expires: Date.now() + 2 * 60 * 60 * 1000,
-      secure: true,
-    })
+    if (data.data.r === 'JesusIsKingADM') {
+      cookiesStore.set('r', data.data.r, {
+        expires: Date.now() + 2 * 60 * 60 * 1000,
+        secure: true,
+      })
+    }
 
-    return Response.json(data.message)
+    if (data.message === 'erro') {
+      return new Response(JSON.stringify({ error: 'Error', status: 400 }), {
+        status: 400,
+      })
+    } else {
+      return Response.json({ sucess: 'sucess' })
+    }
   } catch (error) {
-    console.error(error)
+    console.log('Erro ao analisar JSON:', error)
   }
 }
