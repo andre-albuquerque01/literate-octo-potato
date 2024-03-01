@@ -1,13 +1,43 @@
+'use client'
 import { BtnForm } from '@/components/btnForm'
+import Api from '@/data/api'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { FormEvent, useState } from 'react'
+
+async function PostSendEmail(body: object) {
+  try {
+    const response = await Api('/user/recoverPassword/sendEmail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+    if (response.ok) alert('E-mail enviado')
+    else return 'E-mail não encontrado'
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export default function SendEmail() {
+  const [error, setError] = useState<string>('')
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData)
+    const req = await PostSendEmail(data)
+    if (req) setError(req)
+  }
+
   return (
-    <div className="flex flex-col mx-auto justify-center h-screen w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
       <Link
         href="/"
-        className="flex items-center gap-1 text-sm mb-3 w-96 max-md:w-80"
+        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
@@ -19,7 +49,7 @@ export default function SendEmail() {
         entrada e também a pasta de spam, caso não encontre o email em sua caixa
         principal.
       </p>
-      <form className="w-96 max-md:w-80">
+      <form onSubmit={handleSubmit} className="w-96 max-md:w-80">
         <div className="flex flex-col mt-3">
           <label htmlFor="email">
             E-mail: <span className="text-red-600">*</span>{' '}
@@ -32,7 +62,8 @@ export default function SendEmail() {
             required
           />
         </div>
-        <BtnForm title="Recuperar" />
+        <span className="text-red-600 text-xs">{error}</span>
+        <BtnForm title="Próximo" />
       </form>
     </div>
   )

@@ -70,7 +70,7 @@ export default function Login() {
           />
         </div>
         <Link
-          href=""
+          href="/user/recoverPassword/sendEmail"
           className="flex flex-row gap-2 mt-3 items-center text-xs hover:text-zinc-600"
         >
           Esquece a senha?
