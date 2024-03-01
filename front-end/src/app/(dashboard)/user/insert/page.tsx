@@ -10,6 +10,7 @@ async function postInsert(body: object) {
     const response = await Api('/user/insert', {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
@@ -55,11 +56,24 @@ export default function InsertUser() {
       data.password === data.password_confirmation &&
       validatePassword(data.password) === ''
     ) {
-      console.log('foi aqui')
       const req = await postInsert(data)
-      setReturnError(req)
+      setReturnError(req.message)
+      console.log(req.data)
+
+      if (req.data.message)
+        if (req.data.message.includes('The cpf has already been taken.')) {
+          setReturnError('The cpf has already been taken.')
+        } else if (
+          req.data.message.includes('The email has already been taken.')
+        ) {
+          setReturnError('The email has already been taken.')
+        } else {
+          alert('Cadastrado com sucesso')
+        }
+
       return ''
     }
+    setReturnError('Senhas não correspondem')
     return ''
   }
   return (
@@ -105,6 +119,8 @@ export default function InsertUser() {
             type="number"
             name="DDD"
             id="DDD"
+            min="0"
+            maxLength={999}
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
@@ -117,6 +133,7 @@ export default function InsertUser() {
             type="number"
             name="phoneNumber"
             id="phoneNumber"
+            min={9999}
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
@@ -129,6 +146,7 @@ export default function InsertUser() {
             type="number"
             name="cpf"
             id="cpf"
+            min={9999}
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
@@ -183,7 +201,7 @@ export default function InsertUser() {
             required
           />
         </div>
-        <div className="flex flex-row gap-2 mt-3 items-center">
+        <div className="flex flex-row gap-2 mt-3 items-center ">
           <input type="checkbox" name="term_aceite" id="term_aceite" required />
           <Link href="">
             Termos de aceitação <span className="text-red-600">*</span>
