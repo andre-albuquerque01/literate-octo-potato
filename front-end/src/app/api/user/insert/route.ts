@@ -2,7 +2,7 @@ import ApiRoute from '@/data/apiRoute'
 
 export async function POST(request: Request) {
   try {
-    const requestBody = request.json()
+    const requestBody = await request.json()
 
     const response = await ApiRoute('/user', {
       method: 'POST',
@@ -14,9 +14,9 @@ export async function POST(request: Request) {
     })
 
     const data = await response.json()
-    console.log(data.errors)
+    console.log(data)
 
-    return Response.json(data.message)
+    return Response.json({ data })
   } catch (error) {
     console.log('Erro ao analisar JSON:', error)
   }
