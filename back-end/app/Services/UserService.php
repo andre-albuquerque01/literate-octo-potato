@@ -126,7 +126,7 @@ class UserService
                         'created_at' => now(),
                     ]);
                 } else {
-                    DB::table('password_reset_tokens')->insert([
+                    DB::table('password_reset_tokens')->update([
                         'token' => $token,
                         'created_at' => now(),
                     ]);
