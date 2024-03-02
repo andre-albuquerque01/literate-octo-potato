@@ -18,6 +18,8 @@ export async function POST(request: Request) {
 
     return Response.json({ data })
   } catch (error) {
-    console.log('Erro ao analisar JSON:', error)
+    return new Response(JSON.stringify('error'), {
+      status: 401,
+    })
   }
 }
