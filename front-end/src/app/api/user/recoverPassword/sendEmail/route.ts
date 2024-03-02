@@ -13,11 +13,18 @@ export async function POST(request: Request) {
       body: JSON.stringify(requestBody),
     })
 
-    const data = await response.json()
-    console.log(data)
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`)
+    }
 
-    return Response.json({ data })
+    const data = await response.json()
+
+    return new Response(JSON.stringify(data), {
+      status: response.status,
+    })
   } catch (error) {
-    console.log('Erro ao analisar JSON:', error)
+    return new Response(JSON.stringify('error'), {
+      status: 401,
+    })
   }
 }
