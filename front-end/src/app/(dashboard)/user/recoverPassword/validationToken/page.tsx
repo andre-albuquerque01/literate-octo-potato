@@ -14,8 +14,10 @@ async function PostToken(body: object) {
       },
       body: JSON.stringify(body),
     })
-    if (response.ok) alert('Token valido')
-    else return 'Token invalido'
+    if (response.ok) {
+      alert('Token valido')
+      window.location.href = '/user/recoverPassword/updatePassword'
+    } else return 'Token invalido'
   } catch (error) {
     console.error(error)
   }
@@ -35,13 +37,15 @@ export default function ValidationToken() {
 
   return (
     <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
-      <Link
-        href="/"
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:w-80"
-      >
-        <ArrowLeft className="w-5 h-5" />
-        Voltar
-      </Link>
+      <div className="h-20">
+        <Link
+          href="/user/sendEmail"
+          className="flex items-center gap-1 text-sm w-96  max-md:w-80"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Voltar
+        </Link>
+      </div>
       <p className="text-xl w-96 max-md:mb-0 max-md:w-80">Validação de token</p>
       <p className="text-sm w-96 max-md:w-80 text-justify py-3">
         Enviamos um email para o endereço fornecido com as instruções
