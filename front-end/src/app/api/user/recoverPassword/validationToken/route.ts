@@ -16,13 +16,18 @@ export async function POST(request: Request) {
     })
 
     const data = await response.json()
-    console.log(data)
-    cookiesStore.set('tokenRecuperacao', data.token, {
-      expires: Date.now() + 2 * 60 * 60,
-      secure: true,
+    console.log(data.token)
+    cookiesStore.set('tokenRecover', data.token, {
+      expires: Date.now() + 60 * 10 * 1000,
+      // secure: true,
     })
-    return Response.json({ data })
+
+    return new Response(JSON.stringify(data), {
+      status: response.status,
+    })
   } catch (error) {
-    console.log('Erro ao analisar JSON:', error)
+    return new Response(JSON.stringify('error'), {
+      status: 401,
+    })
   }
 }
