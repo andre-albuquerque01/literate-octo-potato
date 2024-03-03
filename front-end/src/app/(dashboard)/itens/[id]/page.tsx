@@ -27,7 +27,8 @@ export default function Iten({ params }: { params: { id: string } }) {
         </h5>
         <p className="text-lg font-medium">R$ 10</p>
         <p className="text-md font-normal">
-          <span className="font-medium">Tempo de espera:</span> 10 - 20 min{' '}
+          <span className="font-medium">Tempo de espera:</span>{' '}
+          <span> 10 - 20 min</span>
         </p>
         <p className="text-md font-normal">
           <span className="font-medium">Avaliações:</span> 10 pessoas Gostaram
