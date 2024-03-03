@@ -2,7 +2,7 @@ import { ArrowLeft, ThumbsDown, ThumbsUp } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function Iten() {
+export default function Iten({ params }: { params: { id: string } }) {
   return (
     <div className="md:flex md:flex-col md:items-center md:justify-center  md:mt-8">
       <Link href="" className="flex items-center px-8 py-4 md:hidden">
