@@ -26,7 +26,6 @@ export default async function Dashboard() {
   return (
     <div>
       <div>
-        {' '}
         <Carrossel data={data} />
       </div>
       <SnackCarrossel data={data} />
