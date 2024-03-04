@@ -20,7 +20,6 @@ return new class extends Migration
             $table->boolean('statusIten')->nullable(false);
             $table->integer('qtdIten');
             $table->string('slug')->unique();
-            $table->boolean('rate')->nullable();
             $table->string('urlImage');
             $table->string('waitTime');
             $table->unsignedBigInteger('idCategory');

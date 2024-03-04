@@ -52,7 +52,7 @@ Route::prefix('v1')->group(function () {
     Route::put('/updatePassword/{token}', [UserController::class, 'updatePassword']);
     // Avaliação
     Route::post('/rate', [RateController::class, 'store']);
-    Route::get('/rate', [RateController::class, 'index']);
+    Route::get('/rate/{id}', [RateController::class, 'index']);
     Route::delete('/rate', [RateController::class, 'destroy']);
     // Categoria
     Route::apiResource('/category', CategoryController::class);
