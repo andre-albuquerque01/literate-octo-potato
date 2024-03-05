@@ -12,8 +12,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { InterfaceItens } from '@/data/type/interfaceItens'
 
-export const DinnerCarrossel = () => {
+export const DinnerCarrossel = (data: InterfaceItens[]) => {
   const [qtdCarousel, setQtdCarousel] = useState<number>(4)
 
   useEffect(() => {
@@ -39,229 +40,43 @@ export const DinnerCarrossel = () => {
   return (
     <div className="pl-2">
       <div className="flex items-center py-2 text-lg mt-3">
-        Janta <ArrowRight className="w-5 h-5" />
+        Jantas <ArrowRight className="w-5 h-5" />
       </div>
       <Swiper
         modules={[Navigation, A11y]}
         spaceBetween={30}
         slidesPerView={qtdCarousel}
       >
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <Link href="">
-              <Image
-                src="https://cdn.pixabay.com/photo/2016/03/05/23/02/barbecue-1239434_1280.jpg"
-                width={100}
-                height={100}
-                alt="imagem do item"
-              />
-              <div>
-                <span className="text-md truncate text-zinc-900 font-medium">
-                  Churrasco
-                </span>
-                <span className="text-zinc-900 flex font-medium">R$ 10</span>
-              </div>
-            </Link>
-          </div>
-        </SwiperSlide>
+        {data.map(
+          (itens, key) =>
+            itens.category === 'jantas' && (
+              <SwiperSlide key={key}>
+                <div>
+                  <Link href={`/itens/${itens.idItens}`}>
+                    <Image
+                      src={itens.urlImage}
+                      width={100}
+                      height={100}
+                      alt={`Imagem do item ${itens.title}`}
+                    />
+                    <div>
+                      <span className="text-md truncate text-zinc-900 font-medium">
+                        {itens.title}
+                      </span>
+                      <span className="text-zinc-900 flex font-medium">
+                        {itens.value.toLocaleString('pt-br', {
+                          style: 'currency',
+                          currency: 'BRL',
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ),
+        )}
       </Swiper>
     </div>
   )
