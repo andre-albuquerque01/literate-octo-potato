@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('urlImage');
             $table->string('waitTime');
+            $table->string('position');
             $table->unsignedBigInteger('idCategory');
             $table->foreign("idCategory")->references('idCategory')->on("categories")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
