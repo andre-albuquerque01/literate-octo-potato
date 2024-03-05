@@ -3,18 +3,36 @@ import { Carrossel } from '@/components/carousel'
 import { DinnerCarrossel } from '@/components/dinnerCarousel'
 import { DrinksCarrossel } from '@/components/drinksCarousel'
 import { LunchCarrossel } from '@/components/lunchCarousel'
+import Api from '@/data/api'
+import { InterfaceItens } from '@/data/type/interfaceItens'
 
-export default function Dashboard() {
+async function getAll(): Promise<InterfaceItens[]> {
+  try {
+    const request = await Api('/itens/home', {
+      next: {
+        revalidate: 60,
+      },
+    })
+    const reqJson = await request.json()
+    return reqJson
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export default async function Dashboard() {
+  const data = await getAll()
   return (
     <div>
       <div>
         {' '}
-        <Carrossel />
+        <Carrossel data={data} />
       </div>
-      <SnackCarrossel />
-      <DrinksCarrossel />
-      <LunchCarrossel />
-      <DinnerCarrossel />
+      <SnackCarrossel data={data} />
+      <DrinksCarrossel data={data} />
+      <LunchCarrossel data={data} />
+      <DinnerCarrossel data={data} />
     </div>
   )
 }
