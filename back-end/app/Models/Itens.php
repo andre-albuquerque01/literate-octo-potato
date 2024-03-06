@@ -19,7 +19,7 @@ class Itens extends Model
         'statusIten',
         'qtdIten',
         'slug',
-        'rate',
+        'position',
         'urlImage',
         'idCategory',
         'waitTime',

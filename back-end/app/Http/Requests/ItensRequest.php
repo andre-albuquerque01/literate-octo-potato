@@ -22,15 +22,14 @@ class ItensRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'title' => 'required|min:2|max:60',
-            'desc' => 'required|min:2|max:255',
+            'title' => 'required|min:2|max:60|string',
+            'desc' => 'required|min:2|max:255|string',
             'value' => 'required|min:2|max:8',
-            'statusIten' => 'required',
             'qtdIten' => 'required|min:1|max:100',
-            'slug' => 'required|min:1|max:100',
-            'rate' => 'required|min:1|max:100',
-            'urlImage' => 'required|min:1',
-            'waitTime' => 'required|min:1|max:100',
+            'slug' => 'required|min:1|max:100|string|unique:itens,slug',
+            'urlImage' => 'required|min:1|string',
+            'waitTime' => 'required|min:1|max:100|string',
+            'position' => 'required',
             'idCategory' => 'required',
         ];
 
@@ -63,16 +62,14 @@ class ItensRequest extends FormRequest
                 "min:1",
                 "max:100",
             ];
-            $rules['rate'] = [
-                "nullable",
-                "min:1",
-                "max:100",
-            ];
             $rules['urlImage'] = [
                 "nullable",
                 "min:1",
             ];
             $rules['waitTime'] = [
+                "nullable",
+            ];
+            $rules['position'] = [
                 "nullable",
             ];
             $rules['idCategory'] = [
