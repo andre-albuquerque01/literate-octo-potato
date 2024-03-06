@@ -13,7 +13,11 @@ import Link from 'next/link'
 
 import { InterfaceItens } from '@/data/type/interfaceItens'
 
-export const Carrossel = (data: InterfaceItens[]) => {
+interface CarrosselProps {
+  data: InterfaceItens[]
+}
+
+export const Carrossel = ({ data }: CarrosselProps) => {
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
