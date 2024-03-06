@@ -1,7 +1,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { NextResponse } from 'next/server'
 
-export default async function GET({ params }: { params: { id: string } }) {
+export async function GET({ params }: { params: { id: string } }) {
   try {
     const id = params.id
 
