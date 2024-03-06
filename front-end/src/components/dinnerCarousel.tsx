@@ -14,7 +14,11 @@ import { ArrowRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 
-export const DinnerCarrossel = (data: InterfaceItens[]) => {
+interface DinnerCarrosselProps {
+  data: InterfaceItens[]
+}
+
+export const DinnerCarrossel = ({ data }: DinnerCarrosselProps) => {
   const [qtdCarousel, setQtdCarousel] = useState<number>(4)
 
   useEffect(() => {
