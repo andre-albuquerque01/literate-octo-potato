@@ -1,19 +1,82 @@
+'use client'
 import { BtnForm } from '@/components/btnForm'
+import Api from '@/data/api'
+import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { FormEvent, useEffect, useState } from 'react'
+
+async function getCategory(): Promise<CategoryInterface[]> {
+  try {
+    const request = await Api('/category/getAll', {
+      next: {
+        revalidate: 60,
+      },
+    })
+    const reqJson = await request.json()
+    return reqJson.data.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+async function postItens(body: object) {
+  try {
+    const request = await Api('/itens/insert', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+    if (request.ok) return request.json()
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export default function InsertItens() {
+  const [category, setCategory] = useState<CategoryInterface[]>([])
+  const [returnError, setReturnError] = useState<string>('')
+
+  useEffect(() => {
+    const handleCategory = async () => {
+      const catego = await getCategory()
+      setCategory(catego)
+    }
+    handleCategory()
+  }, [])
+
+  async function handleSubmite(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData)
+    const req = await postItens(data)
+
+    if (req.data.message === 'sucess') {
+      alert('Item cadastrado')
+      window.location.href = ''
+    } else {
+      setReturnError('The slug has already been taken.')
+    }
+  }
+
   return (
-    <div className="flex flex-col mx-auto justify-center h-screen w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
       <Link
         href="/"
-        className="flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
+        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
-      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Seu cadastro</p>
-      <form>
+      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
+        Cadastro do item
+      </p>
+      <form onSubmit={handleSubmite}>
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="title">
             Titulo: <span className="text-red-600">*</span>{' '}
@@ -46,7 +109,8 @@ export default function InsertItens() {
             type="number"
             name="value"
             id="value"
-            step="0.00"
+            step={0.01}
+            min={0}
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
@@ -76,6 +140,9 @@ export default function InsertItens() {
             required
           />
         </div>
+        {returnError === 'The slug has already been taken.' && (
+          <span className="text-xs text-red-600">Slug já cadastrado</span>
+        )}
         <div className="flex flex-col mt-3">
           <label htmlFor="urlImage">
             Caminho da imagem: <span className="text-red-600">*</span>{' '}
@@ -104,13 +171,35 @@ export default function InsertItens() {
           <label htmlFor="idCategory">
             Categoria: <span className="text-red-600">*</span>{' '}
           </label>
-          <input
-            type="text"
+          <select
             name="idCategory"
             id="idCategory"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
             required
-          />
+          >
+            <option defaultValue={0}>Selecione a categoria</option>
+            {category.map((categ, key) => (
+              <option value={categ.idCategory} key={key}>
+                {categ.typeCategory}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex flex-col mt-3">
+          <label htmlFor="position">
+            Posição do item: <span className="text-red-600">*</span>{' '}
+          </label>
+          <select
+            name="position"
+            id="position"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
+            required
+          >
+            <option defaultValue={0}>Selecione a posição</option>
+            <option value="carrossel">Carrossel</option>
+            <option value="entrada">Entrada</option>
+            <option value="outros">Outros</option>
+          </select>
         </div>
         <BtnForm title="Cadastrar" />
       </form>
