@@ -10,11 +10,12 @@ class CategoryService
     public function index()
     {
         try {
-            return new CategoryResource(Category::all());
+            return new CategoryResource(Category::get());
         } catch (\Throwable $th) {
             throw $th;
         }
     }
+    
     public function store(array $data)
     {
         try {

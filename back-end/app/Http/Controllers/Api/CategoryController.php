@@ -10,7 +10,8 @@ use App\Services\CategoryService;
 class CategoryController extends Controller
 {
     private $categoryService;
-    public function __construct(CategoryService $categoryService){
+    public function __construct(CategoryService $categoryService)
+    {
         $this->categoryService = $categoryService;
         $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
         $this->middleware(CheckAdminToken::class)->only(['store', 'update', 'destroy']);
@@ -21,12 +22,12 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $this->categoryService->index();
+            return $this->categoryService->index();
         } catch (\Throwable $th) {
             throw $th;
         }
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -34,7 +35,7 @@ class CategoryController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->categoryService->store($data);
+            return $this->categoryService->store($data);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -46,7 +47,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         try {
-            $this->categoryService->show($id);
+            return $this->categoryService->show($id);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -59,7 +60,7 @@ class CategoryController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->categoryService->update($data, $id);
+            return $this->categoryService->update($data, $id);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -71,7 +72,7 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         try {
-            $this->categoryService->destroy($id);
+            return $this->categoryService->destroy($id);
         } catch (\Throwable $th) {
             throw $th;
         }
