@@ -53,7 +53,8 @@ export const DrinksCarrossel = ({ data }: LunchCarrosselProps) => {
       >
         {data.map(
           (itens, key) =>
-            itens.category === 'bebidas' && (
+            itens.typeCategory === 'bebidas' &&
+            itens.position === 'entrada' && (
               <SwiperSlide key={key}>
                 <div>
                   <Link href={`/itens/${itens.idItens}`}>

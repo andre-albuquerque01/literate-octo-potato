@@ -31,9 +31,9 @@ export const Carrossel = ({ data }: CarrosselProps) => {
     >
       {data.map(
         (itens, key) =>
-          itens.position === 'carroseul' && (
+          itens.position === 'carrossel' && (
             <SwiperSlide key={key}>
-              <Link href="">
+              <Link href={`/itens/${itens.idItens}`}>
                 <div className="">
                   <Image
                     src={itens.urlImage}
