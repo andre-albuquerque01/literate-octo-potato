@@ -8,6 +8,6 @@ export interface InterfaceItens {
   slug: string
   urlImage: string
   waitTime: string
-  category: string
+  typeCategory: string
   position: string
 }
