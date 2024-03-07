@@ -1,18 +1,15 @@
 import ApiRoute from '@/data/apiRoute'
 import { NextResponse } from 'next/server'
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(_: Request, { params }: { params: { id: string } }) {
   try {
     const id = params.id
 
     const response = await ApiRoute(`/rate/${id}`, {
-      next: {
-        revalidate: 60,
-      },
+      cache: 'no-cache',
     })
 
     const data = await response.json()
-    console.log(data)
 
     return NextResponse.json({ data })
   } catch (error) {

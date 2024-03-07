@@ -1,7 +1,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { NextResponse } from 'next/server'
 
-export default async function GET() {
+export async function GET() {
   try {
     const response = await ApiRoute(`/itens`, {
       next: {
@@ -10,7 +10,6 @@ export default async function GET() {
     })
 
     const data = await response.json()
-    console.log(data)
 
     return NextResponse.json({ data })
   } catch (error) {
