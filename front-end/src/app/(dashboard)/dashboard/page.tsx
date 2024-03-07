@@ -9,12 +9,13 @@ import { InterfaceItens } from '@/data/type/interfaceItens'
 async function getAll(): Promise<InterfaceItens[]> {
   try {
     const request = await Api('/itens/home', {
+      method: 'GET',
       next: {
         revalidate: 60,
       },
     })
     const reqJson = await request.json()
-    return reqJson
+    return reqJson.data.data
   } catch (error) {
     console.error(error)
     throw error
@@ -23,6 +24,7 @@ async function getAll(): Promise<InterfaceItens[]> {
 
 export default async function Dashboard() {
   const data = await getAll()
+
   return (
     <div>
       <div>
