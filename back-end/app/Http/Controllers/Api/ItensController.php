@@ -14,8 +14,8 @@ class ItensController extends Controller
     public function __construct(ItensService $itensService)
     {
         $this->itensService = $itensService;
-        // $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
-        // $this->middleware(CheckAdminToken::class)->only(['store', 'update', 'destroy']);
+        $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
+        $this->middleware(CheckAdminToken::class)->only(['store', 'update', 'destroy']);
     }
     /**
      * Display a listing of the resource.
@@ -67,6 +67,15 @@ class ItensController extends Controller
     {
         try {
             return $this->itensService->showSlug($slug);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    
+    public function showTitle(string $title)
+    {
+        try {
+            return $this->itensService->showTitle($title);
         } catch (\Throwable $th) {
             throw $th;
         }

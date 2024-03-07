@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
     // Itens
     Route::apiResource('/itens', ItensController::class);
     Route::get('/itensa', [ItensController::class, 'indexAll']);
+    Route::get('/itenst/{title}', [ItensController::class, 'showTitle']);
     Route::get('/itenss/{slug}', [ItensController::class, 'showSlug']);
     // User
     Route::apiResource('/user', UserController::class);

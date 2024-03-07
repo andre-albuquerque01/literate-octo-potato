@@ -11,7 +11,7 @@ class ItensService
     public function index()
     {
         try {
-            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('statusIten', '=', 1)->paginate();
+            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('statusIten', '=', 1)->get();
             return ItensResouce::collection($iten);
         } catch (\Throwable $th) {
             throw $th;
@@ -43,7 +43,7 @@ class ItensService
     public function show(string $id)
     {
         try {
-            $iten = Itens::findOrFail($id);
+            $iten = Itens::find($id);
             if ($iten === null) {
                 throw new \Exception("Item not found");
             }
@@ -56,6 +56,19 @@ class ItensService
     {
         try {
             $iten = Itens::where('slug', $slug);
+            if ($iten === null) {
+                throw new \Exception("Item not found");
+            }
+            return ItensResouce::collection($iten);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function showTitle(string $title)
+    {
+        try {
+            $iten = Itens::where('title', $title);
             if ($iten === null) {
                 throw new \Exception("Item not found");
             }
