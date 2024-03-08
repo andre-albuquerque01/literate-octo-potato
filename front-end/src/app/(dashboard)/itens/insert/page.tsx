@@ -9,9 +9,7 @@ import { FormEvent, useEffect, useState } from 'react'
 async function getCategory(): Promise<CategoryInterface[]> {
   try {
     const request = await Api('/category/getAll', {
-      next: {
-        revalidate: 60,
-      },
+      cache: 'no-cache',
     })
     const reqJson = await request.json()
     return reqJson.data.data
@@ -44,6 +42,7 @@ export default function InsertItens() {
   useEffect(() => {
     const handleCategory = async () => {
       const catego = await getCategory()
+
       setCategory(catego)
     }
     handleCategory()
@@ -62,6 +61,11 @@ export default function InsertItens() {
     } else {
       setReturnError('The slug has already been taken.')
     }
+  }
+
+  if (category.length === 0) {
+    alert('Precisa cadastrar primeiro categoria!')
+    window.location.replace('/category/insert')
   }
 
   return (
