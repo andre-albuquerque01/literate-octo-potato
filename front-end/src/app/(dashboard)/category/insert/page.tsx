@@ -7,7 +7,7 @@ import { FormEvent } from 'react'
 
 async function postInsert(body: object) {
   try {
-    const request = await Api('category/insert', {
+    const request = await Api('/category/insert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application-json',
@@ -15,7 +15,7 @@ async function postInsert(body: object) {
       body: JSON.stringify(body),
     })
     const reqJson = await request.json()
-    return reqJson
+    return reqJson.data
   } catch (error) {
     console.error(error)
     throw error
@@ -28,7 +28,9 @@ export default function InsertCategory() {
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
     const req = await postInsert(data)
-    console.log(req)
+    if (req.message === 'sucess') {
+      alert('Cadastrado com sucesso!')
+    }
   }
 
   return (
