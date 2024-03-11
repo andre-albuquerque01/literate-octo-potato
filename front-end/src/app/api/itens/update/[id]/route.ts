@@ -1,4 +1,5 @@
 import ApiRoute from '@/data/apiRoute'
+import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 export async function PUT(
@@ -9,11 +10,15 @@ export async function PUT(
     const id = params.id
     const reqBody = await request.json()
 
+    const cookiesStore = cookies()
+    const token = cookiesStore.get('token')
+
     const response = await ApiRoute(`/itens/${id}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.value}`,
       },
       body: JSON.stringify(reqBody),
     })
