@@ -2,7 +2,6 @@
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
-import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
@@ -20,7 +19,7 @@ async function getCategory(): Promise<CategoryInterface[]> {
   }
 }
 
-async function getItens(id: number): Promise<InterfaceItens> {
+async function getItens(id: number) {
   try {
     const request = await Api(`/itens/${id}`, {
       cache: 'no-cache',
@@ -51,8 +50,20 @@ async function putItens(body: object, id: number) {
 
 export default function UpdateItens({ params }: { params: { id: number } }) {
   const [category, setCategory] = useState<CategoryInterface[]>([])
-  const [itens, setItens] = useState<InterfaceItens>()
   const [returnError, setReturnError] = useState<string>('')
+  const [itens, setItens] = useState({
+    title: '',
+    desc: '',
+    value: '',
+    statusIten: '',
+    qtdIten: '',
+    slug: '',
+    urlImage: '',
+    waitTime: '',
+    typeCategory: '',
+    idCategory: '',
+    position: '',
+  })
 
   useEffect(() => {
     const handleCategory = async () => {
@@ -62,18 +73,26 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
     handleCategory()
 
     const handleItens = async () => {
-      const itens = await getItens(params.id)
-      setItens(itens)
+      const item = await getItens(params.id)
+      setItens(item)
     }
     handleItens()
   }, [])
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target
+    setItens((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+  }
+
   async function handleSubmite(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
-    const req = await putItens(data, params.id)
+    const req = await putItens(itens, params.id)
 
     if (req.data.message === 'sucess') {
       alert('Item alterado')
@@ -103,7 +122,8 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="title"
             id="title"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={itens?.title}
+            defaultValue={itens?.title ?? ''}
+            onChange={handleChange}
             required
           />
         </div>
@@ -116,7 +136,8 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="desc"
             id="desc"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={itens?.desc}
+            defaultValue={itens?.desc ?? ''}
+            onChange={handleChange}
             required
           />
         </div>
@@ -131,7 +152,8 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             step={0.01}
             min={0}
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={itens?.value}
+            defaultValue={itens?.value ?? ''}
+            onChange={handleChange}
             required
           />
         </div>
@@ -144,7 +166,8 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="qtdIten"
             id="qtdIten"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={itens?.qtdIten}
+            defaultValue={itens?.qtdIten ?? ''}
+            onChange={handleChange}
             required
           />
         </div>
@@ -158,7 +181,8 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="slug"
             id="slug"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={itens?.slug}
+            defaultValue={itens?.slug ?? ''}
+            onChange={handleChange}
             required
           />
         </div>
@@ -174,7 +198,8 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="urlImage"
             id="urlImage"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={itens?.urlImage}
+            defaultValue={itens?.urlImage ?? ''}
+            onChange={handleChange}
             required
           />
         </div>
@@ -187,7 +212,8 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="waitTime"
             id="waitTime"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={itens?.waitTime}
+            defaultValue={itens?.waitTime ?? ''}
+            onChange={handleChange}
             required
           />
         </div>
@@ -200,9 +226,10 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             id="idCategory"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
             value={itens?.idCategory}
+            onChange={handleChange}
             required
           >
-            <option>Selecione a categoria</option>
+            <option value="">Selecione a categoria</option>
             {category.map((categ, key) => (
               <option value={categ.idCategory} key={key}>
                 {categ.typeCategory}
@@ -219,9 +246,10 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             id="position"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
             value={itens?.position}
+            onChange={handleChange}
             required
           >
-            <option>Selecione a posição</option>
+            <option value="">Selecione a posição</option>
             <option value="carrossel">Carrossel</option>
             <option value="entrada">Entrada</option>
             <option value="outros">Outros</option>
@@ -236,9 +264,10 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             id="statusIten"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
             value={itens?.statusIten}
+            onChange={handleChange}
             required
           >
-            <option defaultValue={0}>Selecione o status</option>
+            <option value="">Selecione o status</option>
             <option value="1">Ativo</option>
             <option value="0">Desativo</option>
           </select>
