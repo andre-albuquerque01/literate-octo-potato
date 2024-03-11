@@ -9,5 +9,6 @@ export interface InterfaceItens {
   urlImage: string
   waitTime: string
   typeCategory: string
+  idCategory: number
   position: string
 }
