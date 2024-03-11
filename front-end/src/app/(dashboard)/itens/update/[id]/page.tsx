@@ -33,10 +33,10 @@ async function getItens(id: number): Promise<InterfaceItens> {
   }
 }
 
-async function postItens(body: object) {
+async function putItens(body: object, id: number) {
   try {
-    const request = await Api('/itens/insert', {
-      method: 'POST',
+    const request = await Api(`/itens/update/${id}`, {
+      method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -57,11 +57,15 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
   useEffect(() => {
     const handleCategory = async () => {
       const catego = await getCategory()
-      const itens = await getItens(params.id)
-      setItens(itens)
       setCategory(catego)
     }
     handleCategory()
+
+    const handleItens = async () => {
+      const itens = await getItens(params.id)
+      setItens(itens)
+    }
+    handleItens()
   }, [])
 
   async function handleSubmite(e: FormEvent<HTMLFormElement>) {
@@ -69,10 +73,10 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
 
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await postItens(data)
+    const req = await putItens(data, params.id)
 
     if (req.data.message === 'sucess') {
-      alert('Item cadastrado')
+      alert('Item alterado')
       window.location.href = ''
     } else {
       setReturnError('The slug has already been taken.')
@@ -80,17 +84,15 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
+    <div className="flex flex-col mx-auto items-center h-[90%] max-md:min-h-[100%] max-md:max-h-[150%] md:mt-5 w-full">
       <Link
         href="/"
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
+        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
-      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
-        Cadastro do item
-      </p>
+      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Alterar item</p>
       <form onSubmit={handleSubmite}>
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="title">
@@ -225,7 +227,23 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             <option value="outros">Outros</option>
           </select>
         </div>
-        <BtnForm title="Cadastrar" />
+        <div className="flex flex-col mt-3">
+          <label htmlFor="statusIten">
+            Status do item: <span className="text-red-600">*</span>{' '}
+          </label>
+          <select
+            name="statusIten"
+            id="statusIten"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
+            value={itens?.statusIten}
+            required
+          >
+            <option defaultValue={0}>Selecione o status</option>
+            <option value="1">Ativo</option>
+            <option value="0">Desativo</option>
+          </select>
+        </div>
+        <BtnForm title="Alterar" />
       </form>
     </div>
   )
