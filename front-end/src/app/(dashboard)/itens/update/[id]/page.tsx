@@ -96,7 +96,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
 
     if (req.data.message === 'sucess') {
       alert('Item alterado')
-      window.location.href = ''
+      window.history.back()
     } else {
       setReturnError('The slug has already been taken.')
     }
