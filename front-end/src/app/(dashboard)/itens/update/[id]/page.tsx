@@ -20,7 +20,7 @@ async function getCategory(): Promise<CategoryInterface[]> {
   }
 }
 
-async function getItens(id: number): Promise<InterfaceItens[]> {
+async function getItens(id: number): Promise<InterfaceItens> {
   try {
     const request = await Api(`/itens/${id}`, {
       cache: 'no-cache',
@@ -51,7 +51,7 @@ async function postItens(body: object) {
 
 export default function UpdateItens({ params }: { params: { id: number } }) {
   const [category, setCategory] = useState<CategoryInterface[]>([])
-  const [itens, setItens] = useState<InterfaceItens[]>([])
+  const [itens, setItens] = useState<InterfaceItens>()
   const [returnError, setReturnError] = useState<string>('')
 
   useEffect(() => {
@@ -101,6 +101,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="title"
             id="title"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            value={itens?.title}
             required
           />
         </div>
@@ -113,6 +114,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="desc"
             id="desc"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            value={itens?.desc}
             required
           />
         </div>
@@ -127,6 +129,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             step={0.01}
             min={0}
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            value={itens?.value}
             required
           />
         </div>
@@ -139,6 +142,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="qtdIten"
             id="qtdIten"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            value={itens?.qtdIten}
             required
           />
         </div>
@@ -152,6 +156,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="slug"
             id="slug"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            value={itens?.slug}
             required
           />
         </div>
@@ -167,6 +172,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="urlImage"
             id="urlImage"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            value={itens?.urlImage}
             required
           />
         </div>
@@ -179,6 +185,7 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="waitTime"
             id="waitTime"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            value={itens?.waitTime}
             required
           />
         </div>
@@ -190,9 +197,10 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="idCategory"
             id="idCategory"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
+            value={itens?.idCategory}
             required
           >
-            <option defaultValue={0}>Selecione a categoria</option>
+            <option>Selecione a categoria</option>
             {category.map((categ, key) => (
               <option value={categ.idCategory} key={key}>
                 {categ.typeCategory}
@@ -208,9 +216,10 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
             name="position"
             id="position"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
+            value={itens?.position}
             required
           >
-            <option defaultValue={0}>Selecione a posição</option>
+            <option>Selecione a posição</option>
             <option value="carrossel">Carrossel</option>
             <option value="entrada">Entrada</option>
             <option value="outros">Outros</option>
