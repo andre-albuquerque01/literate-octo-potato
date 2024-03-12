@@ -30,11 +30,12 @@ export default function InsertCategory() {
     const req = await postInsert(data)
     if (req.message === 'sucess') {
       alert('Cadastrado com sucesso!')
+      window.history.back()
     }
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center min-h-[80%] w-full items-center">
       <Link
         href="/"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
