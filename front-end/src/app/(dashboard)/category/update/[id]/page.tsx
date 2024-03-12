@@ -48,7 +48,7 @@ export default function UpdateCategory({ params }: { params: { id: number } }) {
       setData(getData)
     }
     handleGet()
-  }, [])
+  }, [params.id])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
