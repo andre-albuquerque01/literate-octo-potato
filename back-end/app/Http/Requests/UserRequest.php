@@ -39,21 +39,21 @@ class UserRequest extends FormRequest
             "password" => [
                 "required",
                 "confirmed",
-                    Password::min(8)
-                        ->mixedCase()
-                        ->letters()
-                        ->numbers()
-                        ->symbols()
-                        ->uncompromised(),
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
             ],
             "password_confirmation" => [
                 "required",
-                    Password::min(8)
-                        ->mixedCase()
-                        ->letters()
-                        ->numbers()
-                        ->symbols()
-                        ->uncompromised(),
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
             ],
         ];
 
@@ -88,6 +88,9 @@ class UserRequest extends FormRequest
                 "email",
                 "max:255",
                 // "unique:users,email,{$this->idUser},idUser",
+            ];
+            $rules["term_aceite"] = [
+                "nullable"
             ];
             $rules["password"] = [
                 'required',
