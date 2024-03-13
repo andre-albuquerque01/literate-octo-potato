@@ -84,8 +84,9 @@ class UserService
             $user = Auth::user();
             $data = $dados;
             if (Hash::check($data['password'], $user->password)) {
+                $data['password'] = Hash::make( $data['password']);
                 User::where('idUser', $user->idUser)->update($data);
-                return response()->json(['message:' => 'Sucess'], 200);
+                return response()->json(['message' => 'sucess'], 200);
             }
         } catch (\Exception $e) {
             return $e->getMessage();
