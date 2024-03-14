@@ -19,6 +19,7 @@ class CategoryService
     public function store(array $data)
     {
         try {
+            $data['typeCategory'] = strtolower($data['typeCategory']);
             Category::create($data);
             return response()->json(['message' => 'sucess'], 200);
         } catch (\Throwable $th) {
