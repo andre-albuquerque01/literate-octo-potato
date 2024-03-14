@@ -22,7 +22,7 @@ class ItensService
     {
         try {
             $iten = Itens::paginate();
-            return ItensResouce::collection($iten);
+            return ItensResouce::collection($iten)->get();;
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -33,6 +33,10 @@ class ItensService
         try {
             $data['codigo'] = strtoupper(Str::random(10));
             $data['statusIten'] = 1;
+            $data['title'] = strtolower($data['title']);
+            $data['desc'] = strtolower($data['desc']);
+            $data['waitTime'] = strtolower($data['waitTime']);
+            $data['urlImage'] = strtolower($data['urlImage']);
             Itens::create($data);
             return response()->json(['message' => 'sucess'], 200);
         } catch (\Throwable $th) {
@@ -55,7 +59,7 @@ class ItensService
     public function showSlug(string $slug)
     {
         try {
-            $iten = Itens::where('slug', $slug);
+            $iten = Itens::where('slug', $slug)->get();;
             if ($iten === null) {
                 throw new \Exception("Item not found");
             }
@@ -68,7 +72,20 @@ class ItensService
     public function showTitle(string $title)
     {
         try {
-            $iten = Itens::where('title', $title);
+            $iten = Itens::where('title', 'LIKE', '%' . $title . '%')->get();
+            if ($iten === null) {
+                throw new \Exception("Item not found");
+            }
+            return ItensResouce::collection($iten);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function showCategory(string $typeCategory)
+    {
+        try {
+            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('categories.typeCategory', '=', $typeCategory)->get();;
             if ($iten === null) {
                 throw new \Exception("Item not found");
             }
