@@ -15,7 +15,8 @@ async function postInsert(body: object) {
       },
       body: JSON.stringify(body),
     })
-    if (response.ok) return response.json()
+    const reqBody = await response.json()
+    return reqBody.data
   } catch (error) {
     console.error(error)
   }
@@ -60,15 +61,14 @@ export default function InsertUser() {
       setReturnError(req.message)
       console.log(req.data)
 
-      if (req.data.message)
-        if (req.data.message.includes('The cpf has already been taken.')) {
+      if (req.message)
+        if (req.message.includes('The cpf has already been taken.')) {
           setReturnError('The cpf has already been taken.')
-        } else if (
-          req.data.message.includes('The email has already been taken.')
-        ) {
+        } else if (req.message.includes('The email has already been taken.')) {
           setReturnError('The email has already been taken.')
-        } else {
-          alert('Cadastrado com sucesso')
+        } else if (req.message === 'sucess') {
+          alert('Cadastro feito com sucesso!')
+          window.history.back()
         }
 
       return ''
