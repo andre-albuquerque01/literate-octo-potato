@@ -71,11 +71,19 @@ class ItensController extends Controller
             throw $th;
         }
     }
-    
+
     public function showTitle(string $title)
     {
         try {
             return $this->itensService->showTitle($title);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function showCategory(string $typeCategory)
+    {
+        try {
+            return $this->itensService->showCategory($typeCategory);
         } catch (\Throwable $th) {
             throw $th;
         }
