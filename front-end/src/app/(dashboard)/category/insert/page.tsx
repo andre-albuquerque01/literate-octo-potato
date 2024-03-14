@@ -61,13 +61,15 @@ export default function InsertCategory() {
         </div>
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="urlImageCategory">
-            Imagem de fundo da categoria:
+            Imagem de fundo da categoria:{' '}
+            <span className="text-red-600">*</span>{' '}
           </label>
           <input
             type="text"
             name="urlImageCategory"
             id="urlImageCategory"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            required
           />
         </div>
         <BtnForm title="Cadastrar" />
