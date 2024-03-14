@@ -28,7 +28,7 @@ export default async function SearchIten() {
           {data.map((category, index) => (
             <CategorySearch
               key={index}
-              path={`/itens/search/c=${category.typeCategory}`}
+              path={`/itens/search/itens?c=${category.typeCategory.toLowerCase()}`}
               src={category.urlImageCategory ?? ''}
               alt={`Imagem de fundo de ${category.typeCategory}`}
               title={category.typeCategory}

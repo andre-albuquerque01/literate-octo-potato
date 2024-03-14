@@ -14,7 +14,10 @@ interface TypeSearch {
 
 export const ListItens = (search: TypeSearch) => {
   return (
-    <Link href={search.href} className="flex gap-4 max-md:w-full shadow-xl p-5">
+    <Link
+      href={search.href}
+      className="flex gap-4 max-md:w-full shadow-xl p-5 md:max-w-[390px]"
+    >
       <Image
         src={search.src}
         alt={search.alt}
@@ -22,8 +25,10 @@ export const ListItens = (search: TypeSearch) => {
         height={search.height}
         className="rounded-lg"
       />
-      <div className="flex flex-col justify-evenly">
-        <p className="font-medium text-lg truncate">{search.title}</p>
+      <div className="flex flex-col justify-evenly max-w-[55%]">
+        <p className="font-medium text-lg truncate normal-case">
+          {search.title}
+        </p>
         <p className="font-medium text-md">
           {search.value.toLocaleString('pt-br', {
             style: 'currency',
