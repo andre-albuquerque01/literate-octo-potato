@@ -12,7 +12,7 @@ class MesaService
     public function index()
     {
         try {
-            $mesa = Mesa::paginate();
+            $mesa = Mesa::get();
             return MesaResource::collection($mesa);
         } catch (\Throwable $th) {
             throw $th;
