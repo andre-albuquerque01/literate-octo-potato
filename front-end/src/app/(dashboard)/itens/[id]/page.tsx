@@ -1,3 +1,4 @@
+import { BtnLike } from '@/components/btnLike'
 import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
@@ -83,13 +84,7 @@ export default async function Iten({ params }: { params: { id: number } }) {
                 pessoas gostaram
               </p>
             )}
-            {/* <div className="space-y-2">
-          <p className="text-md font-medium">Avaliar</p>
-          <p className="flex gap-4">
-            <ThumbsUp className="w-6 h-6" />
-            <ThumbsDown className="w-6 h-6" />
-          </p>
-        </div> */}
+            <BtnLike />
           </div>
         </>
       ) : (
