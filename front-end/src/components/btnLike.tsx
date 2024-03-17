@@ -1,4 +1,18 @@
+import Api from '@/data/api'
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
+
+async function Like(body: object) {
+  try {
+    const request = await Api('', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
 
 
 export const BtnLike = () => {
