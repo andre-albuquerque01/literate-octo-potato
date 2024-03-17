@@ -1,6 +1,10 @@
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
 
+
 export const BtnLike = () => {
+  const hanldeLike = async () => {}
+  const hanldeDisLike = async () => {}
+
   return (
     <div className="space-y-2">
       <p className="text-md font-medium">Avaliar</p>
