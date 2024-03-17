@@ -13,6 +13,17 @@ async function Like(body: object) {
   }
 }
 
+async function Dislike(body: object) {
+  try {
+    const request = await Api('', {
+      method: 'DELETE',
+    })
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
 
 
 export const BtnLike = () => {
