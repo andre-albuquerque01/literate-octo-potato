@@ -76,15 +76,15 @@ export default async function Iten({ params }: { params: { id: number } }) {
             </p>
             <p className="text-md font-normal">
               <span className="font-medium">Tempo de espera:</span>{' '}
-              <span>{data.waitTime}</span>
+              <span>{data.waitTime}.</span>
             </p>
             {rate[0]?.count > 0 && (
               <p className="text-md font-normal">
                 <span className="font-medium">Avaliações:</span> {rate[0].count}{' '}
-                pessoas gostaram
+                pessoas gostaram.
               </p>
             )}
-            <BtnLike />
+            <BtnLike id={data.idItens} />
           </div>
         </>
       ) : (
