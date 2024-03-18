@@ -12,7 +12,7 @@ class RateController extends Controller
     private $rateService;
     public function __construct(RateService $rateService)
     {
-        $this->middleware('auth:sanctum')->only(['store', 'destroy']);
+        $this->middleware('auth:sanctum')->only(['showLikeUser','store', 'destroy']);
         $this->rateService = $rateService;
     }
     /**
@@ -22,6 +22,15 @@ class RateController extends Controller
     {
         try {
             return $this->rateService->index($id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function showLikeUser(string $id)
+    {
+        try {
+            return $this->rateService->showLikeUser($id);
         } catch (\Throwable $th) {
             throw $th;
         }
