@@ -55,7 +55,8 @@ Route::prefix('v1')->group(function () {
     // Avaliação
     Route::post('/rate', [RateController::class, 'store']);
     Route::get('/rate/{id}', [RateController::class, 'index']);
-    Route::delete('/rate', [RateController::class, 'destroy']);
+    Route::get('/rateU/{id}', [RateController::class, 'showLikeUser']);
+    Route::delete('/rate/{id}', [RateController::class, 'destroy']);
     // Categoria
     Route::apiResource('/category', CategoryController::class);
 });
