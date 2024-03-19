@@ -1,37 +1,94 @@
+'use client'
 import { BtnForm } from '@/components/btnForm'
+import Api from '@/data/api'
+import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { FormEvent, useEffect, useState } from 'react'
+
+async function getMesa(): Promise<TableInterface[]> {
+  try {
+    const request = await Api('/table/getAll', {
+      cache: 'no-cache',
+      method: 'GET',
+    })
+    const reqBody = await request.json()
+    return reqBody.data.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+async function postMenu(body: object) {
+  try {
+    const request = await Api('/menu/insert', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+
+    const reqBody = await request.json()
+    return reqBody.data
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export default function InsertOrder() {
+  const [data, setData] = useState<TableInterface[]>([])
+
+  useEffect(() => {
+    const hanldeData = async () => {
+      const dt = await getMesa()
+      setData(dt)
+    }
+    hanldeData()
+  }, [])
+
+  const handleData = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData)
+    const req = await postMenu(data)
+    if (req.message === 'sucess') alert('Cadastrado com sucesso!')
+  }
+
   return (
-    <div className="flex flex-col mx-auto justify-center h-screen w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
       <Link
         href="/"
-        className="flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
+        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Seu cadastro</p>
-      <form>
-        <div className="flex flex-col mt-3 max-md:mt-3">
-          <label htmlFor="mesa">
+      <form onSubmit={handleData}>
+        <div className="flex flex-col mt-3">
+          <label htmlFor="idMesa">
             Mesa: <span className="text-red-600">*</span>{' '}
           </label>
-          <input
-            type="text"
-            name="mesa"
-            id="mesa"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+          <select
+            name="idMesa"
+            id="idMesa"
+            className="w-96 h-9 border border-zinc-400 bg-white rounded-[5px] max-md:w-80 px-2 uppercase"
             required
-          />
+          >
+            <option defaultValue={0}>Selecione a mesa</option>
+            {data.map((mesa, key) => (
+              <option value={mesa.idMesa} key={key}>
+                Número: {mesa.numberMesa} && Status:{' '}
+                {mesa.statusMesa === 1 ? 'Ocupada' : 'Vazia'}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex flex-col mt-3">
           <label htmlFor="cpf">
             CPF do cliente: <span className="text-red-600">*</span>{' '}
           </label>
           <input
-            type="text"
+            type="number"
             name="cpf"
             id="cpf"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
@@ -40,16 +97,18 @@ export default function InsertOrder() {
         </div>
         <div className="flex flex-col mt-3">
           <label htmlFor="statusOrder">
-            Status do pedido (Aberto, Fechado):{' '}
-            <span className="text-red-600">*</span>{' '}
+            Status do pedido: <span className="text-red-600">*</span>{' '}
           </label>
-          <input
-            type="text"
+          <select
             name="statusOrder"
             id="statusOrder"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            className="w-96 h-9 border border-zinc-400 bg-white rounded-[5px] max-md:w-80 px-2 uppercase"
             required
-          />
+          >
+            <option value="">Selecione o status</option>
+            <option value="aberto">Aberto</option>
+            <option value="finalizado">Finalizado</option>
+          </select>
         </div>
         <div className="flex flex-col mt-3">
           <label htmlFor="value">
