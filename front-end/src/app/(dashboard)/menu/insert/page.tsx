@@ -50,7 +50,10 @@ export default function InsertOrder() {
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
     const req = await postMenu(data)
-    if (req.message === 'sucess') alert('Cadastrado com sucesso!')
+    if (req.message === 'sucess') {
+      alert('Cadastrado com sucesso!')
+      window.history.back()
+    } else alert('Não foi feito o cadastrado!')
   }
 
   return (
@@ -64,6 +67,31 @@ export default function InsertOrder() {
       </Link>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Seu cadastro</p>
       <form onSubmit={handleData}>
+        <div className="flex flex-col mt-3">
+          <label htmlFor="cpf">
+            CPF do cliente: <span className="text-red-600">*</span>{' '}
+          </label>
+          <input
+            type="number"
+            name="cpf"
+            id="cpf"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            required
+          />
+        </div>
+        <div className="flex flex-col mt-3">
+          <label htmlFor="value">
+            Valor: <span className="text-red-600">*</span>{' '}
+          </label>
+          <input
+            type="number"
+            name="value"
+            id="value"
+            step="0.00"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            required
+          />
+        </div>
         <div className="flex flex-col mt-3">
           <label htmlFor="idMesa">
             Mesa: <span className="text-red-600">*</span>{' '}
@@ -84,18 +112,6 @@ export default function InsertOrder() {
           </select>
         </div>
         <div className="flex flex-col mt-3">
-          <label htmlFor="cpf">
-            CPF do cliente: <span className="text-red-600">*</span>{' '}
-          </label>
-          <input
-            type="number"
-            name="cpf"
-            id="cpf"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
-          />
-        </div>
-        <div className="flex flex-col mt-3">
           <label htmlFor="statusOrder">
             Status do pedido: <span className="text-red-600">*</span>{' '}
           </label>
@@ -110,30 +126,24 @@ export default function InsertOrder() {
             <option value="finalizado">Finalizado</option>
           </select>
         </div>
-        <div className="flex flex-col mt-3">
-          <label htmlFor="value">
-            Valor: <span className="text-red-600">*</span>{' '}
-          </label>
-          <input
-            type="number"
-            name="value"
-            id="value"
-            step="0.00"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
-          />
-        </div>
+
         <div className="flex flex-col mt-3">
           <label htmlFor="methodPay">
             Metódo de pagamento: <span className="text-red-600">*</span>{' '}
           </label>
-          <input
-            type="text"
+          <select
             name="methodPay"
             id="methodPay"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            className="w-96 h-9 border border-zinc-400 bg-white rounded-[5px] max-md:w-80 px-2 uppercase"
             required
-          />
+          >
+            <option value="">Selecione o metodo de pagamento</option>
+            <option value="pix">PIX</option>
+            <option value="dinheiro">Dinheiro</option>
+            <option value="cardDebit">Cartão de débito</option>
+            <option value="cardCredit">Cartão de crédito</option>
+            <option value="outros">Outros</option>
+          </select>
         </div>
         <BtnForm title="Cadastrar" />
       </form>
