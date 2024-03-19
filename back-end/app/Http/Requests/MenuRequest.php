@@ -24,7 +24,9 @@ class MenuRequest extends FormRequest
         $rules = [
             "idMesa" => "required",
             "statusOrder" => "required",
+            "cpf" => "required",
             "methodPay" => "nullable",
+            "idUser" => "nullable",
             "value" => "nullable",
         ];
 
