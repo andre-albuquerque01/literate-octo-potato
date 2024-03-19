@@ -49,7 +49,7 @@ type ProspLike = {
 }
 
 export const BtnLike = (props: ProspLike) => {
-  const [data, setData] = useState()
+  const [data, setData] = useState('')
 
   useEffect(() => {
     const handleData = async () => {
@@ -57,7 +57,7 @@ export const BtnLike = (props: ProspLike) => {
       setData(dt)
     }
     handleData()
-  }, [])
+  })
 
   const hanldeLike = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
