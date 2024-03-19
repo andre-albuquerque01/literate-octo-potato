@@ -15,6 +15,7 @@ class Menu extends Model
         'codigo',
         'idUser',
         'idMesa',
+        'cpf',
         'statusOrder',
         'methodPay',
         'value',
