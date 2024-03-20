@@ -65,7 +65,7 @@ export default function InsertOrder() {
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
-      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Seu cadastro</p>
+      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Nova comanda</p>
       <form onSubmit={handleData}>
         <div className="flex flex-col mt-3">
           <label htmlFor="cpf">
@@ -80,16 +80,13 @@ export default function InsertOrder() {
           />
         </div>
         <div className="flex flex-col mt-3">
-          <label htmlFor="value">
-            Valor: <span className="text-red-600">*</span>{' '}
-          </label>
+          <label htmlFor="value">Valor:</label>
           <input
             type="number"
             name="value"
             id="value"
             step="0.00"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
           />
         </div>
         <div className="flex flex-col mt-3">
@@ -128,14 +125,11 @@ export default function InsertOrder() {
         </div>
 
         <div className="flex flex-col mt-3">
-          <label htmlFor="methodPay">
-            Metódo de pagamento: <span className="text-red-600">*</span>{' '}
-          </label>
+          <label htmlFor="methodPay">Metódo de pagamento:</label>
           <select
             name="methodPay"
             id="methodPay"
             className="w-96 h-9 border border-zinc-400 bg-white rounded-[5px] max-md:w-80 px-2 uppercase"
-            required
           >
             <option value="">Selecione o metodo de pagamento</option>
             <option value="pix">PIX</option>
