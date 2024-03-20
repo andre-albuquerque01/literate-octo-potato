@@ -26,6 +26,16 @@ class MenuService
         }
     }
 
+    public function showAll()
+    {
+        try {
+            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->where('menu.statusOrder', '=', 'aberto')->get();
+            return MenuResource::collection($menu);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function store(array $data)
     {
         try {
