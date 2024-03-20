@@ -4,10 +4,10 @@ import Link from 'next/link'
 
 export default function InsertOrder() {
   return (
-    <div className="flex flex-col mx-auto justify-center h-screen w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
       <Link
         href="/"
-        className="flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
+        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
