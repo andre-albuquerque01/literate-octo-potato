@@ -14,7 +14,7 @@ class OrderController extends Controller
     public function __construct(OrderService $orderService)
     {
         $this->orderService = $orderService;
-        $this->middleware(CheckAdminToken::class)->only(['store', 'show', 'update', 'destroy']);
+        $this->middleware(CheckAdminToken::class)->only(['showAll','store', 'show', 'update', 'destroy']);
     }
 
     /**
@@ -49,6 +49,15 @@ class OrderController extends Controller
     {
         try {
             return $this->orderService->show($id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function showAll(string $id)
+    {
+        try {
+            return $this->orderService->showAll($id);
         } catch (\Throwable $th) {
             throw $th;
         }
