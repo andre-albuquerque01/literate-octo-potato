@@ -37,6 +37,16 @@ class OrderService
         }
     }
 
+    public function showAll(string $id)
+    {
+        try {
+            $order = Order::join('menu', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->where('menu.idMenu', $id)->get();
+            return OrderResource::collection($order);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function update(array $data, string $id)
     {
         try {
