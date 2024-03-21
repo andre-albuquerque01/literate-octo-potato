@@ -15,7 +15,7 @@ class MenuController extends Controller
     public function __construct(MenuService $menuService)
     {
         $this->menuService = $menuService;
-        $this->middleware(CheckAdminToken::class)->only(['store', 'show', 'showCPF', 'showCodigo', 'update', 'destroy']);
+        $this->middleware(CheckAdminToken::class)->only(['store', 'showAll', 'show', 'showCPF', 'showCodigo', 'update', 'destroy']);
     }
     /**
      * Display a listing of the resource.
@@ -24,6 +24,15 @@ class MenuController extends Controller
     {
         try {
             return $this->menuService->index();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function showAll()
+    {
+        try {
+            return $this->menuService->showAll();
         } catch (\Throwable $th) {
             throw $th;
         }
