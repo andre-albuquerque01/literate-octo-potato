@@ -31,10 +31,12 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('/table', MesaController::class);
         // Menu
         Route::apiResource('/menu', MenuController::class);
+        Route::get('/menuAll', [MenuController::class, 'showAll']);
         Route::get('/menucpf/{cpf}', [MenuController::class, 'showCPF']);
         Route::get('/menuCodigo/{codigo}', [MenuController::class, 'showCodigo']);
         // Order
         Route::apiResource('/order', OrderController::class);
+        Route::get('/ordersa/{id}', [OrderController::class, 'showAll']);
     });
     // Itens
     Route::apiResource('/itens', ItensController::class);
