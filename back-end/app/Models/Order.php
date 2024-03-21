@@ -14,6 +14,8 @@ class Order extends Model
     protected $fillable = [
         'idItens',
         'idMenu',
-        'quantidade'
+        'qtdOrder',
+        'valueOrder',
+        'desconto',
     ];
 }
