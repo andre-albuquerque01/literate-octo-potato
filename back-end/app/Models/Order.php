@@ -17,5 +17,6 @@ class Order extends Model
         'qtdOrder',
         'valueOrder',
         'desconto',
+        'tip',
     ];
 }
