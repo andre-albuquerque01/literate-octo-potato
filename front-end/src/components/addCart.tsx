@@ -1,17 +1,23 @@
 'use client'
 import { Plus } from 'lucide-react'
 
-export const AddCartComanda = ({ id }: { id: number }) => {
+interface propsInterface {
+  idItens: number
+  idMenu: number
+}
+
+export const AddCartComanda = ({ idItens, idMenu }: propsInterface) => {
   const handleAdd = async (
-    id: number,
+    idItens: number,
+    idMenu: number,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    console.log(id)
+    window.location.replace(`/order/insert?iten=${idItens}&menu=${idMenu}`)
   }
   return (
-    <div title="adicionar item" className="">
-      <button onClick={(e) => handleAdd(id, e)}>
+    <div title="Adicionar item" className="">
+      <button onClick={(e) => handleAdd(idItens, idMenu, e)}>
         <Plus className="w-5 h-5 rounded-full border border-zinc-800 hover:bg-zinc-700 hover:text-white" />
       </button>
     </div>
