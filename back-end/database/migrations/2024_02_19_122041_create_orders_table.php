@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('qtdOrder')->nullable();
             $table->double('value')->nullable();
             $table->double('desconto')->nullable();
+            $table->double('tip')->nullable();
             $table->timestamps();
         });
     }
