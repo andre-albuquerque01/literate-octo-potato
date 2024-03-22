@@ -21,24 +21,13 @@ class OrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        return [
+            "qtdOrder" => "required",
+            "desconto" => "nullable",
+            "tip" => "nullable",
+            "valueOrder" => "required",
             "idMenu" => "required",
-            "quantidade" => "nullable",
-            "idItens" => "nullable",
+            "idItens" => "required",
         ];
-
-        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            $rules['quantidade'] = [
-                "required",
-            ];
-            $rules['idMenu'] = [
-                "required",
-            ];
-            $rules['idItens'] = [
-                "required",
-            ];
-        }
-
-        return $rules;
     }
 }
