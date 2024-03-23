@@ -7,10 +7,18 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
-async function insertOrder(body: object) {
+interface OrderInterface {
+  desconto: string
+  qtdOrder: string
+  tip: string
+  valueOrder: number
+  idItens: string | null
+  idMenu: string | null
+}
+async function updateOrder(body: object, id: number) {
   try {
-    const request = await Api('/order/insert', {
-      method: 'POST',
+    const request = await Api(`/order/update/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-type': 'application/json',
       },
@@ -40,13 +48,36 @@ async function getItem(id: number): Promise<InterfaceItens> {
   }
 }
 
-export default function InsertOrder() {
+async function getOrder(id: number): Promise<OrderInterface> {
+  try {
+    const request = await Api(`/order/get/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+    const reqBody = await request.json()
+    return reqBody.data.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export default function InsertOrder({ params }: { params: { id: number } }) {
+  const searchParams = useSearchParams()
+
+  const itens = searchParams.get('iten')
+  const menu = searchParams.get('menu')
+
   const [data, setData] = useState<InterfaceItens>()
   const [dados, setDados] = useState({
     desconto: '',
     qtdOrder: '',
     tip: '',
     valueOrder: 0,
+    idItens: itens,
+    idMenu: menu,
   })
 
   const handleChange = (
@@ -59,45 +90,46 @@ export default function InsertOrder() {
     }))
   }
 
-  const searchParams = useSearchParams()
+  useEffect(() => {
+    const calculateValurProduct = () => {
+      let total = 0
+      let desconto = 0
+      for (let i = 0; i < Number(dados.qtdOrder); i++) {
+        if (data?.value !== undefined) total += data?.value
+      }
+      if (dados.desconto) {
+        desconto = total * (Number(dados.desconto) / 100)
+      }
 
-  const itens = searchParams.get('iten')
-  const menu = searchParams.get('menu')
+      if (dados.tip) total += Number(dados.tip)
 
-  function calculateValurProduct() {
-    let total = 0
-    let desconto = 0
-    for (let i = 0; i < Number(dados.qtdOrder); i++) {
-      if (data?.value !== undefined) total += data?.value
+      if (total - desconto > 0) return total - desconto
+      else return 0
     }
-    if (dados.desconto) {
-      desconto = total * (Number(dados.desconto) / 100)
-    }
 
-    if (dados.tip) total += Number(dados.tip)
-
-    if (total - desconto > 0) return total - desconto
-    else return 0
-  }
-
-  dados.valueOrder = calculateValurProduct()
+    setDados((prevDados) => ({
+      ...prevDados,
+      valueOrder: calculateValurProduct(),
+    }))
+  }, [dados, data])
 
   useEffect(() => {
     const handleData = async () => {
+      const dat = await getOrder(params.id)
+      setDados(dat)
+    }
+    handleData()
+    const handleOrder = async () => {
       const dt = await getItem(Number(itens))
       setData(dt)
     }
-    handleData()
+    handleOrder()
   }, [])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (itens && menu) {
-      const formData = new FormData(e.currentTarget)
-      formData.append('idItens', itens)
-      formData.append('idMenu', menu)
-      const objet = Object.fromEntries(formData)
-      const req = await insertOrder(objet)
+      const req = await updateOrder(dados, params.id)
       if (req.message === 'sucess') {
         alert('Item inserido com sucesso!')
         window.history.back()
