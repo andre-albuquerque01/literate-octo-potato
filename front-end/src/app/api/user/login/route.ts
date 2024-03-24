@@ -21,11 +21,13 @@ export async function POST(request: Request) {
     cookiesStore.set('token', data.data.token, {
       expires: Date.now() + 2 * 60 * 60 * 1000,
       secure: true,
+      // httpOnly: true,
+      sameSite: 'strict',
     })
     if (data.data.r === 'JesusIsKingADM') {
       cookiesStore.set('r', data.data.r, {
         expires: Date.now() + 2 * 60 * 60 * 1000,
-        httpOnly: true,
+        // httpOnly: true,
         secure: true,
         sameSite: 'strict',
       })
