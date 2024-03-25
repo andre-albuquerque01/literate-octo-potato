@@ -28,6 +28,8 @@ class MenuRequest extends FormRequest
             "methodPay" => "nullable",
             "idUser" => "nullable",
             "value" => "nullable",
+            "desconto" => "nullable",
+            "tip" => "nullable",
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {

@@ -19,5 +19,7 @@ class Menu extends Model
         'statusOrder',
         'methodPay',
         'value',
+        'desconto',
+        'tip',
     ];
 }
