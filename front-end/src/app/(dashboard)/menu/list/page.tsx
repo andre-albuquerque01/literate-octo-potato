@@ -60,13 +60,7 @@ export default async function listMenu() {
                     <Edit className="w-5 h-5" />
                   </Link>
                   <Link
-                    href={`/menu/update/${menu.idMesa}`}
-                    title={`Adicionar item, ${menu.idMenu}`}
-                  >
-                    <PlusCircle className="w-5 h-5" />
-                  </Link>
-                  <Link
-                    href={`/order/list/${menu.idMenu}`}
+                    href={`/order/comanda/${menu.idMenu}`}
                     title="Mostra o pedido"
                   >
                     <EyeIcon className="w-5 h-5" />
