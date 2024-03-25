@@ -19,8 +19,6 @@ return new class extends Migration
             $table->foreign('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('qtdOrder')->nullable();
             $table->double('value')->nullable();
-            $table->double('desconto')->nullable();
-            $table->double('tip')->nullable();
             $table->timestamps();
         });
     }

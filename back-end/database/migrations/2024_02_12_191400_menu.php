@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('statusOrder', 20)->nullable();
             $table->string('methodPay');
             $table->string('value');
+            $table->double('desconto')->nullable();
+            $table->double('tip')->nullable();
             $table->timestamps();
         });
     }
