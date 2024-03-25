@@ -4,6 +4,7 @@ import Api from '@/data/api'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 async function getMesa(): Promise<TableInterface[]> {
@@ -55,8 +56,31 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
     cpf: '',
     statusOrder: '',
     methodPay: '',
-    value: '',
+    value: 0,
+    tip: '',
+    desconto: '',
   })
+
+  const searchParams = useSearchParams()
+
+  const valor = searchParams.get('value')
+
+  function calculateValurProduct() {
+    if (valor) {
+      let total = Number(valor)
+      if (data.desconto && Number(data.desconto) <= 100) {
+        total -= Number(total) * (Number(data.desconto) / 100)
+      }
+      if (data.tip) {
+        total += Number(data.tip)
+      }
+
+      return total
+    }
+    return 0
+  }
+
+  data.value = calculateValurProduct()
 
   useEffect(() => {
     const handleMesa = async () => {
@@ -104,7 +128,7 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
             Voltar
           </Link>
           <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
-            Seu cadastro
+            Alterar pedido
           </p>
           <form onSubmit={handleData}>
             <div className="flex flex-col mt-3">
@@ -130,10 +154,37 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
                 name="value"
                 id="value"
                 step="0.00"
-                className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+                className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 bg-zinc-300"
                 defaultValue={data.value ?? ''}
                 onChange={handleChange}
+                disabled
                 required
+              />
+            </div>
+            <div className="flex flex-col mt-3 max-md:mt-3">
+              <label htmlFor="desconto">
+                Desconto(%): <span className="text-red-600">*</span>{' '}
+              </label>
+              <input
+                type="text"
+                name="desconto"
+                id="desconto"
+                className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+                value={data.desconto ?? ''}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col mt-3 max-md:mt-3">
+              <label htmlFor="tip">
+                Gorjeta: (R$)<span className="text-red-600">*</span>{' '}
+              </label>
+              <input
+                type="text"
+                name="tip"
+                id="tip"
+                className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+                value={data.tip ?? ''}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col mt-3">
@@ -195,7 +246,7 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
                 <option value="outros">Outros</option>
               </select>
             </div>
-            <BtnForm title="Cadastrar" />
+            <BtnForm title="Alterar" />
           </form>
         </>
       ) : (
