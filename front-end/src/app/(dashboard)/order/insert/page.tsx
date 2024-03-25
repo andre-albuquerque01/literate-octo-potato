@@ -43,9 +43,7 @@ async function getItem(id: number): Promise<InterfaceItens> {
 export default function InsertOrder() {
   const [data, setData] = useState<InterfaceItens>()
   const [dados, setDados] = useState({
-    desconto: '',
     qtdOrder: '',
-    tip: '',
     valueOrder: 0,
   })
 
@@ -66,18 +64,10 @@ export default function InsertOrder() {
 
   function calculateValurProduct() {
     let total = 0
-    let desconto = 0
     for (let i = 0; i < Number(dados.qtdOrder); i++) {
       if (data?.value !== undefined) total += data?.value
     }
-    if (dados.desconto) {
-      desconto = total * (Number(dados.desconto) / 100)
-    }
-
-    if (dados.tip) total += Number(dados.tip)
-
-    if (total - desconto > 0) return total - desconto
-    else return 0
+    return total
   }
 
   dados.valueOrder = calculateValurProduct()
@@ -147,32 +137,6 @@ export default function InsertOrder() {
             value={dados.qtdOrder ?? ''}
             onChange={handleChange}
             required
-          />
-        </div>
-        <div className="flex flex-col mt-3 max-md:mt-3">
-          <label htmlFor="desconto">
-            Desconto(%): <span className="text-red-600">*</span>{' '}
-          </label>
-          <input
-            type="text"
-            name="desconto"
-            id="desconto"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={dados.desconto ?? ''}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex flex-col mt-3 max-md:mt-3">
-          <label htmlFor="tip">
-            Gorjeta: <span className="text-red-600">*</span>{' '}
-          </label>
-          <input
-            type="text"
-            name="tip"
-            id="tip"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            value={dados.tip ?? ''}
-            onChange={handleChange}
           />
         </div>
         <div className="flex flex-col mt-3 max-md:mt-3">
