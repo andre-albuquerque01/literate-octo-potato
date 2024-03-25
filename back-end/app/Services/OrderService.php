@@ -60,7 +60,7 @@ class OrderService
     public function destroy(string $id)
     {
         try {
-            Order::findOrFail($id)->delete();
+            Order::where('idOrder', $id)->delete();
             return response()->json(['message' => 'sucess'], 204);
         } catch (\Throwable $th) {
             throw $th;

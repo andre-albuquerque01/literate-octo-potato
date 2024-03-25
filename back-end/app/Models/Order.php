@@ -16,7 +16,5 @@ class Order extends Model
         'idMenu',
         'qtdOrder',
         'valueOrder',
-        'desconto',
-        'tip',
     ];
 }

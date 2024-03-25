@@ -23,8 +23,6 @@ class OrderRequest extends FormRequest
     {
         return [
             "qtdOrder" => "required",
-            "desconto" => "nullable",
-            "tip" => "nullable",
             "valueOrder" => "required",
             "idMenu" => "required",
             "idItens" => "required",
