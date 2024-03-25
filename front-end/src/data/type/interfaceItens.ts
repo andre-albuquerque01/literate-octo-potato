@@ -1,4 +1,5 @@
 export interface InterfaceItens {
+  [x: string]: any
   idItens: number
   title: string
   desc: string
