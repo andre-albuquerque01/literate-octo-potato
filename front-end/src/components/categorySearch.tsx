@@ -20,7 +20,7 @@ export const CategorySearch = (category: TypeCategory) => {
           className="absolute w-full h-full object-cover rounded-xl"
         />
         <span
-          className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal"
+          className="absolute top-0 left-5 right-0 bottom-0 flex items-center justify-start text-slate-50 font-normal uppercase"
           title={category.title}
         >
           {category.title}

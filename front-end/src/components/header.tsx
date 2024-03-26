@@ -19,7 +19,7 @@ export const Header = () => {
         </Link>
         <nav className="flex items-center gap-12 max-md:gap-16">
           <Link
-            href="/"
+            href="/dashboard"
             className="flex items-center gap-2 hover:text-lg"
             title="Inicio"
           >
