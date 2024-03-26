@@ -42,9 +42,12 @@ export const SnackCarrossel = ({ data }: CarrosselProps) => {
   }, [])
   return (
     <div className="pl-2">
-      <div className="flex items-center py-2 text-lg md:mt-3">
+      <Link
+        href={`/itens/search/itens?c=lanches`}
+        className="flex items-center py-2 text-lg mt-3"
+      >
         Lanches <ArrowRight className="w-5 h-5" />
-      </div>
+      </Link>
       <Swiper
         modules={[Navigation, A11y]}
         spaceBetween={30}
@@ -62,9 +65,10 @@ export const SnackCarrossel = ({ data }: CarrosselProps) => {
                       width={100}
                       height={100}
                       alt={`Imagem do item ${itens.title}`}
+                      className="max-w-[100px]"
                     />
                     <div>
-                      <span className="text-md truncate text-zinc-900 font-medium">
+                      <span className="text-md text-center text-zinc-900 font-medium">
                         {itens.title}
                       </span>
                       <span className="text-zinc-900 flex font-medium">
