@@ -21,8 +21,8 @@ class ItensService
     public function indexAll()
     {
         try {
-            $iten = Itens::paginate();
-            return ItensResouce::collection($iten)->get();;
+            $iten = Itens::paginate(16);
+            return ItensResouce::collection($iten);
         } catch (\Throwable $th) {
             throw $th;
         }
