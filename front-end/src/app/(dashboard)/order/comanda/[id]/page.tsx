@@ -62,7 +62,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
         <Link href="" className="flex items-center py-4 md:hidden">
           <ArrowLeft className="w-5 h-5" /> Voltar
         </Link>
-        <h1 className="text-2xl">Comanda da mesa 1</h1>
+        <h1 className="text-2xl">Comanda</h1>
         <div className="flex flex-wrap max-md:justify-center gap-5 md:mt-4">
           {data.map((itens, index) => (
             <div

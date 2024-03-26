@@ -12,9 +12,6 @@ export async function GET(_: Request, { params }: { params: { id: number } }) {
         'Content-Type': 'application/json',
       },
       cache: 'no-cache',
-      // next: {
-      //   revalidate: 60,
-      // },
     })
 
     const data = await response.json()
