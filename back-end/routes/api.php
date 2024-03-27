@@ -32,11 +32,14 @@ Route::prefix('v1')->group(function () {
         // Menu
         Route::apiResource('/menu', MenuController::class);
         Route::get('/menuAll', [MenuController::class, 'showAll']);
+        Route::get('/menuUser', [MenuController::class, 'showUser']);
+        Route::get('/menuHistoric', [MenuController::class, 'showHistoric']);
         Route::get('/menucpf/{cpf}', [MenuController::class, 'showCPF']);
         Route::get('/menuCodigo/{codigo}', [MenuController::class, 'showCodigo']);
         // Order
-        Route::apiResource('/order', OrderController::class);
         Route::get('/ordersa/{id}', [OrderController::class, 'showAll']);
+        Route::get('/orderMenu/{id}', [OrderController::class, 'showMenuUser']);
+        Route::apiResource('/order', OrderController::class);
     });
     // Itens
     Route::apiResource('/itens', ItensController::class);
