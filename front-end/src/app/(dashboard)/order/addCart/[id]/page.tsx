@@ -8,9 +8,7 @@ import Link from 'next/link'
 async function getItens(): Promise<InterfaceItens[]> {
   try {
     const request = await Api('/itens/home', {
-      next: {
-        revalidate: 30,
-      },
+      cache: 'no-cache',
     })
     const reqBody = await request.json()
     return reqBody.data.data
@@ -32,7 +30,7 @@ export default async function AddCart({ params }: { params: { id: number } }) {
       <div className="flex flex-wrap gap-5">
         {data.map((itens, index) => (
           <div
-            className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:min-w-[320px] border-zinc-200 rounded-lg"
+            className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[370px] border-zinc-200 rounded-lg"
             key={index}
           >
             <div className="flex gap-3">
@@ -44,7 +42,7 @@ export default async function AddCart({ params }: { params: { id: number } }) {
                 className="rounded-lg"
               />
               <div className="flex flex-col justify-evenly">
-                <p className="font-medium text-lg truncate">{itens.title}</p>
+                <p className="font-medium text-lg text-wrap">{itens.title}</p>
                 <p className="font-medium text-md">
                   {itens.value.toLocaleString('pt-br', {
                     style: 'currency',
