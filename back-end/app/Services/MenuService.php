@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\MenuResource;
+use App\Http\Resources\MenuResource2;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,13 +20,33 @@ class MenuService
     public function index()
     {
         try {
-            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'itens.idItens', '=', 'orders.idOrder')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.idUser', '=', 'menu.idUser')->where('menu.cpf', '=', $this->user->cpf)->paginate();
+            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', '05930966141')->get();
             return MenuResource::collection($menu);
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
+    public function showUser()
+    {
+        try {
+            // $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where->where('menu.cpf', '=', $this->user->cpf)->where('menu.statusOrder', '=', 'aberto')->get();
+            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', '05930966141')->where('menu.statusOrder', '=', 'aberto')->get();
+            return MenuResource::collection($menu);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function showHistoric()
+    {
+        try {
+            // $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where->where('menu.cpf', '=', $this->user->cpf)->where('menu.statusOrder', '=', 'aberto')->get();
+            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', '05930966141')->get();
+            return MenuResource::collection($menu);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
     public function showAll()
     {
         try {
@@ -50,8 +71,8 @@ class MenuService
     public function show(string $id)
     {
         try {
-            $menu = Menu::findOrFail($id);
-            return new MenuResource($menu);
+            $menu = Menu::find($id);
+            return new MenuResource2($menu);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -60,8 +81,8 @@ class MenuService
     public function showCPF(string $cpf)
     {
         try {
-            $menu = Menu::join('users', 'user.idUser', '=', 'menu.idUser')->where('user.idUser', $cpf);
-            return new MenuResource($menu);
+            $menu = Menu::where('menu.cpf', $cpf);
+            return new MenuResource2($menu);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -71,7 +92,7 @@ class MenuService
     {
         try {
             $menu = Menu::where('codigo', $codigo);
-            return new MenuResource($menu);
+            return new MenuResource2($menu);
         } catch (\Throwable $th) {
             throw $th;
         }

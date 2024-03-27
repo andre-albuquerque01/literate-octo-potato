@@ -29,6 +29,24 @@ class MenuController extends Controller
         }
     }
 
+    public function showUser()
+    {
+        try {
+            return $this->menuService->showUser();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function showHistoric()
+    {
+        try {
+            return $this->menuService->showHistoric();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function showAll()
     {
         try {
