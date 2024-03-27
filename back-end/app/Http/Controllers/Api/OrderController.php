@@ -63,6 +63,15 @@ class OrderController extends Controller
         }
     }
 
+    public function showMenuUser(string $id)
+    {
+        try {
+            return $this->orderService->showMenuUser($id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */
