@@ -7,4 +7,5 @@ export interface MenuInterface {
   statusOrder: string
   methodPay: string
   value: string
+  updated_at: string
 }
