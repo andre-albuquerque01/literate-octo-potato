@@ -6,6 +6,7 @@ use App\Http\Resources\MenuResource;
 use App\Http\Resources\MenuResource2;
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class MenuService
@@ -20,7 +21,9 @@ class MenuService
     public function index()
     {
         try {
-            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', '05930966141')->get();
+            $user = Auth::user();
+            $cpf = $user->cpf;
+            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->get();
             return MenuResource::collection($menu);
         } catch (\Throwable $th) {
             throw $th;
@@ -30,8 +33,9 @@ class MenuService
     public function showUser()
     {
         try {
-            // $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where->where('menu.cpf', '=', $this->user->cpf)->where('menu.statusOrder', '=', 'aberto')->get();
-            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', '05930966141')->where('menu.statusOrder', '=', 'aberto')->get();
+            $user = Auth::user();
+            $cpf = $user->cpf;
+            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->where('menu.statusOrder', '=', 'aberto')->get();
             return MenuResource::collection($menu);
         } catch (\Throwable $th) {
             throw $th;
@@ -40,8 +44,9 @@ class MenuService
     public function showHistoric()
     {
         try {
-            // $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where->where('menu.cpf', '=', $this->user->cpf)->where('menu.statusOrder', '=', 'aberto')->get();
-            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', '05930966141')->get();
+            $user = Auth::user();
+            $cpf = $user->cpf;
+            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->get();
             return MenuResource::collection($menu);
         } catch (\Throwable $th) {
             throw $th;
