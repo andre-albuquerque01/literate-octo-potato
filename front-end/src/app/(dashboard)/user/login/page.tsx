@@ -14,10 +14,10 @@ async function postLogin(body: object) {
       },
       body: JSON.stringify(body),
     })
-    if (response.ok) alert('Sucess')
-    else return 'E-mail ou senha inválida'
+    const reqJson = await response.json()
+    return reqJson.data
   } catch (error) {
-    console.error(error)
+    console.error()
   }
 }
 
@@ -30,7 +30,12 @@ export default function Login() {
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
     const req = await postLogin(data)
-    if (req) setError(req)
+    if (req?.token !== undefined) {
+      alert('Login feito sucesso!')
+      window.history.back()
+    } else {
+      setError('Email ou senha invalida')
+    }
   }
 
   return (
