@@ -17,7 +17,7 @@ export async function PUT(request: Request) {
     })
 
     const data = await response.json()
-    console.log(data)
+
     cookiesStore.delete('tokenRecover')
     return new Response(JSON.stringify(data), {
       status: response.status,

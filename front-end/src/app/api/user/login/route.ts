@@ -16,7 +16,6 @@ export async function POST(request: Request) {
     })
 
     const data = await response.json()
-    console.log(data)
 
     cookiesStore.set('token', data.data.token, {
       expires: Date.now() + 2 * 60 * 60 * 1000,

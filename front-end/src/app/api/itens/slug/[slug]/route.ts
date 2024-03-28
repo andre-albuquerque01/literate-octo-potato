@@ -12,7 +12,6 @@ export default async function GET({ params }: { params: { slug: string } }) {
     })
 
     const data = await response.json()
-    console.log(data)
 
     return NextResponse.json({ data })
   } catch (error) {

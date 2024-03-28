@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     })
 
     const data = await response.json()
-    console.log(data.token)
+
     cookiesStore.set('tokenRecover', data.token, {
       expires: Date.now() + 60 * 10 * 1000,
       // secure: true,
