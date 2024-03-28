@@ -66,10 +66,10 @@ export const DinnerCarrossel = ({ data }: DinnerCarrosselProps) => {
                       width={100}
                       height={100}
                       alt={`Imagem do item ${itens.title}`}
-                      className="max-w-[100px]"
+                      className="w-[120px] h-[120px] object-contain"
                     />
                     <div>
-                      <span className="text-md text-justify text-zinc-900 font-medium">
+                      <span className="text-md text-wrap text-zinc-900 font-medium">
                         {itens.title}
                       </span>
                       <span className="text-zinc-900 flex font-medium">

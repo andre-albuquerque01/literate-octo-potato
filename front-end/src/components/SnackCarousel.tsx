@@ -62,13 +62,13 @@ export const SnackCarrossel = ({ data }: CarrosselProps) => {
                   <Link href={`/itens/${itens.idItens}`}>
                     <Image
                       src={itens.urlImage}
-                      width={100}
-                      height={100}
+                      width={25}
+                      height={25}
                       alt={`Imagem do item ${itens.title}`}
-                      className="max-w-[100px]"
+                      className="w-[120px] h-[120px] object-contain"
                     />
                     <div>
-                      <span className="text-md text-center text-zinc-900 font-medium">
+                      <span className="text-md text-wrap text-zinc-900 font-medium">
                         {itens.title}
                       </span>
                       <span className="text-zinc-900 flex font-medium">
