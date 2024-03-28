@@ -5,15 +5,11 @@ namespace App\Services;
 use App\Http\Resources\RateResource;
 use App\Models\Rate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RateService
 {
-    private $user;
-    public function __construct(Request $request)
-    {
-        $this->user = $request->user();
-    }
     public function index(string $id)
     {
         try {
@@ -27,7 +23,8 @@ class RateService
     public function showLikeUser(string $id)
     {
         try {
-            $idUser = $this->user->idUser;
+            $user = Auth::user();
+            $idUser = $user->idUser;
             $rate = Rate::where('idUser', $idUser)->where('idItens', $id)->get();
             if ($rate->isNotEmpty())
                 return response()->json(['data' => 'true']);
@@ -39,7 +36,8 @@ class RateService
     public function store(array $data)
     {
         try {
-            $data['idUser'] = $this->user->idUser;
+            $user = Auth::user();
+            $data['idUser'] = $user->idUser;
             $exist = Rate::where('idUser', $data['idUser'])->where('idItens', $data['idItens'])->first();
             
             if ($exist) {
