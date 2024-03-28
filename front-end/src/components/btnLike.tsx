@@ -66,8 +66,12 @@ export const BtnLike = (props: ProspLike) => {
     const like = await Like({ idItens: props.id })
     if (like.message === 'sucess') {
       alert('Avaliado!')
+      window.location.reload()
     } else if (like.message === 'Já avaliou') {
       alert('Já avaliou!')
+    } else if (like.message === 'Unauthenticated.') {
+      alert('Precisa fazer login!')
+      window.location.replace('/user/login')
     }
   }
 
@@ -76,7 +80,10 @@ export const BtnLike = (props: ProspLike) => {
   ) => {
     e.preventDefault()
     const dislike = await Dislike(props.id)
-    if (dislike.message === 'sucess') alert('Removida avaliação!')
+    if (dislike.message === 'sucess') {
+      alert('Removida avaliação!')
+      window.location.reload()
+    }
   }
 
   return (
