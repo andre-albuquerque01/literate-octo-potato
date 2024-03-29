@@ -1,10 +1,10 @@
+import { Logout } from '@/components/logout'
 import {
   Apple,
   BookAIcon,
   History,
   Home,
   ListIcon,
-  LogOut,
   Search,
   SquarePen,
 } from 'lucide-react'
@@ -14,6 +14,7 @@ import Link from 'next/link'
 export default function User() {
   const cookieStore = cookies()
   const r = cookieStore.has('r')
+
   return (
     <div className="mt-6 space-y-3 w-36 max-md:p-8 max-md:mt-0 max-md:w-56">
       <Link href="/itens/search" className="flex items-center gap-2 md:hidden">
@@ -55,10 +56,7 @@ export default function User() {
         <History className="h-5 w-5" />
         Historico
       </Link>
-      <Link href="" className="flex items-center gap-2">
-        <LogOut className="h-5 w-5" />
-        Sair
-      </Link>
+      <Logout />
     </div>
   )
 }
