@@ -30,7 +30,7 @@ class AuthController extends Controller
     {
         try {
             $request->user()->currentAccessToken()->delete();
-            return response()->json(['message' => 'sucess'], 204);
+            return response()->json(['message' => 'sucess'], 200);
         } catch (\Exception $e) {
             throw $e;
         }
