@@ -21,6 +21,28 @@ async function getAll(): Promise<MenuInterface[]> {
   }
 }
 
+// async function getAll(): Promise<MenuInterface[]> {
+//   try {
+//     const cookiesStore = cookies()
+//     const token = cookiesStore.get('token')
+
+//     console.log(token?.value)
+//     const response = await ApiRoute(`/menuHistoric`, {
+//       method: 'GET',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${token?.value}`,
+//       },
+//     })
+//     const reqJson = await response.json()
+//     return reqJson.data
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
+
 export default async function listMenu() {
   const data = await getAll()
 
