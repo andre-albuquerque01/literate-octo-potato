@@ -1,16 +1,40 @@
-import Api from '@/data/api'
+import ApiRoute from '@/data/apiRoute'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// async function getId(id: number): Promise<InterfaceItens[]> {
+//   try {
+//     const request = await Api(`/order/menu/${id}`, { cache: 'no-cache' })
+//     const reqBody = await request.json()
+//     return reqBody.data.data
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
+
 async function getId(id: number): Promise<InterfaceItens[]> {
   try {
-    const request = await Api(`/order/menu/${id}`, { cache: 'no-cache' })
-    const reqBody = await request.json()
-    return reqBody.data.data
+    const cookiesStore = cookies()
+    const token = cookiesStore.get('token')
+
+    const response = await ApiRoute(`/orderMenu/${id}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.value}`,
+      },
+      cache: 'no-cache',
+    })
+
+    const reqJson = await response.json()
+    return reqJson.data
   } catch (error) {
-    console.error(error)
+    console.log()
     throw error
   }
 }
@@ -61,54 +85,62 @@ export default async function Comanda({ params }: { params: { id: number } }) {
         </Link>
         <h1 className="text-2xl">Comanda</h1>
         <div className="flex flex-wrap max-md:justify-center gap-4 md:mt-4">
-          {data.map((itens, index) => (
-            <div
-              className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[375px] border-zinc-200 rounded-lg"
-              key={index}
-            >
-              <div className="flex gap-3">
-                <Image
-                  src={itens.urlImage}
-                  alt={`Imagem do ${itens.title}`}
-                  width={150}
-                  height={150}
-                  className="rounded-lg"
-                />
-                <div className="flex flex-col justify-evenly">
-                  <p className="font-medium text-lg text-wrap">{itens.title}</p>
-                  <p className="font-medium text-md">
-                    {itens.valueOrder.toLocaleString('pt-br', {
-                      style: 'currency',
-                      currency: 'BRL',
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 2,
-                    })}
-                  </p>
+          {data.length > 0 ? (
+            data.map((itens, index) => (
+              <div
+                className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[375px] border-zinc-200 rounded-lg"
+                key={index}
+              >
+                <div className="flex gap-3">
+                  <Image
+                    src={itens.urlImage}
+                    alt={`Imagem do ${itens.title}`}
+                    width={150}
+                    height={150}
+                    className="rounded-lg"
+                  />
+                  <div className="flex flex-col justify-evenly">
+                    <p className="font-medium text-lg text-wrap">
+                      {itens.title}
+                    </p>
+                    <p className="font-medium text-md">
+                      {itens.valueOrder.toLocaleString('pt-br', {
+                        style: 'currency',
+                        currency: 'BRL',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2,
+                      })}
+                    </p>
+                  </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <h1>Não há itens ainda!</h1>
+          )}
+        </div>
+      </div>
+      {data.length > 0 && (
+        <div className="flex justify-center">
+          <div className="border border-zinc-500 max-md:fixed md:mt-5 bottom-0 max-md:z-30 px-4 md:py-5 bg-white max-md:w-full md:mb-5 md:w-[40%] space-y-1 md:rounded-xl">
+            <div className="flex justify-between">
+              <span className="font-medium">Data</span>
+              <span>{formatarData(date)}</span>
             </div>
-          ))}
-        </div>
-      </div>
-      <div className="flex justify-center">
-        <div className="border border-zinc-500 max-md:fixed md:mt-5 bottom-0 max-md:z-30 px-4 md:py-5 bg-white max-md:w-full md:mb-5 md:w-[40%] space-y-1 md:rounded-xl">
-          <div className="flex justify-between">
-            <span className="font-medium">Data</span>
-            <span>{formatarData(date)}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="font-medium">Preço</span>
-            <span>
-              {soma.toLocaleString('pt-br', {
-                style: 'currency',
-                currency: 'BRL',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2,
-              })}
-            </span>
+            <div className="flex justify-between">
+              <span className="font-medium">Preço</span>
+              <span>
+                {soma.toLocaleString('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
