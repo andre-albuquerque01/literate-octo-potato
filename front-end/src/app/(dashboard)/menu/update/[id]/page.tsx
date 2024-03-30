@@ -1,37 +1,85 @@
 'use client'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
+import ApiRoute from '@/data/apiRoute'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
+// async function getMesa(): Promise<TableInterface[]> {
+//   try {
+//     const request = await Api('/table/getAll', {
+//       cache: 'no-cache',
+//       method: 'GET',
+//     })
+//     const reqBody = await request.json()
+//     return reqBody.data.data
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
 async function getMesa(): Promise<TableInterface[]> {
   try {
-    const request = await Api('/table/getAll', {
-      cache: 'no-cache',
+    const cookiesStore = cookies()
+    const token = cookiesStore.get('token')
+
+    const response = await ApiRoute(`/table`, {
       method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.value}`,
+      },
+      cache: 'no-cache',
     })
-    const reqBody = await request.json()
-    return reqBody.data.data
+
+    const reqJson = await response.json()
+    return reqJson.data
   } catch (error) {
     console.error(error)
     throw error
   }
 }
 
+// async function getData(id: number) {
+//   try {
+//     const request = await Api(`/menu/get/${id}`, {
+//       cache: 'no-cache',
+//       method: 'GET',
+//     })
+//     const reqBody = await request.json()
+//     return reqBody.data.data
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
+
 async function getData(id: number) {
   try {
-    const request = await Api(`/menu/get/${id}`, {
-      cache: 'no-cache',
+    const cookiesStore = cookies()
+    const token = cookiesStore.get('token')
+
+    const response = await ApiRoute(`/menu/${id}`, {
       method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.value}`,
+      },
+      cache: 'no-cache',
     })
-    const reqBody = await request.json()
-    return reqBody.data.data
+
+    const reqJson = await response.json()
+    return reqJson.data
   } catch (error) {
-    console.error(error)
-    throw error
+    return new Response(JSON.stringify(error), {
+      status: 401,
+    })
   }
 }
 
