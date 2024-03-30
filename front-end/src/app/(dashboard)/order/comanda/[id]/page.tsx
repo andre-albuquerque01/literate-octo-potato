@@ -1,17 +1,40 @@
 import { RemoveItenComanda } from '@/components/removeItemComanda'
-import Api from '@/data/api'
+import ApiRoute from '@/data/apiRoute'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft, Plus } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// async function getId(id: number): Promise<InterfaceItens[]> {
+//   try {
+//     const request = await Api(`/order/get/${id}`, { cache: 'no-cache' })
+//     const reqBody = await request.json()
+//     return reqBody.data.data
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
 async function getId(id: number): Promise<InterfaceItens[]> {
   try {
-    const request = await Api(`/order/get/${id}`, { cache: 'no-cache' })
-    const reqBody = await request.json()
-    return reqBody.data.data
+    const cookiesStore = cookies()
+    const token = cookiesStore.get('token')
+
+    const response = await ApiRoute(`/ordersa/${id}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.value}`,
+      },
+      cache: 'no-cache',
+    })
+
+    const reqJson = await response.json()
+    return reqJson.data
   } catch (error) {
-    console.error(error)
+    console.log()
     throw error
   }
 }
