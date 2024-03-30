@@ -1,8 +1,10 @@
 'use client'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
+import ApiRoute from '@/data/apiRoute'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
@@ -48,16 +50,39 @@ async function getItem(id: number): Promise<InterfaceItens> {
   }
 }
 
+// async function getOrder(id: number): Promise<OrderInterface> {
+//   try {
+//     const request = await Api(`/order/get/${id}`, {
+//       method: 'GET',
+//       headers: {
+//         'Content-type': 'application/json',
+//       },
+//     })
+//     const reqBody = await request.json()
+//     return reqBody.data.data
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
+
 async function getOrder(id: number): Promise<OrderInterface> {
   try {
-    const request = await Api(`/order/get/${id}`, {
+    const cookiesStore = cookies()
+    const token = cookiesStore.get('token')
+
+    const response = await ApiRoute(`/ordersa/${id}`, {
       method: 'GET',
       headers: {
-        'Content-type': 'application/json',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.value}`,
       },
+      cache: 'no-cache',
     })
-    const reqBody = await request.json()
-    return reqBody.data.data
+
+    const reqJson = await response.json()
+    return reqJson.data
   } catch (error) {
     console.error(error)
     throw error
