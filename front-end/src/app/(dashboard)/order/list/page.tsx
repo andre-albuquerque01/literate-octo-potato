@@ -1,20 +1,42 @@
-import Api from '@/data/api'
+import ApiRoute from '@/data/apiRoute'
 import { MenuInterface } from '@/data/type/menu'
 import { ArrowLeft, EyeIcon } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
+
+// async function getAll(): Promise<MenuInterface[]> {
+//   try {
+//     const request = await Api('/menu/listMenuUser', {
+//       method: 'GET',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json',
+//       },
+//       cache: 'no-cache',
+//     })
+//     const reqJson = await request.json()
+//     return reqJson.data.data
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
 
 async function getAll(): Promise<MenuInterface[]> {
   try {
-    const request = await Api('/menu/listMenuUser', {
+    const cookiesStore = cookies()
+    const token = cookiesStore.get('token')
+
+    const response = await ApiRoute(`/menuUser`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token?.value}`,
       },
-      cache: 'no-cache',
     })
-    const reqJson = await request.json()
-    return reqJson.data.data
+    const reqJson = await response.json()
+    return reqJson.data
   } catch (error) {
     console.error(error)
     throw error
@@ -44,7 +66,7 @@ export default async function listMenu() {
   }
 
   return (
-    <div className="flex flex-col min-h-[90%] w-full px-3">
+    <div className="flex flex-col min-h-[80%] w-full px-3">
       <Link
         href="/"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-3 max-md:w-80"
