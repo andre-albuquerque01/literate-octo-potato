@@ -39,6 +39,10 @@ export const DrinksCarrossel = ({ data }: LunchCarrosselProps) => {
       }
     }
     handleResize()
+     window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   return (
