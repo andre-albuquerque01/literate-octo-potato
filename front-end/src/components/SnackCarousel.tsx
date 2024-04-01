@@ -39,7 +39,12 @@ export const SnackCarrossel = ({ data }: CarrosselProps) => {
       }
     }
     handleResize()
+     window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
+  
   return (
     <div className="pl-2">
       <Link
