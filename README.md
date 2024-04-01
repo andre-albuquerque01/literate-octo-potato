@@ -29,3 +29,27 @@ Para criar as variaveis de ambiente:
 Crie um arquivo `.env` na raiz do seu projeto.
 Copie o conteúdo do arquivo `.env.example` e ajuste as configurações conforme necessário.
 Execute `php artisan config:cache` para aplicar as configurações do arquivo `.env`.
+
+Após ter feito esse processo, para inicializar a API, rode:
+
+```bash
+./vendor/bin/sail up
+```
+
+No Linux:
+
+```bash
+sudo ./vendor/bin/sail up
+```
+
+Para desativar o servidor da API:
+
+```bash
+./vendor/bin/sail down
+```
+
+No Linux:
+
+```bash
+sudo ./vendor/bin/sail down
+```
