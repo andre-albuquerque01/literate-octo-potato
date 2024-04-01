@@ -5,8 +5,21 @@ O sistema de comandas online oferece um serviço conveniente onde os clientes po
 Para operar nosso sistema, são necessários os seguintes requisitos mínimos em sua máquina: PHP, Composer, Node.js e Docker. O PHP e o Composer são essenciais para executar o Laravel, que contém a API principal do sistema. O Node.js é necessário para executar o front-end, enquanto o Docker é utilizado para virtualizar o ambiente no qual a API é executada. Esses componentes garantem a funcionalidade e desempenho ideais do nosso sistema de forma integrada e eficiente.
 
 Como fazer para rodar o sistema:
+
 Faça o Download dos arquivos:
 
 ```
 https://github.com/andre-albuquerque01/literate-octo-potato.git
 ```
+
+Inicialize os pacotes do Laravel:
+
+```
+composer install
+```
+
+Para criar as variaveis de ambiente:
+
+Crie um arquivo `.env` na raiz do seu projeto.
+Copie o conteúdo do arquivo `.env.example` e ajuste as configurações conforme necessário.
+Execute `php artisan config:cache` para aplicar as configurações do arquivo `.env`.
