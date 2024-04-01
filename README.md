@@ -8,13 +8,19 @@ Como fazer para rodar o sistema:
 
 Faça o Download dos arquivos:
 
-```
+```git
 https://github.com/andre-albuquerque01/literate-octo-potato.git
+```
+
+Depois entre na pasta `back-end`:
+
+```bash
+cd /literate-octo-potato/back-end
 ```
 
 Inicialize os pacotes do Laravel:
 
-```
+```php
 composer install
 ```
 
