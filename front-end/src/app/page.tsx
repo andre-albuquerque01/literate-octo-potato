@@ -20,6 +20,7 @@ export default async function Home() {
         width={120}
         height={120}
         className="self-end opacity-80"
+        priority
       />
       <div>
         <h1 className="text-lg">Bem-Vindo(a)!</h1>
