@@ -20,7 +20,7 @@ export default async function SearchIten() {
   const data = await getCategory()
 
   return (
-    <div className="max-md:w-[320px] mx-auto space-y-5">
+    <div className="max-md:w-[390px] mx-auto space-y-5">
       <FormSearch />
       <div className="space-y-3">
         <h1 className="font-normal text-[20px]">Categorias</h1>
