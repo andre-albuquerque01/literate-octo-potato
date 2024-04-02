@@ -35,7 +35,7 @@ export const Header = () => {
             <span className="max-md:hidden">Buscar</span>
           </Link>
           <Link
-            href="/order/menu"
+            href="/order/list"
             className="flex items-center gap-2 hover:text-lg"
             title="Pedido"
           >

@@ -10,7 +10,7 @@ interface TypeCategory {
 
 export const CategorySearch = (category: TypeCategory) => {
   return (
-    <div className="relative w-80 h-11 md:w-[32%]">
+    <div className="relative  max-md:w-full w-80 h-11 md:w-[32%]">
       <Link href={category.path}>
         <Image
           src={category.src}
