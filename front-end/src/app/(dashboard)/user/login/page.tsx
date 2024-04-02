@@ -31,7 +31,6 @@ export default function Login() {
     const data = Object.fromEntries(formData)
     const req = await postLogin(data)
     if (req?.token !== undefined) {
-      alert('Login feito sucesso!')
       window.history.back()
     } else {
       setError('Email ou senha invalida')
