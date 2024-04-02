@@ -1,85 +1,36 @@
 'use client'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
-import ApiRoute from '@/data/apiRoute'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
-// async function getMesa(): Promise<TableInterface[]> {
-//   try {
-//     const request = await Api('/table/getAll', {
-//       cache: 'no-cache',
-//       method: 'GET',
-//     })
-//     const reqBody = await request.json()
-//     return reqBody.data.data
-//   } catch (error) {
-//     console.error(error)
-//     throw error
-//   }
-// }
 async function getMesa(): Promise<TableInterface[]> {
   try {
-    const cookiesStore = cookies()
-    const token = cookiesStore.get('token')
-
-    const response = await ApiRoute(`/table`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token?.value}`,
-      },
+    const request = await Api('/table/getAll', {
       cache: 'no-cache',
+      method: 'GET',
     })
-
-    const reqJson = await response.json()
-    return reqJson.data
+    const reqBody = await request.json()
+    return reqBody.data.data
   } catch (error) {
     console.error(error)
     throw error
   }
 }
-
-// async function getData(id: number) {
-//   try {
-//     const request = await Api(`/menu/get/${id}`, {
-//       cache: 'no-cache',
-//       method: 'GET',
-//     })
-//     const reqBody = await request.json()
-//     return reqBody.data.data
-//   } catch (error) {
-//     console.error(error)
-//     throw error
-//   }
-// }
-
 async function getData(id: number) {
   try {
-    const cookiesStore = cookies()
-    const token = cookiesStore.get('token')
-
-    const response = await ApiRoute(`/menu/${id}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token?.value}`,
-      },
+    const request = await Api(`/menu/get/${id}`, {
       cache: 'no-cache',
+      method: 'GET',
     })
-
-    const reqJson = await response.json()
-    return reqJson.data
+    const reqBody = await request.json()
+    return reqBody.data.data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    console.error(error)
+    throw error
   }
 }
 
@@ -143,7 +94,7 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
 
     handleMesa()
     hanldeData(params.id)
-  }, [])
+  }, [params.id])
 
   const handleData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()

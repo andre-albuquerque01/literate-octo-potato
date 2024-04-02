@@ -1,40 +1,17 @@
 import { RemoveItenComanda } from '@/components/removeItemComanda'
-import ApiRoute from '@/data/apiRoute'
+import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft, Plus } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 
-// async function getId(id: number): Promise<InterfaceItens[]> {
-//   try {
-//     const request = await Api(`/order/get/${id}`, { cache: 'no-cache' })
-//     const reqBody = await request.json()
-//     return reqBody.data.data
-//   } catch (error) {
-//     console.error(error)
-//     throw error
-//   }
-// }
 async function getId(id: number): Promise<InterfaceItens[]> {
   try {
-    const cookiesStore = cookies()
-    const token = cookiesStore.get('token')
-
-    const response = await ApiRoute(`/ordersa/${id}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token?.value}`,
-      },
-      cache: 'no-cache',
-    })
-
-    const reqJson = await response.json()
-    return reqJson.data
+    const request = await Api(`/order/get/${id}`, { cache: 'no-cache' })
+    const reqBody = await request.json()
+    return reqBody.data.data
   } catch (error) {
-    console.log()
+    console.error(error)
     throw error
   }
 }
@@ -47,6 +24,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
   let date = ''
   let dateUpdated = ''
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data.forEach((sm: any) => {
     soma += sm.valueOrder
     mesa = sm.numberMesa

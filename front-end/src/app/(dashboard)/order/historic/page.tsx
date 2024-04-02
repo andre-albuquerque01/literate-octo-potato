@@ -1,42 +1,20 @@
-import ApiRoute from '@/data/apiRoute'
+import Api from '@/data/api'
 import { MenuInterface } from '@/data/type/menu'
 import { ArrowLeft, EyeIcon } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
-
-// async function getAll(): Promise<MenuInterface[]> {
-//   try {
-//     const request = await Api('/menu/historic', {
-//       method: 'GET',
-//       headers: {
-//         Accept: 'application/json',
-//         'Content-Type': 'application/json',
-//       },
-//       cache: 'no-cache',
-//     })
-//     const reqJson = await request.json()
-//     return reqJson.data.data
-//   } catch (error) {
-//     console.error(error)
-//     throw error
-//   }
-// }
 
 async function getAll(): Promise<MenuInterface[]> {
   try {
-    const cookiesStore = cookies()
-    const token = cookiesStore.get('token')
-
-    const response = await ApiRoute(`/menuHistoric`, {
+    const request = await Api('/menu/historic', {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token?.value}`,
       },
+      cache: 'no-cache',
     })
-    const reqJson = await response.json()
-    return reqJson.data
+    const reqJson = await request.json()
+    return reqJson.data.data
   } catch (error) {
     console.error(error)
     throw error
