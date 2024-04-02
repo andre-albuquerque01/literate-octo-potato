@@ -2,6 +2,7 @@ import { Logout } from '@/components/logout'
 import {
   Apple,
   BookAIcon,
+  BookOpenCheck,
   History,
   Home,
   ListIcon,
@@ -42,17 +43,20 @@ export default function User() {
             <Apple className="h-5 w-5" />
             Itens
           </Link>
-          <Link href="/menu/list" className="flex items-center gap-2">
+          <Link href="/menu/list" className="flex items-center w-[170px] gap-2">
             <BookAIcon className="h-5 w-5" />
             Pedidos do cliente
           </Link>
           <Link href="/category/list" className="flex items-center gap-2">
-            <BookAIcon className="h-5 w-5" />
+            <BookOpenCheck className="h-5 w-5" />
             Categorias
           </Link>
         </>
       )}
-      <Link href="/order/historic" className="flex items-center gap-2">
+      <Link
+        href="/order/historic"
+        className={`flex items-center gap-2 ${r && 'hidden'}`}
+      >
         <History className="h-5 w-5" />
         Historico
       </Link>
