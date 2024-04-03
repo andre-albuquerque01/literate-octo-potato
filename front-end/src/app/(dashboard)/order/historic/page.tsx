@@ -1,28 +1,12 @@
-import Api from '@/data/api'
+import HistoricService from '@/app/actions/order/historic'
 import { MenuInterface } from '@/data/type/menu'
 import { ArrowLeft, EyeIcon } from 'lucide-react'
 import Link from 'next/link'
 
-async function getAll(): Promise<MenuInterface[]> {
-  try {
-    const request = await Api('/menu/historic', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-cache',
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
 export default async function listMenu() {
-  const data = await getAll()
+  const reqbody = await HistoricService()
+  const dt = await reqbody.json()
+  const data = dt.data.data
 
   function formatarData(dataISO: string): string {
     function padLeft(value: number): string {
@@ -57,8 +41,8 @@ export default async function listMenu() {
       </p>
       <div className="space-y-5 mt-4">
         {data !== undefined && data.length > 0 ? (
-          data.map((menu, key) => (
-            <div key={key}>
+          data.map((menu: MenuInterface, index: number) => (
+            <div key={index}>
               <div className="flex mx-auto justify-between">
                 <span className="max-w-96">Codigo: {menu.codigo}</span>
                 <span className="max-md:hidden truncate w-96 text-center">

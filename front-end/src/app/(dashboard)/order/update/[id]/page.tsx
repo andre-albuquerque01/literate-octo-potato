@@ -1,4 +1,5 @@
 'use client'
+import GetOrderService from '@/app/actions/order/getOrder'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
@@ -7,14 +8,6 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
-interface OrderInterface {
-  desconto: string
-  qtdOrder: string
-  tip: string
-  valueOrder: number
-  idItens: string | null
-  idMenu: string | null
-}
 async function updateOrder(body: object, id: number) {
   try {
     const request = await Api(`/order/update/${id}`, {
@@ -35,22 +28,6 @@ async function updateOrder(body: object, id: number) {
 async function getItem(id: number): Promise<InterfaceItens> {
   try {
     const request = await Api(`/itens/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-async function getOrder(id: number): Promise<OrderInterface> {
-  try {
-    const request = await Api(`/order/get/${id}`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -115,7 +92,9 @@ export default function InsertOrder({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     const handleData = async () => {
-      const dat = await getOrder(params.id)
+      const reqbody = await GetOrderService(params.id)
+      const dt = await reqbody.json()
+      const dat = dt.data.data
       setDados(dat)
     }
     handleData()

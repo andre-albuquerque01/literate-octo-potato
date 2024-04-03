@@ -1,22 +1,9 @@
 'use client'
+import GetAllTableService from '@/app/actions/table/getAllTable'
 import Api from '@/data/api'
 import { TableInterface } from '@/data/type/table'
 import { X, CheckCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
-async function getAll(): Promise<TableInterface[]> {
-  try {
-    const request = await Api('/table/getAll', {
-      method: 'GET',
-      cache: 'no-cache',
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 async function putStatusTable(body: object, id: number) {
   try {
@@ -43,16 +30,20 @@ export const TableStatus = () => {
 
   useEffect(() => {
     const getAl = async () => {
-      const get = await getAll()
-      setData(get)
+      const reqbody = await GetAllTableService()
+      const dt = await reqbody.json()
+      const dat = dt.data.data
+      setData(dat)
     }
     getAl()
   }, [])
 
   useEffect(() => {
     const getAl = async () => {
-      const getA = await getAll()
-      setData(getA)
+      const reqbody = await GetAllTableService()
+      const dt = await reqbody.json()
+      const dat = dt.data.data
+      setData(dat)
     }
     if (status) {
       getAl()

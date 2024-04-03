@@ -1,23 +1,11 @@
 'use client'
+import GetAllTableService from '@/app/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function getCategory(): Promise<CategoryInterface[]> {
-  try {
-    const request = await Api('/category/getAll', {
-      cache: 'no-cache',
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 async function postItens(body: object) {
   try {
@@ -41,9 +29,11 @@ export default function InsertItens() {
 
   useEffect(() => {
     const handleCategory = async () => {
-      const catego = await getCategory()
+      const reqbody = await GetAllTableService()
+      const dt = await reqbody.json()
+      const data = dt.data.data
 
-      setCategory(catego)
+      setCategory(data)
     }
     handleCategory()
   }, [])

@@ -1,30 +1,12 @@
-import Api from '@/data/api'
+import GetAllTableService from '@/app/actions/table/getAllTable'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft, Edit, PlusCircle, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
-async function getAll(): Promise<TableInterface[]> {
-  try {
-    const request = await Api('/table/getAll', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      next: {
-        revalidate: 1,
-      },
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
 export default async function GetAll() {
-  const data = await getAll()
+  const reqbody = await GetAllTableService()
+  const dt = await reqbody.json()
+  const data = dt.data.data
 
   return (
     <div className="flex flex-col min-h-[90%] w-full px-3">
@@ -46,7 +28,7 @@ export default async function GetAll() {
         Lista das mesas cadastradas
       </p>
       <div className="space-y-5 mt-4">
-        {data.map((table, key) => (
+        {data.map((table: TableInterface, key: number) => (
           <div className="" key={key}>
             <div className="flex mx-auto justify-between">
               <span className="max-w-96">Número: {table.numberMesa}</span>

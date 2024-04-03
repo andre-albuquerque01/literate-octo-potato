@@ -1,4 +1,5 @@
 'use client'
+import { GetIdTableService } from '@/app/actions/table/getIdTable'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { FormEvent, useEffect, useState } from 'react'
@@ -20,24 +21,8 @@ async function putTable(body: object, id: number) {
     throw error
   }
 }
-async function getId(id: number) {
-  try {
-    const request = await Api(`/table/getId/${id}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
-export default function InsertTable({ params }: { params: { id: number } }) {
+export default function UpdateTable({ params }: { params: { id: number } }) {
   const [returnError, setReturnError] = useState<string>('')
   const [data, setData] = useState({
     lotacao: '',
@@ -47,8 +32,10 @@ export default function InsertTable({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     const handleId = async (id: number) => {
-      const date = await getId(id)
-      setData(date)
+      const reqbody = await GetIdTableService(id)
+      const dt = await reqbody.json()
+      const dat = dt.data.data
+      setData(dat)
     }
     handleId(params.id)
   }, [params.id])

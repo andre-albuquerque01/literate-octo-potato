@@ -1,24 +1,11 @@
 'use client'
+import GetAllTableService from '@/app/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function getMesa(): Promise<TableInterface[]> {
-  try {
-    const request = await Api('/table/getAll', {
-      cache: 'no-cache',
-      method: 'GET',
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 async function postMenu(body: object) {
   try {
@@ -39,8 +26,10 @@ export default function InsertOrder() {
 
   useEffect(() => {
     const hanldeData = async () => {
-      const dt = await getMesa()
-      setData(dt)
+      const reqbody = await GetAllTableService()
+      const dt = await reqbody.json()
+      const dat = dt.data.data
+      setData(dat)
     }
     hanldeData()
   }, [])

@@ -1,4 +1,6 @@
 'use client'
+import GetIdMenuService from '@/app/actions/menu/getIdMenu'
+import GetAllTableService from '@/app/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { TableInterface } from '@/data/type/table'
@@ -6,33 +8,6 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function getMesa(): Promise<TableInterface[]> {
-  try {
-    const request = await Api('/table/getAll', {
-      cache: 'no-cache',
-      method: 'GET',
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-async function getData(id: number) {
-  try {
-    const request = await Api(`/menu/get/${id}`, {
-      cache: 'no-cache',
-      method: 'GET',
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 async function updateMenu(body: object, id: number) {
   try {
@@ -83,13 +58,17 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     const handleMesa = async () => {
-      const dt = await getMesa()
-      setTable(dt)
+      const reqbody = await GetAllTableService()
+      const dt = await reqbody.json()
+      const dat = dt.data.data
+      setTable(dat)
     }
 
     const hanldeData = async (id: number) => {
-      const dt = await getData(id)
-      setData(dt)
+      const reqbody = await GetIdMenuService(id)
+      const dt = await reqbody.json()
+      const dat = dt.data.data
+      setData(dat)
     }
 
     handleMesa()

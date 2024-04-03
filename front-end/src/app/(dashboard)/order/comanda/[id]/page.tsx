@@ -1,23 +1,14 @@
+import ComandaService from '@/app/actions/order/comanda'
 import { RemoveItenComanda } from '@/components/removeItemComanda'
-import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-async function getId(id: number): Promise<InterfaceItens[]> {
-  try {
-    const request = await Api(`/order/get/${id}`, { cache: 'no-cache' })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
 export default async function Comanda({ params }: { params: { id: number } }) {
-  const data = await getId(params.id)
+  const reqbody = await ComandaService(params.id)
+  const dt = await reqbody.json()
+  const data = dt.data.data
 
   let soma = 0
   let mesa = 0
@@ -65,34 +56,37 @@ export default async function Comanda({ params }: { params: { id: number } }) {
         </Link>
         <h1 className="text-2xl">Comanda</h1>
         <div className="flex flex-wrap max-md:justify-center gap-5 md:mt-4">
-          {data.map((itens, index) => (
-            <div
-              className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[370px] border-zinc-200 rounded-lg"
-              key={index}
-            >
-              <div className="flex gap-3">
-                <Image
-                  src={itens.urlImage}
-                  alt={`Imagem do ${itens.title}`}
-                  width={150}
-                  height={150}
-                  className="rounded-lg"
-                />
-                <div className="flex flex-col justify-evenly">
-                  <p className="font-medium text-lg text-wrap">{itens.title}</p>
-                  <p className="font-medium text-md">
-                    {itens.valueOrder.toLocaleString('pt-br', {
-                      style: 'currency',
-                      currency: 'BRL',
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 2,
-                    })}
-                  </p>
+          {data &&
+            data.map((itens: InterfaceItens, index: number) => (
+              <div
+                className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[370px] border-zinc-200 rounded-lg"
+                key={index}
+              >
+                <div className="flex gap-3">
+                  <Image
+                    src={itens.urlImage}
+                    alt={`Imagem do ${itens.title}`}
+                    width={150}
+                    height={150}
+                    className="rounded-lg"
+                  />
+                  <div className="flex flex-col justify-evenly">
+                    <p className="font-medium text-lg text-wrap">
+                      {itens.title}
+                    </p>
+                    <p className="font-medium text-md">
+                      {itens.valueOrder.toLocaleString('pt-br', {
+                        style: 'currency',
+                        currency: 'BRL',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2,
+                      })}
+                    </p>
+                  </div>
                 </div>
+                <RemoveItenComanda id={itens.idOrder} />
               </div>
-              <RemoveItenComanda id={itens.idOrder} />
-            </div>
-          ))}
+            ))}
         </div>
         <Link
           href={`/order/addCart/${params.id}`}
