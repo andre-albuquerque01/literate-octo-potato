@@ -33,14 +33,10 @@ export async function POST(request: Request) {
     }
 
     if (data.message === 'erro') {
-      return new Response(JSON.stringify({ error: 'Error', status: 400 }), {
-        status: 400,
-      })
+      return false
     }
 
-    return new Response(JSON.stringify(data), {
-      status: response.status,
-    })
+    return true
   } catch (error) {
     return new Response(JSON.stringify('error'), {
       status: 401,
