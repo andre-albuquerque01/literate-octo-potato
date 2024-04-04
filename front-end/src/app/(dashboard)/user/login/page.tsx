@@ -15,7 +15,7 @@ async function postLogin(body: object) {
       body: JSON.stringify(body),
     })
     const reqJson = await response.json()
-    return reqJson.data
+    return reqJson
   } catch (error) {
     console.error()
   }
@@ -30,7 +30,7 @@ export default function Login() {
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
     const req = await postLogin(data)
-    if (req?.token !== undefined) {
+    if (req) {
       window.history.back()
     } else {
       setError('Email ou senha invalida')

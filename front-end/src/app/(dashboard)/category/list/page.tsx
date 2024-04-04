@@ -1,3 +1,4 @@
+import { RemoveCategory } from '@/components/removeCategory'
 import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft, Edit, PlusCircle, Trash2 } from 'lucide-react'
@@ -10,9 +11,6 @@ async function getAll(): Promise<CategoryInterface[]> {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-      },
-      next: {
-        revalidate: 10,
       },
     })
     const reqJson = await request.json()
@@ -54,6 +52,7 @@ export default async function GetAll() {
                 {category.urlImageCategory ?? 'Sem imagem'}
               </span>
               <div className="flex items-center gap-3">
+                <RemoveCategory id={category.idCategory} />
                 <Link
                   href={`/category/update/${category.idCategory}`}
                   title={`Editar o item, ${category.typeCategory}`}

@@ -1,28 +1,14 @@
 'use client'
 import { GetIdTableService } from '@/app/actions/table/getIdTable'
+import { UpdateTable } from '@/app/actions/table/updateTable'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { FormEvent, useEffect, useState } from 'react'
 
-async function putTable(body: object, id: number) {
-  try {
-    const request = await Api(`/table/update/${id}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqBody = await request.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-export default function UpdateTable({ params }: { params: { id: number } }) {
+export default function UpdateTablePage({
+  params,
+}: {
+  params: { id: number }
+}) {
   const [returnError, setReturnError] = useState<string>('')
   const [data, setData] = useState({
     lotacao: '',
@@ -52,7 +38,9 @@ export default function UpdateTable({ params }: { params: { id: number } }) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const req = await putTable(data, params.id)
+    const reqBody = await UpdateTable(data, params.id)
+    const dt = await reqBody.json()
+    const req = dt.data.data
 
     if (req.message === 'sucess') {
       alert('Alterado com sucesso!')

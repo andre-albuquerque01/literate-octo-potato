@@ -1,48 +1,21 @@
 'use client'
+import { ShowUser } from '@/app/actions/user/showUser'
+import { UpdateUser } from '@/app/actions/user/updateUser'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { UserInterface } from '@/data/type/user'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
 
-async function putInsert(body: object) {
-  try {
-    const response = await Api('/user/update', {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqBody = await response.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function getUser() {
-  try {
-    const response = await Api('/user/show', {
-      method: 'GET',
-      cache: 'no-cache',
-    })
-    const reqBody = await response.json()
-    if (response.ok) return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export default function UpdateUser() {
+export default function UpdateUserPage() {
   const [returnError, setReturnError] = useState<string>('')
   const [data, setData] = useState<UserInterface>()
 
   useEffect(() => {
     const get = async () => {
-      const date = await getUser()
+      const reqBody = await ShowUser()
+      const dt = await reqBody.json()
+      const date = dt.data.data
       setData(date)
     }
     get()
@@ -53,7 +26,9 @@ export default function UpdateUser() {
 
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await putInsert(data)
+    const reqBody = await UpdateUser(data)
+    const dt = await reqBody.json()
+    const req = dt.data.data
     setReturnError(req.message)
 
     if (req.message)

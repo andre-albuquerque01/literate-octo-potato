@@ -1,34 +1,18 @@
 'use client'
+import { InsertTable } from '@/app/actions/table/insertTable'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { FormEvent, useState } from 'react'
 
-async function postTable(body: object) {
-  try {
-    const request = await Api('/table/insert', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqBody = await request.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-export default function InsertTable() {
+export default function InsertTablePage() {
   const [returnError, setReturnError] = useState<string>('')
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await postTable(data)
+    const reqBody = await InsertTable(data)
+    const dt = await reqBody.json()
+    const req = dt.data.data
 
     if (req.message === 'sucess') {
       alert('Cadastrado com sucesso!')

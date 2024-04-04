@@ -1,25 +1,11 @@
 'use client'
+import { InsertMenu } from '@/app/actions/menu/insertMenu'
 import GetAllTableService from '@/app/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function postMenu(body: object) {
-  try {
-    const request = await Api('/menu/insert', {
-      method: 'POST',
-      body: JSON.stringify(body),
-    })
-
-    const reqBody = await request.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-  }
-}
 
 export default function InsertOrder() {
   const [data, setData] = useState<TableInterface[]>([])
@@ -38,8 +24,8 @@ export default function InsertOrder() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await postMenu(data)
-    if (req.message === 'sucess') {
+    const req = await InsertMenu(data)
+    if (req) {
       alert('Cadastrado com sucesso!')
       window.history.back()
     } else alert('Não foi feito o cadastrado!')

@@ -1,22 +1,13 @@
-import Api from '@/data/api'
+import { OrderMenu } from '@/app/actions/order/orderMenu'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-async function getId(id: number): Promise<InterfaceItens[]> {
-  try {
-    const request = await Api(`/order/menu/${id}`, { cache: 'no-cache' })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
 export default async function Comanda({ params }: { params: { id: number } }) {
-  const data = await getId(params.id)
+  const reqbody = await OrderMenu(params.id)
+  const dt = await reqbody.json()
+  const data = dt.data.data
 
   let soma = 0
   let mesa = 0
@@ -63,7 +54,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
         <h1 className="text-2xl">Comanda</h1>
         <div className="flex flex-wrap max-md:justify-center gap-4 md:mt-4">
           {data.length > 0 ? (
-            data.map((itens, index) => (
+            data.map((itens: InterfaceItens, index: number) => (
               <div
                 className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[375px] border-zinc-200 rounded-lg"
                 key={index}

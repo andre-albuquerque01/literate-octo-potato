@@ -1,27 +1,13 @@
 'use client'
 import GetIdMenuService from '@/app/actions/menu/getIdMenu'
+import { UpdateMenu } from '@/app/actions/menu/updateMenu'
 import GetAllTableService from '@/app/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function updateMenu(body: object, id: number) {
-  try {
-    const request = await Api(`/menu/update/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(body),
-    })
-
-    const reqBody = await request.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-  }
-}
 
 export default function UpdateOrder({ params }: { params: { id: number } }) {
   const [table, setTable] = useState<TableInterface[]>([])
@@ -77,8 +63,8 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
 
   const handleData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const req = await updateMenu(data, params.id)
-    if (req.message === 'sucess') {
+    const req = await UpdateMenu(data, params.id)
+    if (req) {
       alert('Alteração feita com sucesso!')
       window.history.back()
     } else alert('Não foi feita alteração!')

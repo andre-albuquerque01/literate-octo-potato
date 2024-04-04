@@ -1,36 +1,21 @@
 'use client'
+import { InsertCategory } from '@/app/actions/category/insertCategory'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent } from 'react'
 
-async function postInsert(body: object) {
-  try {
-    const request = await Api('/category/insert', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application-json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqJson = await request.json()
-    return reqJson.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-export default function InsertCategory() {
+export default function InsertCategoryPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await postInsert(data)
-    if (req.message === 'sucess') {
+    const req = await InsertCategory(data)
+    if (req) {
       alert('Cadastrado com sucesso!')
       window.history.back()
+    } else {
+      alert('Não foi fazer o cadastrado!')
     }
   }
 

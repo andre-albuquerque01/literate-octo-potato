@@ -1,29 +1,13 @@
 'use client'
+import { InsertItens } from '@/app/actions/itens/insertItens'
 import GetAllTableService from '@/app/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
 
-async function postItens(body: object) {
-  try {
-    const request = await Api('/itens/insert', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    if (request.ok) return request.json()
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export default function InsertItens() {
+export default function InsertItensPage() {
   const [category, setCategory] = useState<CategoryInterface[]>([])
   const [returnError, setReturnError] = useState<string>('')
 
@@ -43,11 +27,11 @@ export default function InsertItens() {
 
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await postItens(data)
+    const req = await InsertItens(data)
 
-    if (req.data.message === 'sucess') {
+    if (req) {
       alert('Item cadastrado')
-      window.location.href = ''
+      window.location.replace('/itens/list')
     } else {
       setReturnError('The slug has already been taken.')
     }

@@ -1,4 +1,5 @@
 'use client'
+import { InsertOrder } from '@/app/actions/order/insertOrder'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
@@ -6,23 +7,6 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function insertOrder(body: object) {
-  try {
-    const request = await Api('/order/insert', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqBody = await request.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 async function getItem(id: number): Promise<InterfaceItens> {
   try {
@@ -40,7 +24,7 @@ async function getItem(id: number): Promise<InterfaceItens> {
   }
 }
 
-export default function InsertOrder() {
+export default function InsertOrderPage() {
   const [data, setData] = useState<InterfaceItens>()
   const [dados, setDados] = useState({
     qtdOrder: '',
@@ -88,8 +72,8 @@ export default function InsertOrder() {
       formData.append('idItens', itens)
       formData.append('idMenu', menu)
       const objet = Object.fromEntries(formData)
-      const req = await insertOrder(objet)
-      if (req.message === 'sucess') {
+      const req = await InsertOrder(objet)
+      if (req) {
         alert('Item inserido com sucesso!')
         window.history.back()
       }

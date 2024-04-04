@@ -1,4 +1,5 @@
 'use client'
+import { UpdateItens } from '@/app/actions/itens/updateItens'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
@@ -32,32 +33,18 @@ async function getItens(id: number) {
   }
 }
 
-async function putItens(body: object, id: number) {
-  try {
-    const request = await Api(`/itens/update/${id}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    if (request.ok) return request.json()
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export default function UpdateItens({ params }: { params: { id: number } }) {
+export default function UpdateItensPage({
+  params,
+}: {
+  params: { id: number }
+}) {
   const [category, setCategory] = useState<CategoryInterface[]>([])
-  const [returnError, setReturnError] = useState<string>('')
   const [itens, setItens] = useState({
     title: '',
     desc: '',
     value: '',
     statusIten: '',
     qtdIten: '',
-    slug: '',
     urlImage: '',
     waitTime: '',
     typeCategory: '',
@@ -92,13 +79,13 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
   async function handleSubmite(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    const req = await putItens(itens, params.id)
+    const req = await UpdateItens(itens, params.id)
 
-    if (req.data.message === 'sucess') {
+    if (req) {
       alert('Item alterado')
       window.history.back()
     } else {
-      setReturnError('The slug has already been taken.')
+      alert('Não foi possívle ser alterado!')
     }
   }
 
@@ -175,24 +162,6 @@ export default function UpdateItens({ params }: { params: { id: number } }) {
                 required
               />
             </div>
-            <div className="flex flex-col mt-3">
-              <label htmlFor="slug">
-                Slug (Como deve chamar o iten, na url):{' '}
-                <span className="text-red-600">*</span>{' '}
-              </label>
-              <input
-                type="text"
-                name="slug"
-                id="slug"
-                className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-                defaultValue={itens?.slug ?? ''}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {returnError === 'The slug has already been taken.' && (
-              <span className="text-xs text-red-600">Slug já cadastrado</span>
-            )}
             <div className="flex flex-col mt-3">
               <label htmlFor="urlImage">
                 Caminho da imagem: <span className="text-red-600">*</span>{' '}

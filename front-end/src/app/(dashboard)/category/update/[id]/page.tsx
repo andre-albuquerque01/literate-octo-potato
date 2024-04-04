@@ -1,27 +1,11 @@
 'use client'
+import { UpdateCategory } from '@/app/actions/category/updateCategory'
 import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function putInsert(body: object, id: number) {
-  try {
-    const request = await Api(`/category/update/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application-json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqJson = await request.json()
-    return reqJson.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 async function getCategory(id: number) {
   try {
@@ -39,7 +23,11 @@ async function getCategory(id: number) {
   }
 }
 
-export default function UpdateCategory({ params }: { params: { id: number } }) {
+export default function UpdateCategoryPage({
+  params,
+}: {
+  params: { id: number }
+}) {
   const [data, setData] = useState<CategoryInterface>()
 
   useEffect(() => {
@@ -54,10 +42,12 @@ export default function UpdateCategory({ params }: { params: { id: number } }) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await putInsert(data, params.id)
-    if (req.message === 'sucess') {
+    const req = await UpdateCategory(data, params.id)
+    if (req) {
       alert('Alterado com sucesso!')
       window.history.back()
+    } else {
+      alert('Não foi possível fazer a alteração!')
     }
   }
 
