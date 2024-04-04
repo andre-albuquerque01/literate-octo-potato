@@ -1,20 +1,6 @@
 'use client'
-import Api from '@/data/api'
+import { DeleteOrder } from '@/app/actions/order/deleteOrder'
 import { Trash2 } from 'lucide-react'
-
-async function deleteItenOrder(id: number) {
-  try {
-    await Api(`/order/delete/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 export const RemoveItenComanda = ({ id }: { id: number }) => {
   const handleRemove = async (
@@ -22,7 +8,7 @@ export const RemoveItenComanda = ({ id }: { id: number }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    await deleteItenOrder(id)
+    await DeleteOrder(id)
   }
   return (
     <div title="Remover item" className="">
