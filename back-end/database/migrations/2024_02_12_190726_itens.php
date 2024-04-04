@@ -19,7 +19,6 @@ return new class extends Migration
             $table->double('value');
             $table->boolean('statusIten')->nullable(false);
             $table->integer('qtdIten');
-            $table->string('slug')->unique();
             $table->string('urlImage');
             $table->string('waitTime');
             $table->string('position');

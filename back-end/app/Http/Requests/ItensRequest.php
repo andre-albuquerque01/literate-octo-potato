@@ -26,7 +26,6 @@ class ItensRequest extends FormRequest
             'desc' => 'required|min:2|max:255|string',
             'value' => 'required|min:2|max:8',
             'qtdIten' => 'required|min:1|max:100',
-            'slug' => 'required|min:1|max:100|string|unique:itens,slug',
             'urlImage' => 'required|min:1|string',
             'waitTime' => 'required|min:1|max:100|string',
             'position' => 'required',
@@ -53,11 +52,6 @@ class ItensRequest extends FormRequest
                 "nullable",
             ];
             $rules['qtdIten'] = [
-                "nullable",
-                "min:1",
-                "max:100",
-            ];
-            $rules['slug'] = [
                 "nullable",
                 "min:1",
                 "max:100",

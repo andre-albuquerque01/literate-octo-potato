@@ -18,7 +18,6 @@ class Itens extends Model
         'value',
         'statusIten',
         'qtdIten',
-        'slug',
         'position',
         'urlImage',
         'idCategory',
