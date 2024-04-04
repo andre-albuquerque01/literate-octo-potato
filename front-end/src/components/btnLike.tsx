@@ -1,48 +1,9 @@
 'use client'
-import Api from '@/data/api'
+import { InsertLike } from '@/app/actions/itens/rate/insertLike'
+import { DeleteLike } from '@/app/actions/itens/rate/removeLike'
+import { VerifyLike } from '@/app/actions/itens/rate/verifyLike'
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-
-async function Like(body: object) {
-  try {
-    const request = await Api('/rate/insert', {
-      method: 'POST',
-      body: JSON.stringify(body),
-    })
-    const reqBody = await request.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-async function Dislike(id: number) {
-  try {
-    const request = await Api(`/rate/destroy/${id}`, {
-      method: 'DELETE',
-    })
-    const reqBody = await request.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-async function VirifyLike(id: number) {
-  try {
-    const request = await Api(`/rate/get/${id}`, {
-      method: 'GET',
-      cache: 'no-cache',
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 type ProspLike = {
   id: number
@@ -53,8 +14,10 @@ export const BtnLike = (props: ProspLike) => {
 
   useEffect(() => {
     const handleData = async () => {
-      const dt = await VirifyLike(props.id)
-      setData(dt)
+      const reqbody = await VerifyLike(props.id)
+      const dt = await reqbody.json()
+      const dat = dt.data.data
+      setData(dat)
     }
     handleData()
   })
@@ -63,7 +26,9 @@ export const BtnLike = (props: ProspLike) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const like = await Like({ idItens: props.id })
+    const reqbody = await InsertLike({ idItens: props.id })
+    const dt = await reqbody.json()
+    const like = dt.data.data
     if (like.message === 'sucess') {
       alert('Avaliado!')
       window.location.reload()
@@ -79,8 +44,8 @@ export const BtnLike = (props: ProspLike) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const dislike = await Dislike(props.id)
-    if (dislike.message === 'sucess') {
+    const dislike = await DeleteLike(props.id)
+    if (dislike) {
       alert('Removida avaliação!')
       window.location.reload()
     }
