@@ -1,26 +1,13 @@
 'use client'
-import Api from '@/data/api'
+import { LogoutUser } from '@/app/actions/user/logout'
 import { LogOut } from 'lucide-react'
-
-async function logOut() {
-  try {
-    await Api('/user/logout', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 export const Logout = () => {
   const handleLogOut = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    await logOut()
+    await LogoutUser()
     window.location.replace('/user/login')
   }
   return (
