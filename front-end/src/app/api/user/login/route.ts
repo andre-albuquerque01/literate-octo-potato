@@ -1,5 +1,6 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
@@ -36,10 +37,8 @@ export async function POST(request: Request) {
       return false
     }
 
-    return true
+    return NextResponse.json({ data })
   } catch (error) {
-    return new Response(JSON.stringify('error'), {
-      status: 401,
-    })
+    return NextResponse.json({ error }, { status: 401 })
   }
 }
