@@ -6,7 +6,7 @@ import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 async function getItem(id: number): Promise<InterfaceItens> {
@@ -30,6 +30,7 @@ export default function UpdateOrderPage({
 }: {
   params: { id: number }
 }) {
+  const router = useRouter()
   const searchParams = useSearchParams()
 
   const itens = searchParams.get('iten')
@@ -81,8 +82,7 @@ export default function UpdateOrderPage({
   useEffect(() => {
     const handleData = async () => {
       const reqbody = await GetOrderService(params.id)
-      const dt = await reqbody.json()
-      const dat = dt.data.data
+      const dat = reqbody.data
       setDados(dat)
     }
     handleData()
@@ -99,7 +99,7 @@ export default function UpdateOrderPage({
       const req = await UpdateOrder(dados, params.id)
       if (req) {
         alert('Item inserido com sucesso!')
-        window.history.back()
+        router.back()
       } else {
         alert('Não foi possível fazer alteração!')
       }
@@ -108,7 +108,7 @@ export default function UpdateOrderPage({
   return (
     <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
       <Link
-        href="/"
+        href="/order/list"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />

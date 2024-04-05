@@ -39,8 +39,7 @@ export default function UpdateTablePage({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const reqBody = await UpdateTable(data, params.id)
-    const dt = await reqBody.json()
-    const req = dt.data.data
+    const req = reqBody.data
 
     if (req.message === 'sucess') {
       alert('Alterado com sucesso!')

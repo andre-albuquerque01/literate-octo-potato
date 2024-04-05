@@ -5,17 +5,18 @@ import { BtnForm } from '@/components/btnForm'
 import { UserInterface } from '@/data/type/user'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 export default function UpdateUserPage() {
   const [returnError, setReturnError] = useState<string>('')
   const [data, setData] = useState<UserInterface>()
+  const router = useRouter()
 
   useEffect(() => {
     const get = async () => {
       const reqBody = await ShowUser()
-      const dt = await reqBody.json()
-      const date = dt.data.data
+      const date = reqBody.data
       setData(date)
     }
     get()
@@ -36,14 +37,14 @@ export default function UpdateUserPage() {
         setReturnError('The cpf has already been taken.')
       } else if (req.message === 'sucess') {
         alert('Cadastro alterado com sucesso!')
-        window.history.back()
+        router.back()
       }
   }
 
   return (
     <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
       <Link
-        href="/"
+        href="/user"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
@@ -150,7 +151,7 @@ export default function UpdateUserPage() {
             required
           />
         </div>
-        <BtnForm title="Cadastrar" />
+        <BtnForm title="Alterar" />
       </form>
     </div>
   )

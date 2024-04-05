@@ -6,11 +6,12 @@ import { BtnForm } from '@/components/btnForm'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 export default function UpdateOrder({ params }: { params: { id: number } }) {
   const [table, setTable] = useState<TableInterface[]>([])
+  const router = useRouter()
   const [data, setData] = useState({
     idMesa: '',
     cpf: '',
@@ -45,15 +46,13 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
   useEffect(() => {
     const handleMesa = async () => {
       const reqbody = await GetAllTableService()
-      const dt = await reqbody.json()
-      const dat = dt.data.data
+      const dat = reqbody.data
       setTable(dat)
     }
 
     const hanldeData = async (id: number) => {
       const reqbody = await GetIdMenuService(id)
-      const dt = await reqbody.json()
-      const dat = dt.data.data
+      const dat = reqbody.data
       setData(dat)
     }
 
@@ -66,7 +65,7 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
     const req = await UpdateMenu(data, params.id)
     if (req) {
       alert('Alteração feita com sucesso!')
-      window.history.back()
+      router.back()
     } else alert('Não foi feita alteração!')
   }
 
@@ -85,7 +84,7 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
       {data?.idMesa !== undefined ? (
         <>
           <Link
-            href="/"
+            href="/menu/list"
             className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
           >
             <ArrowLeft className="w-5 h-5" />
