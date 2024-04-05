@@ -2,7 +2,6 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
 export async function UpdateTable(reqBody: object, id: number) {
   try {
@@ -20,7 +19,7 @@ export async function UpdateTable(reqBody: object, id: number) {
     })
 
     const data = await response.json()
-    return NextResponse.json({ data })
+    return data
   } catch (error) {
     return new Response(JSON.stringify(error), {
       status: 401,

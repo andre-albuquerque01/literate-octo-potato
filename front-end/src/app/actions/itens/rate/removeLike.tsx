@@ -2,6 +2,7 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
 
 export async function DeleteLike(id: number) {
   try {
@@ -20,8 +21,6 @@ export async function DeleteLike(id: number) {
     if (!response.ok) return false
     return true
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return NextResponse.json({ error }, { status: 400 })
   }
 }

@@ -20,10 +20,8 @@ export async function ShowUser() {
 
     const data = await response.json()
 
-    return NextResponse.json({ data })
+    return data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return NextResponse.json({ error }, { status: 400 })
   }
 }

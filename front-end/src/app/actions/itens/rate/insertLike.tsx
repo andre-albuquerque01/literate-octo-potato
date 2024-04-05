@@ -2,6 +2,7 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
 
 export async function InsertLike(requestBody: object) {
   try {
@@ -20,9 +21,9 @@ export async function InsertLike(requestBody: object) {
 
     const data = await response.json()
 
-    return Response.json({ data })
+    return NextResponse.json({ data })
   } catch (error) {
-    return new Response(JSON.stringify('error'), {
+    return new NextResponse(JSON.stringify('error'), {
       status: 401,
     })
   }

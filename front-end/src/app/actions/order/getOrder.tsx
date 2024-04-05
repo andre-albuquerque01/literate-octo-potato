@@ -1,7 +1,6 @@
 'use server'
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
 export default async function GetOrderService(id: number) {
   try {
@@ -20,7 +19,7 @@ export default async function GetOrderService(id: number) {
 
     const data = await response.json()
 
-    return NextResponse.json({ data })
+    return data
   } catch (error) {
     return new Response(JSON.stringify(error), {
       status: 401,

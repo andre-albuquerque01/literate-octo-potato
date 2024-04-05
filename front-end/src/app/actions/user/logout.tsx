@@ -17,19 +17,15 @@ export async function LogoutUser() {
       },
     })
 
-    const data = await response.json()
-
     cookiesStore.delete('token')
-    if (data.data.r === 'JesusIsKingADM') {
+    if (cookiesStore.has('JesusIsKingADM')) {
       cookiesStore.delete('r')
     }
 
-    return new Response(JSON.stringify(data), {
-      status: response.status,
-    })
+    if (!response.ok) return false
+
+    return true
   } catch (error) {
-    return new Response(JSON.stringify('error'), {
-      status: 401,
-    })
+    return false
   }
 }
