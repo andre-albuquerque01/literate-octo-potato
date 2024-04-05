@@ -47,16 +47,19 @@ export default async function Comanda({ params }: { params: { id: number } }) {
 
   return (
     <div className="w-full">
-      <div className="max-md:w-[90%] min-h-full max-md:mx-auto md:mt-4">
-        <Link href="" className="flex items-center py-4 md:hidden">
+      <div className="max-md:w-[100%] min-h-full max-md:mx-auto md:mt-4">
+        <Link
+          href="/order/historic"
+          className="flex items-center py-4 md:hidden"
+        >
           <ArrowLeft className="w-5 h-5" /> Voltar
         </Link>
         <h1 className="text-2xl">Comanda</h1>
-        <div className="flex flex-wrap max-md:justify-center gap-4 md:mt-4">
+        <div className="flex flex-wrap max-md:justify-center gap-5 md:mt-4">
           {data.length > 0 ? (
             data.map((itens: InterfaceItens, index: number) => (
               <div
-                className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[375px] border-zinc-200 rounded-lg"
+                className="flex flex-wrap justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[360px] h-[130px] border-zinc-200 rounded-lg"
                 key={index}
               >
                 <div className="flex gap-3">

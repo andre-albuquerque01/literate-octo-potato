@@ -5,11 +5,12 @@ import { BtnForm } from '@/components/btnForm'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 export default function InsertOrder() {
   const [data, setData] = useState<TableInterface[]>([])
-
+  const router = useRouter()
   useEffect(() => {
     const hanldeData = async () => {
       const reqbody = await GetAllTableService()
@@ -27,14 +28,14 @@ export default function InsertOrder() {
     const req = await InsertMenu(data)
     if (req) {
       alert('Cadastrado com sucesso!')
-      window.history.back()
+      router.back()
     } else alert('Não foi feito o cadastrado!')
   }
 
   return (
     <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
       <Link
-        href="/"
+        href="/menu/list"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />

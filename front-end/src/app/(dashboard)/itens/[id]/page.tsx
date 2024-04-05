@@ -36,9 +36,7 @@ async function rateItens(id: number) {
     const request = await Api(`/itens/rate/${id}`, { cache: 'no-cache' })
     const reqJson = await request.json()
 
-    if (request.ok) return reqJson.data.data
-    // eslint-disable-next-line no-unused-expressions
-    else []
+    return reqJson.data.data
   } catch (error) {
     console.error(error)
   }

@@ -30,7 +30,7 @@ export default async function listMenu() {
   return (
     <div className="flex flex-col min-h-[90%] w-full px-3">
       <Link
-        href="/"
+        href="/user"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-3 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />

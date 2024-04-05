@@ -3,6 +3,7 @@ import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 
 async function postLogin(body: object) {
@@ -23,6 +24,7 @@ async function postLogin(body: object) {
 
 export default function Login() {
   const [error, setError] = useState<string>('')
+  const router = useRouter()
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -31,7 +33,7 @@ export default function Login() {
     const data = Object.fromEntries(formData)
     const req = await postLogin(data)
     if (req) {
-      window.history.back()
+      router.back()
     } else {
       setError('Email ou senha invalida')
     }

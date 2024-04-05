@@ -4,8 +4,7 @@ import { BtnForm } from '@/components/btnForm'
 import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 async function getItem(id: number): Promise<InterfaceItens> {
@@ -26,6 +25,7 @@ async function getItem(id: number): Promise<InterfaceItens> {
 
 export default function InsertOrderPage() {
   const [data, setData] = useState<InterfaceItens>()
+  const router = useRouter()
   const [dados, setDados] = useState({
     qtdOrder: '',
     valueOrder: 0,
@@ -75,19 +75,22 @@ export default function InsertOrderPage() {
       const req = await InsertOrder(objet)
       if (req) {
         alert('Item inserido com sucesso!')
-        window.history.back()
+        router.back()
       }
     }
   }
   return (
     <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
-      <Link
-        href="/"
+      <div
+        onClick={(e) => {
+          e.preventDefault()
+          router.back()
+        }}
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
-      </Link>
+      </div>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
         Cadastrado do pedido
       </p>

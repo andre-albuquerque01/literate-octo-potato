@@ -23,7 +23,7 @@ export default async function AddCart({ params }: { params: { id: number } }) {
 
   return (
     <div className="max-md:w-[360px] mx-auto mt-5 space-y-5">
-      <Link href="" className="flex items-center  md:hidden">
+      <Link href="/menu/list" className="flex items-center  md:hidden">
         <ArrowLeft className="w-5 h-5" /> Voltar
       </Link>
       <p className="text-md font-normal">Itens na comanda</p>

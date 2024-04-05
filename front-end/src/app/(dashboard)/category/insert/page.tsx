@@ -3,9 +3,11 @@ import { InsertCategory } from '@/app/actions/category/insertCategory'
 import { BtnForm } from '@/components/btnForm'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent } from 'react'
 
 export default function InsertCategoryPage() {
+  const router = useRouter()
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -13,7 +15,7 @@ export default function InsertCategoryPage() {
     const req = await InsertCategory(data)
     if (req) {
       alert('Cadastrado com sucesso!')
-      window.history.back()
+      router.back()
     } else {
       alert('Não foi fazer o cadastrado!')
     }
@@ -22,7 +24,7 @@ export default function InsertCategoryPage() {
   return (
     <div className="flex flex-col mx-auto justify-center min-h-[80%] w-full items-center">
       <Link
-        href="/"
+        href="/category/list"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />

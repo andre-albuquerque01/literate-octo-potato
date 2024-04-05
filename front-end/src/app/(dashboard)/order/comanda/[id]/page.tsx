@@ -51,7 +51,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
   return (
     <div className="w-full">
       <div className="max-md:w-[90%] min-h-full max-md:mx-auto md:mt-4">
-        <Link href="" className="flex items-center py-4 md:hidden">
+        <Link href="/menu/list" className="flex items-center py-4 md:hidden">
           <ArrowLeft className="w-5 h-5" /> Voltar
         </Link>
         <h1 className="text-2xl">Comanda</h1>

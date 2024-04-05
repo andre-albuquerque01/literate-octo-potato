@@ -5,6 +5,7 @@ import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 async function getCategory(id: number) {
@@ -28,6 +29,7 @@ export default function UpdateCategoryPage({
 }: {
   params: { id: number }
 }) {
+  const router = useRouter()
   const [data, setData] = useState<CategoryInterface>()
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function UpdateCategoryPage({
     const req = await UpdateCategory(data, params.id)
     if (req) {
       alert('Alterado com sucesso!')
-      window.history.back()
+      router.back()
     } else {
       alert('Não foi possível fazer a alteração!')
     }
@@ -56,7 +58,7 @@ export default function UpdateCategoryPage({
       {data?.typeCategory !== undefined ? (
         <>
           <Link
-            href="/"
+            href="/category/list"
             className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
           >
             <ArrowLeft className="w-5 h-5" />

@@ -79,7 +79,7 @@ export default function InsertUser() {
   return (
     <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
       <Link
-        href="/"
+        href="/user/login"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />

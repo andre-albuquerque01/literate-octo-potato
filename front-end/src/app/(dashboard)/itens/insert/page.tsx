@@ -5,11 +5,13 @@ import { BtnForm } from '@/components/btnForm'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 export default function InsertItensPage() {
   const [category, setCategory] = useState<CategoryInterface[]>([])
   const [returnError, setReturnError] = useState<string>('')
+  const router = useRouter()
 
   useEffect(() => {
     const handleCategory = async () => {
@@ -31,7 +33,7 @@ export default function InsertItensPage() {
 
     if (req) {
       alert('Item cadastrado')
-      window.location.replace('/itens/list')
+      router.push('/itens/list')
     } else {
       setReturnError('The slug has already been taken.')
     }
@@ -39,13 +41,13 @@ export default function InsertItensPage() {
 
   if (category.length === 0) {
     alert('Precisa cadastrar primeiro categoria!')
-    window.location.replace('/category/insert')
+    router.push('/category/insert')
   }
 
   return (
     <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
       <Link
-        href="/"
+        href="/itens/list"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
