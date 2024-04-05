@@ -1,5 +1,5 @@
 'use client'
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent } from 'react'
 
@@ -22,6 +22,16 @@ export const FormSearch = () => {
     router.push(`/itens/search/itens?q=${query}`)
   }
 
+  function handleClear(
+    e: React.MouseEvent<
+      SVGSVGElement,
+      MouseEvent | HTMLElement | HTMLButtonElement
+    >,
+  ) {
+    e.preventDefault()
+    router.push(`/itens/search/itens`)
+  }
+
   return (
     <form
       onSubmit={handleSearch}
@@ -35,8 +45,15 @@ export const FormSearch = () => {
         placeholder="Pesquisar item"
         className="flex-1 bg-transparent text-sm outline-none "
         defaultValue={query ?? ''}
-        required
       />
+      {query && (
+        <div title="Limpar busca">
+          <X
+            className="w-5 h-5 hover:text-blue-600 cursor-pointer"
+            onClick={handleClear}
+          />
+        </div>
+      )}
     </form>
   )
 }
