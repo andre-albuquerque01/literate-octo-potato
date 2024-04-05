@@ -72,7 +72,7 @@ class ItensService
     public function showTitle(string $title)
     {
         try {
-            $iten = Itens::where('title', 'LIKE', '%' . $title . '%')->get();
+            $iten = Itens::where('title', 'LIKE', '%' . $title . '%')->paginate(16);
             if ($iten === null) {
                 throw new \Exception("Item not found");
             }
@@ -85,7 +85,7 @@ class ItensService
     public function showCategory(string $typeCategory)
     {
         try {
-            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('categories.typeCategory', '=', $typeCategory)->get();;
+            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('categories.typeCategory', '=', $typeCategory)->paginate(16);;
             if ($iten === null) {
                 throw new \Exception("Item not found");
             }
