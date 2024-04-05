@@ -20,7 +20,7 @@ export const Header = () => {
         <nav className="flex items-center gap-12 max-md:gap-16">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 hover:text-lg"
+            className="flex items-center gap-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
             title="Inicio"
           >
             <HomeIcon className="h-6 w-6" />{' '}
@@ -28,7 +28,7 @@ export const Header = () => {
           </Link>
           <Link
             href="/itens/search"
-            className="flex items-center gap-2 hover:text-lg"
+            className="flex items-center gap-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
             title="Pesquisar"
           >
             <Search className="h-6 w-6" />
@@ -36,7 +36,7 @@ export const Header = () => {
           </Link>
           <Link
             href="/order/list"
-            className="flex items-center gap-2 hover:text-lg"
+            className="flex items-center gap-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
             title="Pedido"
           >
             <ScrollText className="h-6 w-6" />{' '}
@@ -44,7 +44,7 @@ export const Header = () => {
           </Link>
           <Link
             href="/user"
-            className="flex items-center gap-2 mr-2 hover:text-lg"
+            className="flex items-center gap-2 mr-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
             title="Perfil"
           >
             <CircleUser className="h-6 w-6" />{' '}

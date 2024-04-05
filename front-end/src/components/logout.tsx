@@ -1,14 +1,16 @@
 'use client'
 import { LogoutUser } from '@/app/actions/user/logout'
 import { LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export const Logout = () => {
+  const router = useRouter()
   const handleLogOut = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
     await LogoutUser()
-    window.location.replace('/user/login')
+    router.push('/user/login')
   }
   return (
     <button className="flex items-center gap-2" onClick={handleLogOut}>

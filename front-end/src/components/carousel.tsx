@@ -41,6 +41,8 @@ export const Carrossel = ({ data }: CarrosselProps) => {
                     height={320}
                     alt={`Image do ${itens.title}`}
                     className="object-fill h-full mx-auto w-full relative"
+                    priority
+                    sizes="100vw"
                   />
                   <div className="absolute bottom-10 right-5 h-12 flex items-center gap-2 max-w-[230px] rounded-full border-2 border-zinc-500 bg-black/80 p-1 pl-5">
                     <span className="text-md truncate text-white font-semibold">
