@@ -3,21 +3,21 @@ import { NextResponse } from 'next/server'
 
 export async function GET(
   _: Request,
-  { params }: { params: { typeCategory: number } },
+  { params }: { params: { typeCategory: number; page: number } },
 ) {
   try {
     const typeCategory = params.typeCategory
+    const page = params.page
 
-    const response = await ApiRoute(`/itensc/${typeCategory}`, {
+    const response = await ApiRoute(`/itensc/${typeCategory}?page=${page}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      cache: 'no-cache',
-      // next: {
-      //   revalidate: 60,
-      // },
+      next: {
+        revalidate: 60,
+      },
     })
 
     const data = await response.json()

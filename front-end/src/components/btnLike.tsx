@@ -4,19 +4,20 @@ import { DeleteLike } from '@/app/actions/itens/rate/removeLike'
 import { VerifyLike } from '@/app/actions/itens/rate/verifyLike'
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 type ProspLike = {
   id: number
 }
 
 export const BtnLike = (props: ProspLike) => {
-  const [data, setData] = useState('')
+  const [data, setData] = useState<boolean>()
+  const router = useRouter()
 
   useEffect(() => {
     const handleData = async () => {
       const reqbody = await VerifyLike(props.id)
-      const dt = await reqbody.json()
-      const dat = dt.data.data
+      const dat = reqbody
       setData(dat)
     }
     handleData()
@@ -31,12 +32,12 @@ export const BtnLike = (props: ProspLike) => {
     const like = dt.data.data
     if (like.message === 'sucess') {
       alert('Avaliado!')
-      window.location.reload()
+      router.refresh()
     } else if (like.message === 'Já avaliou') {
       alert('Já avaliou!')
     } else if (like.message === 'Unauthenticated.') {
       alert('Precisa fazer login!')
-      window.location.replace('/user/login')
+      router.push('/user/login')
     }
   }
 
@@ -47,7 +48,7 @@ export const BtnLike = (props: ProspLike) => {
     const dislike = await DeleteLike(props.id)
     if (dislike) {
       alert('Removida avaliação!')
-      window.location.reload()
+      router.refresh()
     }
   }
 
@@ -56,7 +57,7 @@ export const BtnLike = (props: ProspLike) => {
       <p className="text-md font-medium">Avaliar</p>
       <p className="flex gap-2">
         <button onClick={hanldeLike}>
-          {data === 'true' ? (
+          {data ? (
             <ThumbsUp className="w-6 h-6 bg-cyan-600 rounded-lg" />
           ) : (
             <ThumbsUp className="w-6 h-6" />
