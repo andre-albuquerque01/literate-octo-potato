@@ -2,6 +2,7 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
+import { revalidatePathAction } from '../revalidate/revalidatePathAction'
 
 export async function DeleteItens(id: number) {
   try {
@@ -16,8 +17,8 @@ export async function DeleteItens(id: number) {
         Authorization: `Bearer ${token?.value}`,
       },
     })
-
     if (!response.ok) return false
+    revalidatePathAction('/itens/list')
     return true
   } catch (error) {
     return new Response(JSON.stringify(error), {
