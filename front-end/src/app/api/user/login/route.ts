@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     }
 
     if (data.message === 'erro') {
-      return false
+      return NextResponse.json({ data: 'Error' })
     }
 
     return NextResponse.json({ data })
