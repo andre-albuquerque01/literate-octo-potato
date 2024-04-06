@@ -1,7 +1,7 @@
 import { RemoveCategory } from '@/components/removeCategory'
 import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
-import { ArrowLeft, Edit, PlusCircle, Trash2 } from 'lucide-react'
+import { ArrowLeft, Edit, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
 async function getAll(): Promise<CategoryInterface[]> {
@@ -52,19 +52,13 @@ export default async function GetAll() {
                 {category.urlImageCategory ?? 'Sem imagem'}
               </span>
               <div className="flex items-center gap-3">
-                <RemoveCategory id={category.idCategory} />
                 <Link
                   href={`/category/update/${category.idCategory}`}
                   title={`Editar o item, ${category.typeCategory}`}
                 >
                   <Edit className="w-5 h-5" />
                 </Link>
-                <Link
-                  href={`/category/update/${category.idCategory}`}
-                  title={`Excluir o item, ${category.typeCategory}`}
-                >
-                  <Trash2 className="w-5 h-5" />
-                </Link>
+                <RemoveCategory id={category.idCategory} />
               </div>
             </div>
             <div className="w-full h-[1px] bg-zinc-600"></div>

@@ -2,6 +2,7 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
+import { revalidatePathAction } from '../revalidate/revalidatePathAction'
 
 export async function DeleteCategory(id: number) {
   try {
@@ -16,7 +17,7 @@ export async function DeleteCategory(id: number) {
         Authorization: `Bearer ${token?.value}`,
       },
     })
-
+    revalidatePathAction('/category/list')
     if (!response.ok) return false
     return true
   } catch (error) {
