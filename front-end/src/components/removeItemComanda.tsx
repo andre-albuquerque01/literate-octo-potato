@@ -2,13 +2,19 @@
 import { DeleteOrder } from '@/app/actions/order/deleteOrder'
 import { Trash2 } from 'lucide-react'
 
-export const RemoveItenComanda = ({ id }: { id: number }) => {
+export const RemoveItenComanda = ({
+  id,
+  idComanda,
+}: {
+  id: number
+  idComanda: number
+}) => {
   const handleRemove = async (
     id: number,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    await DeleteOrder(id)
+    await DeleteOrder(id, idComanda)
   }
   return (
     <div title="Remover item" className="">

@@ -2,8 +2,9 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
+import { revalidatePathAction } from '../revalidate/revalidatePathAction'
 
-export async function DeleteOrder(id: number) {
+export async function DeleteOrder(id: number, idComanda: number) {
   try {
     const cookiesStore = cookies()
     const token = cookiesStore.get('token')
@@ -17,6 +18,8 @@ export async function DeleteOrder(id: number) {
       },
       cache: 'no-cache',
     })
+    revalidatePathAction(`/order/comanda/${idComanda}`)
+
     if (!response.ok) return false
     return true
   } catch (error) {
