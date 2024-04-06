@@ -38,7 +38,7 @@ export default async function listMenu() {
                 </span>
                 <div className="flex items-center gap-3">
                   <Link
-                    href={`/menu/update/${menu.idMesa}`}
+                    href={`/menu/update/${menu.idMenu}`}
                     title={`Editar o item, ${menu.numberMesa}`}
                   >
                     <Edit className="w-5 h-5" />

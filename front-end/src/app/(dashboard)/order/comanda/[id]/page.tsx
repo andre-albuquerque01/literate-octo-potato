@@ -25,8 +25,8 @@ export default async function Comanda({ params }: { params: { id: number } }) {
     }
     if (date !== sm.created_at) {
       date = sm.created_at
-      dateUpdated = sm.updated_at
     }
+    dateUpdated = sm.updated_at
   })
 
   function formatarData(dataISO: string): string {
@@ -59,7 +59,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
           {data &&
             data.map((itens: InterfaceItens, index: number) => (
               <div
-                className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[370px] border-zinc-200 rounded-lg"
+                className="flex flex-wrap justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[360px] h-[130px] border-zinc-200 rounded-lg"
                 key={index}
               >
                 <div className="flex gap-3">
@@ -84,7 +84,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
                     </p>
                   </div>
                 </div>
-                <RemoveItenComanda id={itens.idOrder} />
+                <RemoveItenComanda id={itens.idOrder} idComanda={params.id} />
               </div>
             ))}
         </div>
