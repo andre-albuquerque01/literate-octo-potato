@@ -1,25 +1,13 @@
+import { GetAllItens } from '@/app/actions/itens/getAllItens'
 import { AddCartComanda } from '@/components/addCart'
-import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-async function getItens(): Promise<InterfaceItens[]> {
-  try {
-    const request = await Api('/itens/home', {
-      cache: 'no-cache',
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
 export default async function AddCart({ params }: { params: { id: number } }) {
-  const data = await getItens()
+  const reqBody = await GetAllItens()
+  const data = reqBody.data
 
   return (
     <div className="max-md:w-[360px] mx-auto mt-5 space-y-5">
@@ -28,7 +16,7 @@ export default async function AddCart({ params }: { params: { id: number } }) {
       </Link>
       <p className="text-md font-normal">Itens na comanda</p>
       <div className="flex flex-wrap gap-5">
-        {data.map((itens, index) => (
+        {data.map((itens: InterfaceItens, index: number) => (
           <div
             className="flex justify-between gap-3 max-md:w-full shadow-xl p-2 border md:w-[370px] border-zinc-200 rounded-lg"
             key={index}

@@ -1,8 +1,10 @@
+import { GetListItens } from '@/app/actions/itens/listItens'
+import { GetListSearchCategory } from '@/app/actions/itens/search/GetListSearchCategory'
+import { GetListSearchTitle } from '@/app/actions/itens/search/GetListSearchTitle'
 import LinkPagination from '@/components/LinkPagination'
 import LinkPaginationQuery from '@/components/LinkPaginationQuery'
 import { ListItens } from '@/components/ListItens'
 import { FormSearch } from '@/components/form-search'
-import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 
 interface SearchParamsProps {
@@ -13,74 +15,7 @@ interface SearchParamsProps {
   }
 }
 
-interface FeaturedEventsResponse {
-  data: InterfaceItens[]
-  countPage: number
-}
-
-async function GetTitle(
-  title: string,
-  page: number,
-): Promise<FeaturedEventsResponse> {
-  try {
-    const response = await Api(`/itens/search/title/${title}?page=${page}`, {
-      next: {
-        revalidate: 60,
-      },
-    })
-    const reqJson = await response.json()
-    const countPage = reqJson.data.meta.last_page
-    const data = reqJson.data.data
-
-    return { data, countPage }
-  } catch (error) {
-    return { data: [], countPage: 0 }
-  }
-}
-
-async function GetCategory(
-  typeCategory: string,
-  page: number,
-): Promise<FeaturedEventsResponse> {
-  try {
-    const response = await Api(
-      `/itens/search/category/${typeCategory}?page=${page}`,
-      {
-        next: {
-          revalidate: 60,
-        },
-      },
-    )
-    const reqJson = await response.json()
-    const countPage = reqJson.data.meta.last_page
-    const data = reqJson.data.data
-
-    return { data, countPage }
-  } catch (error) {
-    return { data: [], countPage: 0 }
-  }
-}
-
-async function GetAll(page: number): Promise<FeaturedEventsResponse> {
-  try {
-    const response = await Api(`/itens/list/${page}`, {
-      next: {
-        revalidate: 60,
-      },
-    })
-    const reqJson = await response.json()
-    const countPage = reqJson.data.meta.last_page
-    const data = reqJson.data.data
-
-    return { data, countPage }
-  } catch (error) {
-    return { data: [], countPage: 0 }
-  }
-}
-
-export default async function ListItensens({
-  searchParams,
-}: SearchParamsProps) {
+export default async function SearchIten({ searchParams }: SearchParamsProps) {
   const { q: queryQ } = searchParams
   const { c: queryC } = searchParams
 
@@ -92,19 +27,22 @@ export default async function ListItensens({
   let countPage = 0
 
   if (queryC && queryC !== '') {
-    const result = await GetCategory(queryC, page)
-    data = result.data
-    countPage = result.countPage
+    const datas = await GetListSearchCategory(queryC, page)
+    const dt = await datas.json()
+    data = dt.data
+    countPage = dt.countPage
     title = `categoria ${queryC}.`
   } else if (queryQ && queryQ !== '') {
-    const result = await GetTitle(queryQ, page)
-    data = result.data
-    countPage = result.countPage
+    const datas = await GetListSearchTitle(queryQ, page)
+    const dt = await datas.json()
+    data = dt.data
+    countPage = dt.countPage
     title = `${queryQ}`
   } else {
-    const result = await GetAll(page)
-    data = result.data
-    countPage = result.countPage
+    const datas = await GetListItens(page)
+    const dt = await datas.json()
+    data = dt.data
+    countPage = dt.countPage
     title = 'Todos os itens.'
   }
 
@@ -150,7 +88,7 @@ export default async function ListItensens({
       </p>
       <div className="flex flex-wrap max-md:justify-center gap-5">
         {data.length > 0 ? (
-          data.map((itens, index) => (
+          data.map((itens: InterfaceItens, index: number) => (
             <ListItens
               key={index}
               href={`/itens/${itens.idItens}`}
