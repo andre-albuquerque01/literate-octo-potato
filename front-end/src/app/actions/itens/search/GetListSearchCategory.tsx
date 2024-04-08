@@ -1,15 +1,14 @@
+'use server'
+
 import ApiRoute from '@/data/apiRoute'
 import { NextResponse } from 'next/server'
 
-export async function GET(
-  _: Request,
-  { params }: { params: { title: number; page: number } },
+export async function GetListSearchCategory(
+  typeCategory: string,
+  page: number,
 ) {
   try {
-    const title = params.title
-    const page = params.page
-
-    const response = await ApiRoute(`/itenst/${title}?page=${page}`, {
+    const response = await ApiRoute(`/itensc/${typeCategory}?page=${page}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -19,9 +18,11 @@ export async function GET(
         revalidate: 60,
       },
     })
+    const datas = await response.json()
+    const countPage = datas.meta.last_page
+    const data = datas.data
 
-    const data = await response.json()
-    return NextResponse.json({ data })
+    return NextResponse.json({ data, countPage })
   } catch (error) {
     return new Response(JSON.stringify(error), {
       status: 401,

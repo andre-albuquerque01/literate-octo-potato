@@ -1,7 +1,8 @@
-import ApiRoute from '@/data/apiRoute'
-import { NextResponse } from 'next/server'
+'use server'
 
-export async function GET() {
+import ApiRoute from '@/data/apiRoute'
+
+export async function GetAllCategory() {
   try {
     const response = await ApiRoute(`/category`, {
       method: 'GET',
@@ -16,7 +17,7 @@ export async function GET() {
 
     const data = await response.json()
 
-    return NextResponse.json({ data })
+    return data
   } catch (error) {
     console.error(error)
     throw error

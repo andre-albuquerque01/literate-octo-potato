@@ -1,10 +1,9 @@
+'use server'
+
 import ApiRoute from '@/data/apiRoute'
-import { NextResponse } from 'next/server'
 
-export async function GET(_: Request, { params }: { params: { id: number } }) {
+export async function GetIdItensRate(id: number) {
   try {
-    const id = params.id
-
     const response = await ApiRoute(`/rate/${id}`, {
       method: 'GET',
       headers: {
@@ -15,7 +14,7 @@ export async function GET(_: Request, { params }: { params: { id: number } }) {
 
     const data = await response.json()
 
-    return NextResponse.json({ data })
+    return data
   } catch (error) {
     return new Response(JSON.stringify(error), {
       status: 401,
