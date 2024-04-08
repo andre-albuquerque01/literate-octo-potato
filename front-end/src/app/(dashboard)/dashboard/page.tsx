@@ -1,29 +1,13 @@
+import { GetAllItens } from '@/app/actions/itens/getAllItens'
 import { SnackCarrossel } from '@/components/SnackCarousel'
 import { Carrossel } from '@/components/carousel'
 import { DinnerCarrossel } from '@/components/dinnerCarousel'
 import { DrinksCarrossel } from '@/components/drinksCarousel'
 import { LunchCarrossel } from '@/components/lunchCarousel'
-import Api from '@/data/api'
-import { InterfaceItens } from '@/data/type/interfaceItens'
-
-async function getAll(): Promise<InterfaceItens[]> {
-  try {
-    const request = await Api('/itens/home', {
-      method: 'GET',
-      next: {
-        revalidate: 60,
-      },
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 export default async function Dashboard() {
-  const data = await getAll()
+  const reqBody = await GetAllItens()
+  const data = reqBody.data
 
   return (
     <div>

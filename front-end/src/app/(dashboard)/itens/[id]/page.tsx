@@ -1,55 +1,19 @@
+import { GetIdItens } from '@/app/actions/itens/getIdItens'
+import { GetIdItensRate } from '@/app/actions/itens/rate/rateIdItens'
 import { BtnLike } from '@/components/btnLike'
-import Api from '@/data/api'
-import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-async function getIten(id: number): Promise<InterfaceItens> {
-  try {
-    const request = await Api(`/itens/${id}`, { next: { revalidate: 60 } })
-    const reqJson = await request.json()
-
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-async function getItenMessage(id: number) {
-  try {
-    const request = await Api(`/itens/${id}`, { cache: 'no-cache' })
-    const reqJson = await request.json()
-
-    if (reqJson.data.message === 'Item not found') {
-      return 'Item not found'
-    }
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-async function rateItens(id: number) {
-  try {
-    const request = await Api(`/itens/rate/${id}`, { cache: 'no-cache' })
-    const reqJson = await request.json()
-
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 export default async function Iten({ params }: { params: { id: number } }) {
-  const dataMessage = await getItenMessage(params.id)
-  const data = await getIten(params.id)
-  const rate = await rateItens(params.id)
+  const reqBody = await GetIdItens(params.id)
+  const data = reqBody.data
+  const reqRate = await GetIdItensRate(params.id)
+  const rate = reqRate.data
 
   return (
     <div className="md:flex md:flex-col md:items-center md:justify-center  md:mt-8">
-      {dataMessage !== 'Item not found' ? (
+      {!data ? (
         <>
           <Link href="" className="flex items-center px-8 py-4 md:hidden">
             <ArrowLeft className="w-5 h-5" /> Voltar
