@@ -1,38 +1,13 @@
 'use client'
+import { GetAllCategory } from '@/app/actions/category/getAllCatgeory'
+import { GetIdItens } from '@/app/actions/itens/getIdItens'
 import { UpdateItens } from '@/app/actions/itens/updateItens'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function getCategory(): Promise<CategoryInterface[]> {
-  try {
-    const request = await Api('/category/getAll', {
-      cache: 'no-cache',
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
-async function getItens(id: number) {
-  try {
-    const request = await Api(`/itens/${id}`, {
-      cache: 'no-cache',
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 export default function UpdateItensPage({
   params,
@@ -56,13 +31,15 @@ export default function UpdateItensPage({
 
   useEffect(() => {
     const handleCategory = async () => {
-      const catego = await getCategory()
-      setCategory(catego)
+      const reqBody = await GetAllCategory()
+      const data = reqBody.data
+      setCategory(data)
     }
     handleCategory()
 
     const handleItens = async () => {
-      const item = await getItens(params.id)
+      const reqBody = await GetIdItens(params.id)
+      const item = reqBody.data
       setItens(item)
     }
     handleItens()

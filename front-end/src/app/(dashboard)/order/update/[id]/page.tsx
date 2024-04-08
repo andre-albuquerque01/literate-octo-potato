@@ -1,29 +1,13 @@
 'use client'
+import { GetIdItens } from '@/app/actions/itens/getIdItens'
 import GetOrderService from '@/app/actions/order/getOrder'
 import { UpdateOrder } from '@/app/actions/order/updateOrder'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
-
-async function getItem(id: number): Promise<InterfaceItens> {
-  try {
-    const request = await Api(`/itens/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-    const reqBody = await request.json()
-    return reqBody.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 export default function UpdateOrderPage({
   params,
@@ -87,7 +71,8 @@ export default function UpdateOrderPage({
     }
     handleData()
     const handleOrder = async () => {
-      const dt = await getItem(Number(itens))
+      const reqBody = await GetIdItens(Number(itens))
+      const dt = reqBody.data
       setData(dt)
     }
     handleOrder()
