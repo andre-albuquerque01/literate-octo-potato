@@ -18,9 +18,7 @@ export async function LogoutUser() {
     })
 
     cookiesStore.delete('token')
-    if (cookiesStore.has('JesusIsKingADM')) {
-      cookiesStore.delete('r')
-    }
+    cookiesStore.delete('r')
 
     if (!response.ok) return false
 
