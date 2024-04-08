@@ -1,29 +1,14 @@
 'use client'
+import { InsertUser } from '@/app/actions/user/insertUser'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 
-async function postInsert(body: object) {
-  try {
-    const response = await Api('/user/insert', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqBody = await response.json()
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export default function InsertUser() {
+export default function InsertUserPage() {
   const [returnError, setReturnError] = useState<string>('')
+  const router = useRouter()
 
   const hasNumber = /\d/
   const hasUpperCase = /[A-Z]/
@@ -57,25 +42,25 @@ export default function InsertUser() {
       data.password === data.password_confirmation &&
       validatePassword(data.password) === ''
     ) {
-      const req = await postInsert(data)
+      const req = await InsertUser(data)
       setReturnError(req.message)
-      console.log(req.data)
 
+      if (req) {
+        alert('Cadastro feito com sucesso!')
+        router.push('/user/login')
+      }
       if (req.message)
         if (req.message.includes('The cpf has already been taken.')) {
           setReturnError('The cpf has already been taken.')
         } else if (req.message.includes('The email has already been taken.')) {
           setReturnError('The email has already been taken.')
-        } else if (req.message === 'sucess') {
-          alert('Cadastro feito com sucesso!')
-          window.history.back()
         }
-
       return ''
     }
     setReturnError('Senhas não correspondem')
     return ''
   }
+
   return (
     <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
       <Link
