@@ -1,28 +1,12 @@
+import { GetAllCategory } from '@/app/actions/category/getAllCatgeory'
 import { RemoveCategory } from '@/components/removeCategory'
-import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft, Edit, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
-async function getAll(): Promise<CategoryInterface[]> {
-  try {
-    const request = await Api('/category/getAll', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
-
 export default async function GetAll() {
-  const data = await getAll()
+  const reqBody = await GetAllCategory()
+  const data = reqBody.data
 
   return (
     <div className="flex flex-col min-h-[90%] w-full px-3">
@@ -44,26 +28,28 @@ export default async function GetAll() {
         Lista de categorias cadastradas
       </p>
       <div className="space-y-5 mt-4">
-        {data.map((category, key) => (
-          <div className="" key={key}>
-            <div className="flex mx-auto justify-between">
-              <span className="max-w-96">{category.typeCategory}</span>
-              <span className="max-md:hidden truncate w-96 text-center">
-                {category.urlImageCategory ?? 'Sem imagem'}
-              </span>
-              <div className="flex items-center gap-3">
-                <Link
-                  href={`/category/update/${category.idCategory}`}
-                  title={`Editar o item, ${category.typeCategory}`}
-                >
-                  <Edit className="w-5 h-5" />
-                </Link>
-                <RemoveCategory id={category.idCategory} />
+        {data &&
+          data.length > 0 &&
+          data.map((category: CategoryInterface, key: number) => (
+            <div className="" key={key}>
+              <div className="flex mx-auto justify-between">
+                <span className="max-w-96">{category.typeCategory}</span>
+                <span className="max-md:hidden truncate w-96 text-center">
+                  {category.urlImageCategory ?? 'Sem imagem'}
+                </span>
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/category/update/${category.idCategory}`}
+                    title={`Editar o item, ${category.typeCategory}`}
+                  >
+                    <Edit className="w-5 h-5" />
+                  </Link>
+                  <RemoveCategory id={category.idCategory} />
+                </div>
               </div>
+              <div className="w-full h-[1px] bg-zinc-600"></div>
             </div>
-            <div className="w-full h-[1px] bg-zinc-600"></div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   )

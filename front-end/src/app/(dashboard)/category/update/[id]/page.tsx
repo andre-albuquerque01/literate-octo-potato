@@ -1,28 +1,12 @@
 'use client'
+import { GetIdCategory } from '@/app/actions/category/getIdCategory'
 import { UpdateCategory } from '@/app/actions/category/updateCategory'
 import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, Suspense, useEffect, useState } from 'react'
-
-async function getCategory(id: number) {
-  try {
-    const request = await Api(`/category/get/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application-json',
-      },
-    })
-    const reqJson = await request.json()
-    return reqJson.data.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 export default function UpdateCategoryPage({
   params,
@@ -34,8 +18,9 @@ export default function UpdateCategoryPage({
 
   useEffect(() => {
     const handleGet = async () => {
-      const getData = await getCategory(params.id)
-      setData(getData)
+      const getData = await GetIdCategory(params.id)
+      const dt = getData.data
+      setData(dt)
     }
     handleGet()
   }, [params.id])
