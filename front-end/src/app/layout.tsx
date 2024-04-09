@@ -9,6 +9,12 @@ export const metadata: Metadata = {
     template: '%',
     default: 'TUTU food',
   },
+  description: 'Cardapio digital',
+  keywords: 'Cardapio digital',
+  authors: {
+    name: 'André',
+    url: 'https://ae.dev.br/',
+  },
 }
 
 export default function RootLayout({
