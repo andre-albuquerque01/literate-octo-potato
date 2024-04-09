@@ -84,10 +84,21 @@ class UserService
             $user = Auth::user();
             $data = $dados;
             if (Hash::check($data['password'], $user->password)) {
-                $data['password'] = Hash::make( $data['password']);
+                $data['password'] = Hash::make($data['password']);
                 User::where('idUser', $user->idUser)->update($data);
                 return response()->json(['message' => 'sucess'], 200);
             }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    
+    public function updateRole(array $dados)
+    {
+        try {
+            $data = $dados;
+            User::where('cpf', $data['cpf'])->update($data);
+            return response()->json(['message' => 'sucess'], 200);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

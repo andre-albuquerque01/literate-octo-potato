@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateFunctionUserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
@@ -14,7 +15,7 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware('auth:sanctum')->only(['show', 'update', 'destroy']);
+        $this->middleware('auth:sanctum')->only(['show', 'update', 'destroy', 'updateRole']);
     }
 
     /**
@@ -50,6 +51,16 @@ class UserController extends Controller
         try {
             $validet = $request->validated();
             return $this->userService->update($validet);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function updateRole(UpdateFunctionUserRequest $request)
+    {
+        try {
+            $validet = $request->validated();
+            return $this->userService->updateRole($validet);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
