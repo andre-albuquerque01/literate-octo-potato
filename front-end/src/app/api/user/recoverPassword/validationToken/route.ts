@@ -19,7 +19,8 @@ export async function POST(request: Request) {
 
     cookiesStore.set('tokenRecover', data.token, {
       expires: Date.now() + 60 * 10 * 1000,
-      // secure: true,
+      secure: true,
+      httpOnly: true,
     })
 
     return new Response(JSON.stringify(data), {
