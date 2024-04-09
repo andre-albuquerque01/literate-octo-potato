@@ -17,7 +17,7 @@ export default function InsertCategoryPage() {
       alert('Cadastrado com sucesso!')
       router.back()
     } else {
-      alert('Não foi fazer o cadastrado!')
+      alert('Não foi possível fazer o cadastrado!')
     }
   }
 

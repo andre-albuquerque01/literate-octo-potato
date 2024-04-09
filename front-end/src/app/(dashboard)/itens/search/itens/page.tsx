@@ -6,6 +6,7 @@ import LinkPaginationQuery from '@/components/LinkPaginationQuery'
 import { ListItens } from '@/components/ListItens'
 import { FormSearch } from '@/components/form-search'
 import { InterfaceItens } from '@/data/type/interfaceItens'
+import { Suspense } from 'react'
 
 interface SearchParamsProps {
   searchParams: {
@@ -31,7 +32,7 @@ export default async function SearchIten({ searchParams }: SearchParamsProps) {
     const dt = await datas.json()
     data = dt.data
     countPage = dt.countPage
-    title = `categoria ${queryC}.`
+    title = `Categoria ${queryC}.`
   } else if (queryQ && queryQ !== '') {
     const datas = await GetListSearchTitle(queryQ, page)
     const dt = await datas.json()
@@ -46,11 +47,10 @@ export default async function SearchIten({ searchParams }: SearchParamsProps) {
     title = 'Todos os itens.'
   }
 
-  async function VerifyQuery() {
+  function VerifyQuery() {
     if (queryC && queryC !== '') {
       return (
         <>
-          {' '}
           <LinkPaginationQuery
             path={queryC}
             query={page}
@@ -62,7 +62,6 @@ export default async function SearchIten({ searchParams }: SearchParamsProps) {
     } else if (queryQ && queryQ !== '') {
       return (
         <>
-          {' '}
           <LinkPaginationQuery
             path={queryC}
             query={page}
@@ -82,30 +81,35 @@ export default async function SearchIten({ searchParams }: SearchParamsProps) {
 
   return (
     <div className="max-md:w-[390px] mx-auto mt-5 space-y-5">
-      <FormSearch />
-      <p className="text-md font-normal">
-        Pesquisado por: <span className="font-medium">{title}</span>
-      </p>
-      <div className="flex flex-wrap max-md:justify-center gap-5">
-        {data.length > 0 ? (
-          data.map((itens: InterfaceItens, index: number) => (
-            <ListItens
-              key={index}
-              href={`/itens/${itens.idItens}`}
-              src={itens.urlImage}
-              alt={`Imagem do item, ${itens.title}`}
-              width={150}
-              height={150}
-              title={itens.title}
-              value={itens.value}
-              waitTime={itens.waitTime}
-            />
-          ))
-        ) : (
-          <h1>Item pesquisado não encontrado.</h1>
-        )}
-      </div>
-      <div className="flex justify-center mt-4 h-10">{VerifyQuery()}</div>
+      <Suspense fallback={'Carregando...'}>
+        <FormSearch />
+        <p className="text-md font-normal">
+          Pesquisado por:{' '}
+          <span className="font-medium normal-case">{title}</span>
+        </p>
+        <div className="flex flex-wrap max-md:justify-center gap-5">
+          {data.length > 0 ? (
+            data.map((itens: InterfaceItens, index: number) => (
+              <ListItens
+                key={index}
+                href={`/itens/${itens.idItens}`}
+                src={itens.urlImage}
+                alt={`Imagem do item, ${itens.title}`}
+                width={150}
+                height={150}
+                title={itens.title}
+                value={itens.value}
+                waitTime={itens.waitTime}
+              />
+            ))
+          ) : (
+            <h1>Item pesquisado não encontrado.</h1>
+          )}
+        </div>
+        <div className="max-md:h-28">
+          <div className="flex justify-center mt-4 h-10">{VerifyQuery()}</div>
+        </div>
+      </Suspense>
     </div>
   )
 }
