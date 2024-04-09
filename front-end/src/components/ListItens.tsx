@@ -16,7 +16,7 @@ export const ListItens = (search: TypeSearch) => {
   return (
     <Link
       href={search.href}
-      className="flex gap-3 max-md:w-full shadow-xl p-5 md:w-[370px]"
+      className="flex gap-3 max-md:w-full max-h-36 md:w-[360px] max-w-96 shadow-xl p-2 border md:min-w-[320px] border-zinc-200 rounded-lg"
     >
       <Image
         src={search.src}
@@ -25,10 +25,8 @@ export const ListItens = (search: TypeSearch) => {
         height={search.height}
         className="rounded-lg"
       />
-      <div className="flex flex-col justify-evenly max-w-[55%]">
-        <p className="font-medium text-lg text-wrap normal-case">
-          {search.title}
-        </p>
+      <div className="flex flex-col justify-evenly">
+        <p className="font-medium text-lg text-wrap truncate">{search.title}</p>
         <p className="font-medium text-md">
           {search.value.toLocaleString('pt-br', {
             style: 'currency',

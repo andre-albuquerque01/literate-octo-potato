@@ -36,7 +36,7 @@ export default async function ListItens({ searchParams }: PropsSearchParams) {
         <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80 mt-3">
           Lista de itens
         </p>
-        <div className="flex flex-wrap max-md:justify-center gap-5 md:mt-4">
+        <div className="flex flex-wrap max-md:justify-center gap-5 mt-4">
           {data &&
             data.map((itens: InterfaceItens, index: number) => (
               <div
@@ -75,8 +75,10 @@ export default async function ListItens({ searchParams }: PropsSearchParams) {
             ))}
         </div>
       </div>
-      <div className="flex justify-center mt-4 h-10">
-        <LinkPagination query={query} countPage={countPage} />
+      <div className="max-md:h-28">
+        <div className="flex justify-center mt-4 h-10">
+          <LinkPagination query={query} countPage={countPage} />
+        </div>
       </div>
     </div>
   )
