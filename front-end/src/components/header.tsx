@@ -1,8 +1,11 @@
 import { CircleUser, HomeIcon, ScrollText, Search } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export const Header = () => {
+  const cookieStore = cookies()
+  const token = cookieStore.has('token')
   return (
     <>
       <div className="invisible max-md:visible max-md:fixed max-md:bottom-12 z-20 w-full h-[0.2px] bg-slate-950"></div>
@@ -15,6 +18,7 @@ export const Header = () => {
             height={70}
             className="max-md:hidden"
             title="Inicio"
+            priority
           />
         </Link>
         <nav className="flex items-center gap-12 max-md:gap-16">
@@ -42,17 +46,27 @@ export const Header = () => {
             <ScrollText className="h-6 w-6" />{' '}
             <span className="max-md:hidden">Pedido</span>
           </Link>
-          <Link
-            href="/user"
-            className="flex items-center gap-2 mr-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
-            title="Perfil"
-          >
-            <CircleUser className="h-6 w-6" />{' '}
-            <span className="max-md:hidden">Perfil</span>
-          </Link>
+          {token ? (
+            <Link
+              href="/user"
+              className="flex items-center gap-2 mr-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
+              title="Perfil"
+            >
+              <CircleUser className="h-6 w-6" />{' '}
+              <span className="max-md:hidden">Perfil</span>
+            </Link>
+          ) : (
+            <Link
+              href="/user/login"
+              className="flex items-center gap-2 mr-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
+              title="Login"
+            >
+              <CircleUser className="h-6 w-6" />{' '}
+              <span className="max-md:hidden">Login</span>
+            </Link>
+          )}
         </nav>
       </header>
-      {/* <div className="max-md:hidden w-[80%] mx-auto h-[0.2px] bg-slate-950"></div> */}
     </>
   )
 }
