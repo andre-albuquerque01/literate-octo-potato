@@ -27,9 +27,7 @@ export default function UpdateUserPage() {
 
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const reqBody = await UpdateUser(data)
-    const dt = await reqBody.json()
-    const req = dt.data.data
+    const req = await UpdateUser(data)
     setReturnError(req.message)
 
     if (req.message)

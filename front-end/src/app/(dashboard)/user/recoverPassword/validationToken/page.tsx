@@ -1,43 +1,35 @@
 'use client'
-import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
+import { ValidationToken } from '@/app/actions/user/recoverPassword/validationToken'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 
-async function PostToken(body: object) {
-  try {
-    const response = await Api('/user/recoverPassword/validationToken', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    if (response.ok) {
-      alert('Token valido')
-      window.location.href = '/user/recoverPassword/updatePassword'
-    } else return 'Token invalido'
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export default function ValidationToken() {
+export default function ValidationTokenPage() {
   const [error, setError] = useState<string>('')
+  const [status, setStatus] = useState(false)
+  const router = useRouter()
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    setStatus(true)
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await PostToken(data)
-    if (req) setError(req)
+    const req = await ValidationToken(data)
+    if (req.token) {
+      setStatus(false)
+      alert('Token valido')
+      router.push('/user/recoverPassword/updatePassword')
+    } else if (req.message && req.error) {
+      setError('Token expirado')
+    } else {
+      setError('Token invalido')
+    }
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
-      <div className="h-20">
+    <div className="flex flex-col mx-auto justify-center md:h-[800px] max-md:h-[800px] w-full items-center">
+      <div className="md:hidden h-20">
         <Link
           href="/user/sendEmail"
           className="flex items-center gap-1 text-sm w-96  max-md:w-80"
@@ -65,7 +57,14 @@ export default function ValidationToken() {
           />
         </div>
         <span className="text-red-600 text-xs">{error}</span>
-        <BtnForm title="Próximo" />
+        <div className="flex justify-center">
+          <button
+            disabled={status}
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+          >
+            Próximo
+          </button>
+        </div>
       </form>
     </div>
   )

@@ -42,17 +42,18 @@ export default function UpdateFunctionPage() {
             type="text"
             name="cpf"
             id="cpf"
+            placeholder="00000000000"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
         </div>
         <div className="flex flex-col mt-3">
-          <label htmlFor="papelRole">
+          <label htmlFor="role">
             Nova função: <span className="text-red-600">*</span>{' '}
           </label>
           <select
-            name="papelRole"
-            id="papelRole"
+            name="role"
+            id="role"
             className="w-96 h-9 border border-zinc-400 bg-white rounded-[5px] max-md:w-80 px-2 uppercase"
             required
           >
