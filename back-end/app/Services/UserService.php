@@ -92,6 +92,24 @@ class UserService
             return $e->getMessage();
         }
     }
+
+    public function updatePasswordUser(array $dados)
+    {
+        try {
+            $user = Auth::user();
+            $data = $dados;
+            if (Hash::check($data['password'], $user->password) && $data['password_new'] === $data['password_confirmation']) {
+                $data['password'] = Hash::make($data['password_new']);
+                User::where('idUser', $user->idUser)->update([
+                    'password' => $data['password'],
+                    'updated_at' => now(),
+                ]);
+                return response()->json(['message' => 'sucess'], 200);
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     
     public function updateRole(array $dados)
     {

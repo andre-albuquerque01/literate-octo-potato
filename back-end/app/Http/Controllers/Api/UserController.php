@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateFunctionUserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdatePassword;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware('auth:sanctum')->only(['show', 'update', 'destroy', 'updateRole']);
+        $this->middleware('auth:sanctum')->only(['show', 'update', 'destroy', 'updateRole', 'updatePasswordUser']);
     }
 
     /**
@@ -51,6 +52,16 @@ class UserController extends Controller
         try {
             $validet = $request->validated();
             return $this->userService->update($validet);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function updatePasswordUser(UserUpdatePassword $request)
+    {
+        try {
+            $validet = $request->validated();
+            return $this->userService->updatePasswordUser($validet);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

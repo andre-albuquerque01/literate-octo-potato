@@ -52,6 +52,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/userShow', [UserController::class, 'show']);
     Route::put('/userUpdate', [UserController::class, 'update']);
     Route::put('/userFunction', [UserController::class, 'updateRole']);
+    Route::put('/userPassword', [UserController::class, 'updatePasswordUser']);
     Route::get('/userDelete', [UserController::class, 'destroy']);
     Route::post('/reSendEmail', [UserController::class, 'reSendEmail']);
     Route::get('/verifyEmail/{email}', [UserController::class, 'verifyEmail']);

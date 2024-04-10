@@ -11,7 +11,7 @@ class UpdateFunctionUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class UpdateFunctionUserRequest extends FormRequest
     {
         return [
             "cpf" => "required|min:11|max:11",
-            "papelRole" => "required",
+            "role" => "required",
         ];
     }
 }
