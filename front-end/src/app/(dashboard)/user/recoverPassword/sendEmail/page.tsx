@@ -1,51 +1,39 @@
 'use client'
-import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
+import { SendEmail } from '@/app/actions/user/recoverPassword/sendEmail'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 
-async function PostSendEmail(body: object) {
-  try {
-    const response = await Api('/user/recoverPassword/sendEmail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    if (response.ok) {
-      alert('E-mail enviado')
-      window.location.href = '/user/recoverPassword/validationToken'
-    } else return 'E-mail não encontrado'
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export default function SendEmail() {
+export default function SendEmailPage() {
   const [error, setError] = useState<string>('')
-
+  const [status, setStatus] = useState(false)
+  const router = useRouter()
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    setStatus(true)
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await PostSendEmail(data)
-    if (req) setError(req)
+    const req = await SendEmail(data)
+
+    if (req.message === 'send e-mail') {
+      setStatus(false)
+      alert('E-mail enviado')
+      router.push('/user/recoverPassword/validationToken')
+    } else {
+      setError('E-mail não encontrado')
+    }
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
-      <div className="h-20">
-        <Link
-          href="/user/login"
-          className="flex items-center gap-1 text-sm w-96  max-md:w-80"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Voltar
-        </Link>
-      </div>
+    <div className="flex flex-col md:h-[800px] justify-center max-md:h-[800px] items-center">
+      <Link
+        href="/user/login"
+        className="md:hidden flex items-center gap-1 text-sm mb-10 w-96 max-md:w-80"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        Voltar
+      </Link>
       <p className="text-xl w-96 max-md:mb-0 max-md:w-80">Recuperar senha</p>
       <p className="text-sm w-96 max-md:w-80 text-justify py-3">
         Enviaremos um email para o endereço fornecido com as instruções
@@ -67,7 +55,14 @@ export default function SendEmail() {
           />
         </div>
         <span className="text-red-600 text-xs">{error}</span>
-        <BtnForm title="Próximo" />
+        <div className="flex justify-center">
+          <button
+            disabled={status}
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+          >
+            Enviar
+          </button>
+        </div>
       </form>
     </div>
   )

@@ -1,41 +1,27 @@
 'use client'
-import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
+import { RecoverUpdatePassword } from '@/app/actions/user/recoverPassword/recoverUpdatePassword'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-
-async function PutPassword(body: object) {
-  try {
-    const response = await Api('/user/recoverPassword/updatePassword', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    if (response.ok) {
-      alert('Senha alterada')
-      window.location.replace('/user/login')
-    } else return 'Error'
-  } catch (error) {
-    console.error(error)
-  }
-}
 
 export default function UpdatePassword() {
   const [returnError, setReturnError] = useState<string>('')
+  const [status, setStatus] = useState(false)
+  const router = useRouter()
 
   const hasNumber = /\d/
   const hasUpperCase = /[A-Z]/
   const hasLowerCase = /[a-z]/
   const hasSymbol = /[!@#$%^&*(),.?":{}|<>_=+]/
+  const hasMinLength = /^.{8,}$/
 
   const err = [
     'Senha precisa ter pelo menos um número.',
     'Senha precisa ter pelo menos uma letra maiúscula.',
     'Senha precisa ter pelo menos uma letra minúscula.',
     'Senha precisa ter pelo menos um símbolo.',
+    'Senha precisa ter pelo menos 8 caracteres.',
     'Senhas não correspondem',
   ]
 
@@ -45,30 +31,39 @@ export default function UpdatePassword() {
     if (!hasUpperCase.test(password)) return err[1]
     if (!hasLowerCase.test(password)) return err[2]
     if (!hasSymbol.test(password)) return err[3]
+    if (!hasMinLength.test(password)) return err[4]
     return ''
   }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    setStatus(true)
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
+    setReturnError(validatePassword(data.password))
+
     if (
       data.password === data.password_confirmation &&
       validatePassword(data.password) === ''
     ) {
-      const req = await PutPassword(data)
-      if (req) setReturnError(req)
-      return ''
+      const req = await RecoverUpdatePassword(data)
+      console.log(req)
+      if (req.error === 'The payload is invalid.') {
+        alert('Token expirado, tente recuperar a senha novamente')
+        router.push('/user/recoverPassword/sendEmail')
+      } else if (req.message === 'sucess') {
+        setStatus(false)
+        alert('Senha alterada!')
+        router.push('/user/login')
+      }
     }
-    setReturnError('Senhas não correspondem')
-    return ''
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
-      <div className="h-20">
+    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
+      <div className="md:hidden h-20">
         <Link
-          href="/user/validationToken"
+          href="/user/sendEmail"
           className="flex items-center gap-1 text-sm w-96  max-md:w-80"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -109,7 +104,14 @@ export default function UpdatePassword() {
             required
           />
         </div>
-        <BtnForm title="Recuperar" />
+        <div className="flex justify-center">
+          <button
+            disabled={status}
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+          >
+            Recuperar
+          </button>
+        </div>
       </form>
     </div>
   )
