@@ -22,14 +22,14 @@ export async function POST(request: Request) {
       expires: Date.now() + 2 * 60 * 60 * 1000,
       secure: true,
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'lax',
     })
     if (data.data.r === 'JesusIsKingADM') {
       cookiesStore.set('r', data.data.r, {
         expires: Date.now() + 2 * 60 * 60 * 1000,
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'lax',
       })
     }
 
