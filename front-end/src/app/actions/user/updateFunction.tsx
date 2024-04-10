@@ -2,7 +2,6 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
 export async function UpdateFunction(reqBody: object) {
   try {
@@ -21,10 +20,8 @@ export async function UpdateFunction(reqBody: object) {
 
     const data = await response.json()
 
-    return NextResponse.json({ data })
+    return data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return 'Houver error'
   }
 }
