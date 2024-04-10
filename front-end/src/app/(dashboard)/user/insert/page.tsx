@@ -1,6 +1,5 @@
 'use client'
 import { InsertUser } from '@/app/actions/user/insertUser'
-import { BtnForm } from '@/components/btnForm'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -8,18 +7,21 @@ import { FormEvent, useState } from 'react'
 
 export default function InsertUserPage() {
   const [returnError, setReturnError] = useState<string>('')
+  const [status, setStatus] = useState(false)
   const router = useRouter()
 
   const hasNumber = /\d/
   const hasUpperCase = /[A-Z]/
   const hasLowerCase = /[a-z]/
   const hasSymbol = /[!@#$%^&*(),.?":{}|<>_=+]/
+  const hasMinLength = /^.{8,}$/
 
   const err = [
     'Senha precisa ter pelo menos um número.',
     'Senha precisa ter pelo menos uma letra maiúscula.',
     'Senha precisa ter pelo menos uma letra minúscula.',
     'Senha precisa ter pelo menos um símbolo.',
+    'Senha precisa ter pelo menos 8 caracteres.',
     'Senhas não correspondem',
   ]
 
@@ -29,12 +31,13 @@ export default function InsertUserPage() {
     if (!hasUpperCase.test(password)) return err[1]
     if (!hasLowerCase.test(password)) return err[2]
     if (!hasSymbol.test(password)) return err[3]
+    if (!hasMinLength.test(password)) return err[4]
     return ''
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    setStatus(true)
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
     setReturnError(validatePassword(data.password))
@@ -46,6 +49,7 @@ export default function InsertUserPage() {
       setReturnError(req.message)
 
       if (req) {
+        setStatus(false)
         alert('Cadastro feito com sucesso!')
         router.push('/user/login')
       }
@@ -62,7 +66,7 @@ export default function InsertUserPage() {
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
       <Link
         href="/user/login"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
@@ -192,7 +196,14 @@ export default function InsertUserPage() {
             Termos de aceitação <span className="text-red-600">*</span>
           </Link>
         </div>
-        <BtnForm title="Cadastrar" />
+        <div className="flex justify-center">
+          <button
+            disabled={status}
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+          >
+            Cadastrar
+          </button>
+        </div>
       </form>
     </div>
   )

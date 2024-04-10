@@ -6,6 +6,8 @@ import {
   History,
   Home,
   ListIcon,
+  PenLine,
+  PlusCircle,
   Search,
   SquarePen,
 } from 'lucide-react'
@@ -13,8 +15,8 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 export default function User() {
-  const cookieStore = cookies()
-  const r = cookieStore.has('r')
+  const cookiesStore = cookies()
+  const r = cookiesStore.get('r')
 
   return (
     <div className="mt-6 space-y-3 w-36 max-md:p-8 max-md:mt-0 max-md:w-56">
@@ -30,14 +32,18 @@ export default function User() {
         <SquarePen className="h-5 w-5" />
         Editar o perfil
       </Link>
+      <Link href="/user/updatePasssword" className="flex items-center gap-2">
+        <PenLine className="h-5 w-5" />
+        Alterar senha
+      </Link>
       <Link
         href="/order/list"
-        className={`flex items-center gap-2 ${r && 'hidden'}`}
+        className={`flex items-center gap-2 ${r?.value && 'hidden'}`}
       >
         <ListIcon className="h-5 w-5" />
         Pedido
       </Link>
-      {cookieStore.has('r') && (
+      {r?.value === 'JesusIsKingADM' && (
         <>
           <Link href="/itens/list" className="flex items-center gap-2">
             <Apple className="h-5 w-5" />
@@ -51,11 +57,18 @@ export default function User() {
             <BookOpenCheck className="h-5 w-5" />
             Categorias
           </Link>
+          <Link
+            href="/user/updateFunction"
+            className="flex items-center gap-2 w-48"
+          >
+            <PlusCircle className="h-5 w-5" />
+            Adicionar funcionário
+          </Link>
         </>
       )}
       <Link
         href="/order/historic"
-        className={`flex items-center gap-2 ${r && 'hidden'}`}
+        className={`flex items-center gap-2 ${r?.value && 'hidden'}`}
       >
         <History className="h-5 w-5" />
         Historico
