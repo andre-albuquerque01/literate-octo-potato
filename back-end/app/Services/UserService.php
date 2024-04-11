@@ -77,6 +77,15 @@ class UserService
             return $e->getMessage();
         }
     }
+    public function showNameUser()
+    {
+        try {
+            $user = Auth::user();
+            return response()->json(['name'=> $user->firstName]);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
     public function update(array $dados)
     {
