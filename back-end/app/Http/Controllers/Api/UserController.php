@@ -16,7 +16,7 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware('auth:sanctum')->only(['show', 'update', 'destroy', 'updateRole', 'updatePasswordUser']);
+        $this->middleware('auth:sanctum')->only(['show', 'showNameUser', 'update', 'destroy', 'updateRole', 'updatePasswordUser']);
     }
 
     /**
@@ -39,6 +39,15 @@ class UserController extends Controller
     {
         try {
             return $this->userService->show();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function showNameUser()
+    {
+        try {
+            return $this->userService->showNameUser();
         } catch (\Exception $e) {
             return $e->getMessage();
         }
