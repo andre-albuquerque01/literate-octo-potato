@@ -13,7 +13,10 @@ export const Logout = () => {
     router.push('/user/login')
   }
   return (
-    <button className="flex items-center gap-2" onClick={handleLogOut}>
+    <button
+      className="flex items-center gap-2 hover:underline"
+      onClick={handleLogOut}
+    >
       <LogOut className="h-5 w-5" />
       Sair
     </button>
