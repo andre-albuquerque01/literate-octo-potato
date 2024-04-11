@@ -50,6 +50,7 @@ Route::prefix('v1')->group(function () {
     // User
     Route::apiResource('/user', UserController::class);
     Route::get('/userShow', [UserController::class, 'show']);
+    Route::get('/userName', [UserController::class, 'showNameUser']);
     Route::put('/userUpdate', [UserController::class, 'update']);
     Route::put('/userFunction', [UserController::class, 'updateRole']);
     Route::put('/userPassword', [UserController::class, 'updatePasswordUser']);
