@@ -68,7 +68,3 @@ Route::prefix('v1')->group(function () {
     // Categoria
     Route::apiResource('/category', CategoryController::class);
 });
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});

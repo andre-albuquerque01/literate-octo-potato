@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreign('idMesa')->references('idMesa')->on('mesa')->onDelete('cascade')->onUpdate('cascade');
             $table->string('cpf', 14);
             $table->string('statusOrder', 20)->nullable();
-            $table->string('methodPay');
-            $table->string('value');
+            $table->string('methodPay')->nullable();
+            $table->string('value')->nullable();
             $table->double('desconto')->nullable();
             $table->double('tip')->nullable();
             $table->timestamps();

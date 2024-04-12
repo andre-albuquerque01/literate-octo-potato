@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\LoginInvalidException;
 use App\Http\Resources\AuthLoginResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +23,9 @@ class AuthService
 
             if (!Auth::attempt($login)) {
                 throw new LoginInvalidException;
+            }
+            if (User::where('email', $email)->whereNull('email_verified_at')->exists()) {
+                return response()->json(['message' => 'E-mail não verificado']);
             }
             $user = Auth::user();
             $scopes = ($user->role == "admin") ? ['admin'] : ['user'];
