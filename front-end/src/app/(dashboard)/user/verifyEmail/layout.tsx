@@ -1,15 +1,15 @@
+import { ReactNode } from 'react'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { ReactNode } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Mesa',
+  title: 'Validação do e-mail',
 }
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function User({ children }: { children: ReactNode }) {
   const cookiesStore = cookies()
-  const r = cookiesStore.get('r')
-  if (r?.value !== 'JesusIsKingADM') redirect('/user/login')
+  const token = cookiesStore.has('token')
+  if (token) redirect('/user')
   return <div>{children}</div>
 }
