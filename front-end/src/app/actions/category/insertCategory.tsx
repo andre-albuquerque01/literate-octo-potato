@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
 export async function InsertCategory(requestBody: object) {
@@ -17,7 +18,7 @@ export async function InsertCategory(requestBody: object) {
       },
       body: JSON.stringify(requestBody),
     })
-
+    revalidateTag('category')
     const data = await response.json()
     if (!response.ok) return Response.json({ data })
 

@@ -12,6 +12,7 @@ export async function GetAllCategory() {
       },
       next: {
         revalidate: 10,
+        tags: ['category'],
       },
     })
 

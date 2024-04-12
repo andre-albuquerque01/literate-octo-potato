@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -18,6 +19,7 @@ export async function UpdateCategory(reqBody: object, id: number) {
       },
       body: JSON.stringify(reqBody),
     })
+    revalidateTag('category')
 
     const data = await response.json()
     if (!response.ok) return NextResponse.json({ data })
