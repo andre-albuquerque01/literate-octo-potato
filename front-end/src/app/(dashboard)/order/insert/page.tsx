@@ -65,7 +65,7 @@ export default function InsertOrderPage() {
     }
   }
   return (
-    <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
       <div
         onClick={(e) => {
           e.preventDefault()

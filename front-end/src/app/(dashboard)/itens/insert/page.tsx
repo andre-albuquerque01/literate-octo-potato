@@ -10,7 +10,6 @@ import { FormEvent, Suspense, useEffect, useState } from 'react'
 
 export default function InsertItensPage() {
   const [category, setCategory] = useState<CategoryInterface[]>([])
-  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
 
   useEffect(() => {
@@ -31,18 +30,18 @@ export default function InsertItensPage() {
     const req = await InsertItens(data)
 
     if (req) {
-      alert('Item cadastrado')
+      alert('Item cadastrado!')
       router.push('/itens/list')
     } else {
-      setReturnError('The slug has already been taken.')
+      alert('Item não cadastrado!')
     }
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[90%] w-full items-center">
+    <div className="flex flex-col mx-auto items-center  max-md:min-h-[100%] max-md:max-h-[150%] md:mt-5 w-full">
       <Link
         href="/itens/list"
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
+        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-10 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
@@ -78,7 +77,7 @@ export default function InsertItensPage() {
           </div>
           <div className="flex flex-col mt-3">
             <label htmlFor="value">
-              Valor: <span className="text-red-600">*</span>{' '}
+              Valor: R$<span className="text-red-600">*</span>{' '}
             </label>
             <input
               type="number"
@@ -92,7 +91,7 @@ export default function InsertItensPage() {
           </div>
           <div className="flex flex-col mt-3">
             <label htmlFor="qtdIten">
-              Quantidade de iten: <span className="text-red-600">*</span>{' '}
+              Quantidade de item: <span className="text-red-600">*</span>{' '}
             </label>
             <input
               type="number"
@@ -102,22 +101,6 @@ export default function InsertItensPage() {
               required
             />
           </div>
-          <div className="flex flex-col mt-3">
-            <label htmlFor="slug">
-              Slug (Como deve chamar o iten, na url):{' '}
-              <span className="text-red-600">*</span>{' '}
-            </label>
-            <input
-              type="text"
-              name="slug"
-              id="slug"
-              className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-              required
-            />
-          </div>
-          {returnError === 'The slug has already been taken.' && (
-            <span className="text-xs text-red-600">Slug já cadastrado</span>
-          )}
           <div className="flex flex-col mt-3">
             <label htmlFor="urlImage">
               Caminho da imagem: <span className="text-red-600">*</span>{' '}

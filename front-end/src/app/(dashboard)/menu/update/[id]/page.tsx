@@ -80,7 +80,7 @@ export default function UpdateOrder({ params }: { params: { id: number } }) {
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
       {data?.idMesa !== undefined ? (
         <>
           <Link
