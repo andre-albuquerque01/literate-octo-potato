@@ -41,7 +41,7 @@ export default function UpdateCategoryPage({
   return (
     <>
       <Suspense fallback={<p>Carregando...</p>}>
-        <div className="flex flex-col mx-auto justify-center min-h-[80%] w-full items-center">
+        <div className="flex flex-col mx-auto justify-center min-h-[800px] w-full items-center">
           {data?.typeCategory !== undefined ? (
             <>
               <Link

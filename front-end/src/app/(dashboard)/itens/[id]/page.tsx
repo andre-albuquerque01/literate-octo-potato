@@ -13,7 +13,7 @@ export default async function Iten({ params }: { params: { id: number } }) {
 
   return (
     <div className="md:flex md:flex-col md:items-center md:justify-center  md:mt-8">
-      {!data ? (
+      {data ? (
         <>
           <Link href="" className="flex items-center px-8 py-4 md:hidden">
             <ArrowLeft className="w-5 h-5" /> Voltar
