@@ -1,46 +1,55 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { BtnForm } from '@/components/btnForm'
-import Api from '@/data/api'
+import { LoginUser } from '@/app/actions/user/login'
+import { VerifyEmail } from '@/app/actions/user/verifyEmail'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
-async function postLogin(body: object) {
-  try {
-    const response = await Api('/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqJson = await response.json()
-    return reqJson
-  } catch (error) {
-    console.error()
-  }
-}
-
-export default function Login() {
+export default function Login({
+  searchParams,
+}: {
+  searchParams: { q: string }
+}) {
+  const [message, setMessage] = useState<string>('')
+  useEffect(() => {
+    if (searchParams.q) {
+      const { q } = searchParams
+      const handleSearch = async () => {
+        const request = await VerifyEmail(q)
+        if (request) {
+          setMessage('E-mail verificado com sucesso!')
+        }
+      }
+      handleSearch()
+    }
+  }, [])
   const [error, setError] = useState<string>('')
-  const router = useRouter()
+  const [status, setStatus] = useState(false)
+  // const router = useRouter()
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setStatus(true)
 
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const req = await postLogin(data)
-    if (req) {
-      router.back()
+    const req = await LoginUser(data)
+
+    if (req.message === 'sucess') {
+      setStatus(false)
+    } else if (req.message === 'E-mail não verificado') {
+      setError('E-mail não verificado')
+      // router.push('/user/verifyEmail')
+      setStatus(false)
     } else {
-      setError('Email ou senha invalida')
+      setError('E-mail ou senha invalida.')
+      setStatus(false)
     }
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center md:h-[80%] max-md:h-[100%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center md:h-[800px] max-md:h-[100%] w-full items-center">
       <Link
         href="/"
         className="md:hidden flex items-center gap-1 text-sm mb-10 w-96 max-md:w-80"
@@ -50,6 +59,7 @@ export default function Login() {
       </Link>
       <p className="text-xl w-96 max-md:mb-0 max-md:w-80">Login</p>
       <form className="w-96 max-md:w-80" onSubmit={handleSubmit}>
+        <span className="text-blue-600 text-xs">{message}</span>
         <div className="flex flex-col mt-3">
           <label htmlFor="email">
             E-mail: <span className="text-red-600">*</span>{' '}
@@ -62,7 +72,14 @@ export default function Login() {
             required
           />
         </div>
-        <span className="text-red-600 text-xs">{error}</span>
+        <span className="text-red-600 text-xs">
+          {error}{' '}
+          {error === 'E-mail não verificado' && (
+            <Link href="/user/verifyEmail" className="underline">
+              Enviar novamente
+            </Link>
+          )}
+        </span>
         <div className="flex flex-col mt-3">
           <label htmlFor="password">
             Senha: <span className="text-red-600">*</span>{' '}
@@ -81,7 +98,14 @@ export default function Login() {
         >
           Esquece a senha?
         </Link>
-        <BtnForm title="Entrar" />
+        <div className="flex justify-center">
+          <button
+            disabled={status}
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+          >
+            Entrar
+          </button>
+        </div>
       </form>
       <div className="w-80 max-md:w-64 mt-5 max-md:mt-2 h-[0.5px] bg-black"></div>
       <Link

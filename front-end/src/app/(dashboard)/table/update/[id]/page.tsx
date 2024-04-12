@@ -2,6 +2,9 @@
 import { GetIdTableService } from '@/app/actions/table/getIdTable'
 import { UpdateTable } from '@/app/actions/table/updateTable'
 import { BtnForm } from '@/components/btnForm'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
 export default function UpdateTablePage({
@@ -15,12 +18,12 @@ export default function UpdateTablePage({
     numberMesa: '',
     statusMesa: '',
   })
+  const router = useRouter()
 
   useEffect(() => {
     const handleId = async (id: number) => {
-      const reqbody = await GetIdTableService(id)
-      const dt = await reqbody.json()
-      const dat = dt.data.data
+      const dt = await GetIdTableService(id)
+      const dat = dt.data
       setData(dat)
     }
     handleId(params.id)
@@ -38,19 +41,25 @@ export default function UpdateTablePage({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const reqBody = await UpdateTable(data, params.id)
-    const req = reqBody.data
+    const req = await UpdateTable(data, params.id)
 
     if (req.message === 'sucess') {
       alert('Alterado com sucesso!')
-      window.history.back()
+      router.back()
     } else if (req.message === 'The number mesa has already been taken.') {
       setReturnError('Número da mesa já cadastrado!')
     }
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
+      <Link
+        href="/table/list"
+        className="md:hidden flex items-center w-80 mb-5 mx-auto"
+      >
+        <ArrowLeft className="w-5 h-4" />
+        Voltar
+      </Link>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
         Alterar mesa <span className="font-medium">{data.numberMesa}</span>
       </p>
