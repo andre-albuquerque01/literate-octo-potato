@@ -4,14 +4,13 @@ import { ArrowLeft, Edit, PlusCircle, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function GetAll() {
-  const reqbody = await GetAllTableService()
-  const dt = await reqbody.json()
-  const data = dt.data.data
+  const dt = await GetAllTableService()
+  const data = dt.data
 
   return (
     <div className="flex flex-col min-h-[90%] w-full px-3">
       <Link
-        href="/"
+        href="/table"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-3 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />

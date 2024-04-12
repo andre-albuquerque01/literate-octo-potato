@@ -1,6 +1,8 @@
 'use client'
 import { InsertTable } from '@/app/actions/table/insertTable'
 import { BtnForm } from '@/components/btnForm'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 
 export default function InsertTablePage() {
@@ -10,9 +12,7 @@ export default function InsertTablePage() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    const reqBody = await InsertTable(data)
-    const dt = await reqBody.json()
-    const req = dt.data.data
+    const req = await InsertTable(data)
 
     if (req.message === 'sucess') {
       alert('Cadastrado com sucesso!')
@@ -23,7 +23,14 @@ export default function InsertTablePage() {
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
+      <Link
+        href="/table/list"
+        className="md:hidden flex items-center w-80 mb-5 mx-auto"
+      >
+        <ArrowLeft className="w-5 h-4" />
+        Voltar
+      </Link>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
         Cadastro da mesa
       </p>

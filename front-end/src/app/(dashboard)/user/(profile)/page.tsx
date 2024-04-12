@@ -11,6 +11,7 @@ import {
   PlusCircle,
   Search,
   SquarePen,
+  Table2,
 } from 'lucide-react'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
@@ -76,6 +77,13 @@ export default async function User() {
           >
             <Apple className="h-5 w-5" />
             Itens
+          </Link>
+          <Link
+            href="/table"
+            className="flex items-center gap-2 hover:underline"
+          >
+            <Table2 className="h-5 w-5" />
+            Mesas
           </Link>
           <Link
             href="/menu/list"
