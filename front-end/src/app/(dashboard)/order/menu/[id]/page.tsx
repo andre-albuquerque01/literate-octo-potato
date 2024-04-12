@@ -11,19 +11,23 @@ export default async function Comanda({ params }: { params: { id: number } }) {
 
   let soma = 0
   let mesa = 0
+  let qtdOrder = 0
   let date = ''
+  let dateUpdated = ''
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data.forEach((sm: any) => {
     soma += sm.valueOrder
     mesa = sm.numberMesa
-    date = sm.updated_at
+    date = sm.created_at
+    qtdOrder += sm.qtdOrder
     if (mesa !== sm.numberMesa) {
       mesa = sm.numberMesa
     }
-    if (date !== sm.updated_at) {
-      date = sm.updated_at
+    if (date !== sm.created_at) {
+      date = sm.created_at
     }
+    dateUpdated = sm.updated_at
   })
 
   function formatarData(dataISO: string): string {
@@ -68,11 +72,14 @@ export default async function Comanda({ params }: { params: { id: number } }) {
                     alt={`Imagem do ${itens.title}`}
                     width={150}
                     height={150}
-                    className="rounded-lg"
+                    className="rounded-lg w-[150px] h-[115px]"
                   />
-                  <div className="flex flex-col justify-evenly">
-                    <p className="font-medium text-lg text-wrap">
+                  <div className="flex flex-col justify-evenly w-[174px]">
+                    <p className="font-medium text-lg truncate">
                       {itens.title}
+                    </p>
+                    <p className="font-medium text-lg text-wrap">
+                      Qtd: {itens.qtdOrder}
                     </p>
                     <p className="font-medium text-md">
                       {itens.valueOrder.toLocaleString('pt-br', {
@@ -96,7 +103,11 @@ export default async function Comanda({ params }: { params: { id: number } }) {
           <div className="border border-zinc-500 max-md:fixed md:mt-5 bottom-0 max-md:z-30 px-4 md:py-5 bg-white max-md:w-full md:mb-5 md:w-[40%] space-y-1 md:rounded-xl">
             <div className="flex justify-between">
               <span className="font-medium">Data</span>
-              <span>{formatarData(date)}</span>
+              <span>{formatarData(dateUpdated)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Quantidade de itens</span>
+              <span>{qtdOrder}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">Preço</span>
