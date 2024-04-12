@@ -1,9 +1,8 @@
 import { GetAllItens } from '@/app/actions/itens/getAllItens'
 import { AddCartComanda } from '@/components/addCart'
+import { GoBack } from '@/components/goBack'
 import { InterfaceItens } from '@/data/type/interfaceItens'
-import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 export default async function AddCart({ params }: { params: { id: number } }) {
   const reqBody = await GetAllItens()
@@ -11,9 +10,7 @@ export default async function AddCart({ params }: { params: { id: number } }) {
 
   return (
     <div className="max-md:w-[360px] mx-auto mt-5 space-y-5">
-      <Link href="/menu/list" className="flex items-center  md:hidden">
-        <ArrowLeft className="w-5 h-5" /> Voltar
-      </Link>
+      <GoBack />
       <p className="text-md font-normal">Itens na comanda</p>
       <div className="flex flex-wrap gap-5">
         {data.map((itens: InterfaceItens, index: number) => (

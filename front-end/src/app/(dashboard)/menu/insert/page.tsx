@@ -13,9 +13,8 @@ export default function InsertOrder() {
   const router = useRouter()
   useEffect(() => {
     const hanldeData = async () => {
-      const reqbody = await GetAllTableService()
-      const dt = await reqbody.json()
-      const dat = dt.data.data
+      const dt = await GetAllTableService()
+      const dat = dt.data
       setData(dat)
     }
     hanldeData()
@@ -33,7 +32,7 @@ export default function InsertOrder() {
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[80%] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
       <Link
         href="/menu/list"
         className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
@@ -51,6 +50,7 @@ export default function InsertOrder() {
             type="number"
             name="cpf"
             id="cpf"
+            min={0}
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
