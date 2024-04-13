@@ -3,6 +3,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 import { revalidatePathAction } from '../revalidate/revalidatePathAction'
+import { revalidateTag } from 'next/cache'
 
 export async function DeleteItens(id: number) {
   try {
@@ -18,6 +19,7 @@ export async function DeleteItens(id: number) {
       },
     })
     if (!response.ok) return false
+    revalidateTag('itens')
     revalidatePathAction('/itens/list')
     return true
   } catch (error) {

@@ -10,15 +10,15 @@ export async function GetIdItens(id: number) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      cache: 'no-cache',
+      next: {
+        revalidate: 60,
+        tags: ['itens'],
+      },
     })
 
     const data = await response.json()
-
     return data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return 'Houver erro'
   }
 }

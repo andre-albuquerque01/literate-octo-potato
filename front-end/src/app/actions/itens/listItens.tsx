@@ -7,6 +7,7 @@ export async function GetListItens(page: number) {
   const response = await ApiRoute(`/itensa?page=${page}`, {
     next: {
       revalidate: 60,
+      tags: ['itens'],
     },
   })
   const datas = await response.json()

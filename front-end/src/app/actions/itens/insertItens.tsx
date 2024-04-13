@@ -2,7 +2,6 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
 export async function InsertItens(requestBody: object) {
   try {
@@ -18,8 +17,8 @@ export async function InsertItens(requestBody: object) {
       },
       body: JSON.stringify(requestBody),
     })
-    const data = await response.json()
-    if (!response.ok) return NextResponse.json({ data })
+
+    if (!response.ok) return false
 
     return true
   } catch (error) {
