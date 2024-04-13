@@ -15,11 +15,15 @@ export async function VerifyLike(id: number) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token?.value}`,
       },
-      cache: 'no-cache',
+      next: {
+        revalidate: 60 * 30,
+        tags: ['rateU'],
+      },
     })
 
     const data = await response.json()
-    if (data.data) return true
+
+    if (data.data !== 'false') return true
     return false
   } catch (error) {
     return false

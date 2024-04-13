@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -17,7 +18,8 @@ export async function DeleteLike(id: number) {
         Authorization: `Bearer ${token?.value}`,
       },
     })
-
+    revalidateTag('rate')
+    revalidateTag('rateU')
     if (!response.ok) return false
     return true
   } catch (error) {

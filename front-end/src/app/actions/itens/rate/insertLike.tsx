@@ -1,8 +1,8 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
 export async function InsertLike(requestBody: object) {
   try {
@@ -18,13 +18,12 @@ export async function InsertLike(requestBody: object) {
       },
       body: JSON.stringify(requestBody),
     })
-
+    revalidateTag('rate')
+    revalidateTag('rateU')
     const data = await response.json()
 
-    return NextResponse.json({ data })
+    return data
   } catch (error) {
-    return new NextResponse(JSON.stringify('error'), {
-      status: 401,
-    })
+    return 'Houve error'
   }
 }
