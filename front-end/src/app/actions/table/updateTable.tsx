@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
 export async function UpdateTable(reqBody: object, id: number) {
@@ -17,8 +18,9 @@ export async function UpdateTable(reqBody: object, id: number) {
       },
       body: JSON.stringify(reqBody),
     })
-
     const data = await response.json()
+
+    revalidateTag('table')
     return data
   } catch (error) {
     return new Response(JSON.stringify(error), {

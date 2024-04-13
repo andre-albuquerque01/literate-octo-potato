@@ -1,7 +1,9 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
+import { revalidatePathAction } from '../revalidate/revalidatePathAction'
 
 export async function InsertTable(requestBody: object) {
   try {
@@ -17,12 +19,11 @@ export async function InsertTable(requestBody: object) {
       },
       body: JSON.stringify(requestBody),
     })
-
+    revalidateTag('table')
+    revalidatePathAction('/table')
     const data = await response.json()
-    return Response.json({ data })
+    return data
   } catch (error) {
-    return new Response(JSON.stringify('error'), {
-      status: 401,
-    })
+    return 'Houve error'
   }
 }

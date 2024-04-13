@@ -12,6 +12,9 @@ export default async function GetAllTableService() {
       headers: {
         Authorization: `Bearer ${token?.value}`,
       },
+      next: {
+        tags: ['table'],
+      },
     })
 
     const data = await response.json()
