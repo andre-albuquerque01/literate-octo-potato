@@ -10,6 +10,10 @@ export async function GetIdItensRate(id: number) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      next: {
+        revalidate: 1,
+        tags: ['rate'],
+      },
     })
 
     const data = await response.json()
