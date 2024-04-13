@@ -14,7 +14,10 @@ export default async function GetOrderService(id: number) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token?.value}`,
       },
-      cache: 'no-cache',
+      next: {
+        revalidate: 60,
+        tags: ['order'],
+      },
     })
 
     const data = await response.json()

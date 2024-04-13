@@ -3,6 +3,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 import { revalidatePathAction } from '../revalidate/revalidatePathAction'
+import { revalidateTag } from 'next/cache'
 
 export async function DeleteOrder(id: number, idComanda: number) {
   try {
@@ -16,11 +17,10 @@ export async function DeleteOrder(id: number, idComanda: number) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token?.value}`,
       },
-      cache: 'no-cache',
     })
-    revalidatePathAction(`/order/comanda/${idComanda}`)
-
     if (!response.ok) return false
+    revalidatePathAction(`/order/comanda/${idComanda}`)
+    revalidateTag('order')
     return true
   } catch (error) {
     return new Response(JSON.stringify(error), {

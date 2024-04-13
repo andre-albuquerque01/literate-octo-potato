@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
 export async function InsertOrder(requestBody: object) {
@@ -19,11 +20,9 @@ export async function InsertOrder(requestBody: object) {
     })
 
     if (!response.ok) return false
-
+    revalidateTag('order')
     return true
   } catch (error) {
-    return new Response(JSON.stringify('error'), {
-      status: 401,
-    })
+    return false
   }
 }
