@@ -1,5 +1,6 @@
 'use client'
 import { Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface propsInterface {
   idItens: number
@@ -7,13 +8,14 @@ interface propsInterface {
 }
 
 export const AddCartComanda = ({ idItens, idMenu }: propsInterface) => {
+  const router = useRouter()
   const handleAdd = async (
     idItens: number,
     idMenu: number,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    window.location.replace(`/order/insert?iten=${idItens}&menu=${idMenu}`)
+    router.push(`/order/insert?iten=${idItens}&menu=${idMenu}`)
   }
   return (
     <div title="Adicionar item" className="">
