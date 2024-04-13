@@ -27,9 +27,8 @@ export const BtnLike = (props: ProspLike) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const reqbody = await InsertLike({ idItens: props.id })
-    const dt = await reqbody.json()
-    const like = dt.data.data
+    const like = await InsertLike({ idItens: props.id })
+
     if (like.message === 'sucess') {
       alert('Avaliado!')
       router.refresh()
@@ -48,7 +47,7 @@ export const BtnLike = (props: ProspLike) => {
     const dislike = await DeleteLike(props.id)
     if (dislike) {
       alert('Removida avaliação!')
-      router.refresh()
+      // router.refresh()
     }
   }
 
