@@ -15,6 +15,10 @@ export default async function GetAllMenuService() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token?.value}`,
       },
+      next: {
+        revalidate: 60 * 30,
+        tags: ['menu'],
+      },
     })
 
     const data = await response.json()

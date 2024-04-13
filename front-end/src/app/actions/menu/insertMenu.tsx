@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
 export async function InsertMenu(requestBody: object) {
@@ -17,9 +18,9 @@ export async function InsertMenu(requestBody: object) {
       },
       body: JSON.stringify(requestBody),
     })
+    revalidateTag('menu')
 
     if (!response.ok) return false
-
     return true
   } catch (error) {
     return new Response(JSON.stringify('error'), {
