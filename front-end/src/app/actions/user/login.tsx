@@ -2,9 +2,8 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
-export async function POST(requestBody: object) {
+export async function LoginUser(requestBody: object) {
   try {
     const cookiesStore = cookies()
 
@@ -17,6 +16,14 @@ export async function POST(requestBody: object) {
     })
 
     const data = await response.json()
+
+    if (!response.ok) {
+      return { message: 'error' }
+    }
+
+    if (data.message === 'E-mail não verificado') {
+      return { message: 'E-mail não verificado' }
+    }
 
     cookiesStore.set('token', data.data.token, {
       expires: Date.now() + 2 * 60 * 60 * 1000,
@@ -34,11 +41,11 @@ export async function POST(requestBody: object) {
     }
 
     if (data.message === 'erro') {
-      return NextResponse.json({ data: 'Error' })
+      return { data: 'Error' }
     }
 
-    return NextResponse.json({ data })
+    return { message: 'sucess' }
   } catch (error) {
-    return NextResponse.json({ error }, { status: 401 })
+    return { message: 'error' }
   }
 }
