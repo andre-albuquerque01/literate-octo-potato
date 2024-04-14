@@ -1,28 +1,9 @@
 'use client'
 import GetAllTableService from '@/app/actions/table/getAllTable'
-import Api from '@/data/api'
+import { UpdateTable } from '@/app/actions/table/updateTable'
 import { TableInterface } from '@/data/type/table'
 import { X, CheckCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
-async function putStatusTable(body: object, id: number) {
-  try {
-    const request = await Api(`/table/update/${id}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    const reqBody = await request.json()
-
-    return reqBody.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
 export const TableStatus = () => {
   const [data, setData] = useState<TableInterface[]>([])
@@ -30,20 +11,16 @@ export const TableStatus = () => {
 
   useEffect(() => {
     const getAl = async () => {
-      const reqbody = await GetAllTableService()
-      const dt = await reqbody.json()
-      const dat = dt.data.data
-      setData(dat)
+      const dat = await GetAllTableService()
+      setData(dat.data)
     }
     getAl()
   }, [])
 
   useEffect(() => {
     const getAl = async () => {
-      const reqbody = await GetAllTableService()
-      const dt = await reqbody.json()
-      const dat = dt.data.data
-      setData(dat)
+      const dat = await GetAllTableService()
+      setData(dat.data)
     }
     if (status) {
       getAl()
@@ -56,7 +33,7 @@ export const TableStatus = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const table = await putStatusTable({ statusMesa: 1 }, id)
+    const table = await UpdateTable({ statusMesa: 1 }, id)
     if (table.message === 'sucess') {
       alert('Mesa torna-se ocupada!')
       setStatus(true)
@@ -68,7 +45,7 @@ export const TableStatus = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const table = await putStatusTable({ statusMesa: 0 }, id)
+    const table = await UpdateTable({ statusMesa: 0 }, id)
     if (table.message === 'sucess') {
       alert('Mesa torna-se vazia!')
       setStatus(true)
