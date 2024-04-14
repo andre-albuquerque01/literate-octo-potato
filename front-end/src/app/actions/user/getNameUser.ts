@@ -15,6 +15,9 @@ export async function GetNameUser() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token?.value}`,
       },
+      next: {
+        revalidate: 60 * 30,
+      },
     })
 
     const data = await response.json()
