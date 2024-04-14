@@ -23,10 +23,10 @@ export const ListItens = (search: TypeSearch) => {
         alt={search.alt}
         width={search.width}
         height={search.height}
-        className="rounded-lg"
+        className="rounded-lg w-[150px] h-[115px]"
       />
-      <div className="flex flex-col justify-evenly">
-        <p className="font-medium text-lg text-wrap truncate">{search.title}</p>
+      <div className="flex flex-col justify-evenly w-[150px]">
+        <p className="font-medium text-lg truncate">{search.title}</p>
         <p className="font-medium text-md">
           {search.value.toLocaleString('pt-br', {
             style: 'currency',
