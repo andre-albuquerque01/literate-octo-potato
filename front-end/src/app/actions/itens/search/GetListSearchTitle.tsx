@@ -13,6 +13,7 @@ export async function GetListSearchTitle(title: string, page: number) {
       },
       next: {
         revalidate: 60,
+        tags: ['itens'],
       },
     })
 
