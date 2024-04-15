@@ -6,6 +6,7 @@ import Link from 'next/link'
 export const Header = () => {
   const cookieStore = cookies()
   const token = cookieStore.has('token')
+  const r = cookieStore.get('r')
   return (
     <>
       <div className="invisible max-md:visible max-md:fixed max-md:bottom-12 z-20 w-full h-[0.2px] bg-slate-950"></div>
@@ -40,7 +41,7 @@ export const Header = () => {
           </Link>
           <Link
             href="/order/list"
-            className="flex items-center gap-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
+            className={`flex items-center gap-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden ${r?.value && 'hidden'}`}
             title="Pedido"
           >
             <ScrollText className="h-6 w-6" />{' '}

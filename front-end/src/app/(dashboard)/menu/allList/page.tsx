@@ -27,7 +27,7 @@ export default async function allListMenu({ searchParams }: PropsSearchParams) {
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
-      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80 mt-5">
+      <p className="text-xl mb-1 max-md:mb-0 mt-5">
         Lista de pedido, tanto aberto como fechados
       </p>
       <div className="space-y-5 mt-4">

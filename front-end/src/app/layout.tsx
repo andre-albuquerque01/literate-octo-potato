@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: {
-    template: '%',
+    template: '%s | TUTU',
     default: 'TUTU food',
   },
   description: 'Cardapio digital',
