@@ -63,7 +63,7 @@ export default async function SearchIten({ searchParams }: SearchParamsProps) {
       return (
         <>
           <LinkPaginationQuery
-            path={queryC}
+            path={queryQ}
             query={page}
             letter={'q'}
             countPage={countPage}
