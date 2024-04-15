@@ -62,6 +62,16 @@ class MenuService
         }
     }
 
+    public function showAllOpenAndClose()
+    {
+        try {
+            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->paginate(20);
+            return MenuResource::collection($menu);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function store(array $data)
     {
         try {

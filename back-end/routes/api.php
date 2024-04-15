@@ -32,6 +32,7 @@ Route::prefix('v1')->group(function () {
         // Menu
         Route::apiResource('/menu', MenuController::class);
         Route::get('/menuAll', [MenuController::class, 'showAll']);
+        Route::get('/menuA', [MenuController::class, 'showAllOpenAndClose']);
         Route::get('/menuUser', [MenuController::class, 'showUser']);
         Route::get('/menuHistoric', [MenuController::class, 'showHistoric']);
         Route::get('/menucpf/{cpf}', [MenuController::class, 'showCPF']);
