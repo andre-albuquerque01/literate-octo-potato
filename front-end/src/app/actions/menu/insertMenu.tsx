@@ -19,6 +19,7 @@ export async function InsertMenu(requestBody: object) {
       body: JSON.stringify(requestBody),
     })
     revalidateTag('menu')
+    revalidateTag('menuList')
 
     if (!response.ok) return false
     return true

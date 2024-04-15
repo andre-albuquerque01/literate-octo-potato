@@ -21,6 +21,7 @@ export async function UpdateMenu(reqBody: object, id: number) {
 
     if (!response.ok) return false
     revalidateTag('menu')
+    revalidateTag('menuList')
     return true
   } catch (error) {
     return new Response(JSON.stringify(error), {
