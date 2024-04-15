@@ -16,6 +16,7 @@ export async function GetListSearchCategory(
       },
       next: {
         revalidate: 60,
+        tags: ['itens'],
       },
     })
     const datas = await response.json()
