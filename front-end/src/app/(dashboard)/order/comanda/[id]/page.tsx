@@ -71,7 +71,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
                     height={150}
                     className="rounded-lg w-[145px] h-[115px]"
                   />
-                  <div className="flex flex-col justify-evenly w-[174px]">
+                  <div className="flex flex-col justify-evenly w-[150px]">
                     <p className="font-medium text-lg truncate">
                       {itens.title}
                     </p>
