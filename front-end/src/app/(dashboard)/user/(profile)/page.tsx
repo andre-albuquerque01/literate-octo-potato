@@ -93,6 +93,13 @@ export default async function User() {
             Pedidos do cliente
           </Link>
           <Link
+            href="/menu/allList"
+            className="flex items-center w-[170px] gap-2 hover:underline"
+          >
+            <BookAIcon className="h-5 w-5" />
+            Todos os pedidos
+          </Link>
+          <Link
             href="/category/list"
             className="flex items-center gap-2 hover:underline"
           >
