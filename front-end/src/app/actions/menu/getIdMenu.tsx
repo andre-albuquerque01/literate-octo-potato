@@ -15,8 +15,8 @@ export default async function GetIdMenuService(id: number) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token?.value}`,
       },
+      cache: 'no-cache',
       next: {
-        revalidate: 60 * 30,
         tags: ['menuId'],
       },
     })
