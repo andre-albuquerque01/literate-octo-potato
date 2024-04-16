@@ -7,6 +7,7 @@ import {
   History,
   Home,
   ListIcon,
+  ListOrdered,
   PenLine,
   PlusCircle,
   Search,
@@ -87,16 +88,16 @@ export default async function User() {
           </Link>
           <Link
             href="/menu/list"
-            className="flex items-center w-[170px] gap-2 hover:underline"
+            className="flex items-center w-[240px] gap-2 hover:underline"
           >
             <BookAIcon className="h-5 w-5" />
-            Pedidos do cliente
+            Pedidos do cliente abertos
           </Link>
           <Link
             href="/menu/allList"
             className="flex items-center w-[170px] gap-2 hover:underline"
           >
-            <BookAIcon className="h-5 w-5" />
+            <ListOrdered className="h-5 w-5" />
             Todos os pedidos
           </Link>
           <Link
