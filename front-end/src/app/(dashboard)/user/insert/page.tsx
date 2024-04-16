@@ -1,5 +1,6 @@
 'use client'
 import { InsertUser } from '@/app/actions/user/insertUser'
+import { validarCPF } from '@/data/function/validateCpf'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -43,7 +44,8 @@ export default function InsertUserPage() {
     setReturnError(validatePassword(data.password))
     if (
       data.password === data.password_confirmation &&
-      validatePassword(data.password) === ''
+      validatePassword(data.password) === '' &&
+      validarCPF(String(data.cpf))
     ) {
       const req = await InsertUser(data)
       setReturnError(req.message)
@@ -59,10 +61,10 @@ export default function InsertUserPage() {
         } else if (req.message.includes('The email has already been taken.')) {
           setReturnError('The email has already been taken.')
         }
-      return ''
+    } else if (!validarCPF(String(data.cpf))) {
+      setReturnError('CPF invalido')
     }
     setReturnError('Senhas não correspondem')
-    return ''
   }
 
   return (
@@ -142,6 +144,9 @@ export default function InsertUserPage() {
         </div>
         {returnError === 'The cpf has already been taken.' && (
           <span className="text-xs text-red-600">CPF já cadastrado</span>
+        )}
+        {returnError === 'CPF invalido' && (
+          <span className="text-xs text-red-600">CPF inválido.</span>
         )}
         <div className="flex flex-col mt-3">
           <label htmlFor="email">
