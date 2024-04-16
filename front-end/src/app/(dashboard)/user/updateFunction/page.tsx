@@ -1,17 +1,23 @@
 'use client'
 import { UpdateFunction } from '@/app/actions/user/updateFunction'
 import { BtnForm } from '@/components/btnForm'
+import { validarCPF } from '@/data/function/validateCpf'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 export default function UpdateFunctionPage() {
+  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
+    if (!validarCPF(String(data.cpf))) {
+      setReturnError('CPF invalido')
+      return ''
+    }
     const req = await UpdateFunction(data)
     if (req) {
       alert('Alterado com sucesso!')
@@ -47,6 +53,9 @@ export default function UpdateFunctionPage() {
             required
           />
         </div>
+        {returnError === 'CPF invalido' && (
+          <span className="text-xs text-red-600">CPF inválido.</span>
+        )}
         <div className="flex flex-col mt-3">
           <label htmlFor="role">
             Nova função: <span className="text-red-600">*</span>{' '}
