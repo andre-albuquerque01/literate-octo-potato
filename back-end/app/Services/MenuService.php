@@ -96,8 +96,8 @@ class MenuService
     public function showCPF(string $cpf)
     {
         try {
-            $menu = Menu::where('menu.cpf', $cpf);
-            return new MenuResource2($menu);
+            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->where('menu.cpf', 'LIKE', '%' . $cpf . '%')->paginate(20);
+            return MenuResource::collection($menu);
         } catch (\Throwable $th) {
             throw $th;
         }
