@@ -2,6 +2,7 @@
 import { UpdatePasswordUser } from '@/app/actions/user/updatePassword'
 import { BtnForm } from '@/components/btnForm'
 import { ArrowLeft } from 'lucide-react'
+import { ReCaptchaProvider } from 'next-recaptcha-v3'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
@@ -67,51 +68,55 @@ export default function UpdatePassswordPage() {
       </Link>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Alterar senha</p>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col mt-3">
-          <label htmlFor="password">
-            Senha atual: <span className="text-red-600">*</span>{' '}
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
-          />
-        </div>
-        <div className="flex flex-col mt-3">
-          <label htmlFor="password_new">
-            Nova senha: <span className="text-red-600">*</span>{' '}
-          </label>
-          <input
-            type="password"
-            name="password_new"
-            id="password_new"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
-          />
-        </div>
-        {err.map(
-          (erro, key) =>
-            returnError === erro && (
-              <span key={key} className="text-xs text-red-600">
-                {returnError}
-              </span>
-            ),
-        )}
-        <div className="flex flex-col mt-3">
-          <label htmlFor="password_confirmation">
-            Repetir senha: <span className="text-red-600">*</span>{' '}
-          </label>
-          <input
-            type="password"
-            name="password_confirmation"
-            id="password_confirmation"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
-          />
-        </div>
-        <BtnForm title="Alterar" />
+        <ReCaptchaProvider
+          reCaptchaKey={process.env.NEXT_PUBLIC_API_KEY_RECAPTCHA}
+        >
+          <div className="flex flex-col mt-3">
+            <label htmlFor="password">
+              Senha atual: <span className="text-red-600">*</span>{' '}
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+              required
+            />
+          </div>
+          <div className="flex flex-col mt-3">
+            <label htmlFor="password_new">
+              Nova senha: <span className="text-red-600">*</span>{' '}
+            </label>
+            <input
+              type="password"
+              name="password_new"
+              id="password_new"
+              className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+              required
+            />
+          </div>
+          {err.map(
+            (erro, key) =>
+              returnError === erro && (
+                <span key={key} className="text-xs text-red-600">
+                  {returnError}
+                </span>
+              ),
+          )}
+          <div className="flex flex-col mt-3">
+            <label htmlFor="password_confirmation">
+              Repetir senha: <span className="text-red-600">*</span>{' '}
+            </label>
+            <input
+              type="password"
+              name="password_confirmation"
+              id="password_confirmation"
+              className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+              required
+            />
+          </div>
+          <BtnForm title="Alterar" />
+        </ReCaptchaProvider>
       </form>
     </div>
   )
