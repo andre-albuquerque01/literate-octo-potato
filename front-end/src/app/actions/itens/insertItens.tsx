@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
 export async function InsertItens(requestBody: object) {
@@ -19,7 +20,7 @@ export async function InsertItens(requestBody: object) {
     })
 
     if (!response.ok) return false
-
+    revalidateTag('itens')
     return true
   } catch (error) {
     return new Response(JSON.stringify('error'), {

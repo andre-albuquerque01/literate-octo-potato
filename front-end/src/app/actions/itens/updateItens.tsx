@@ -1,6 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -20,7 +21,7 @@ export async function UpdateItens(reqBody: object, id: number) {
     })
 
     const data = await response.json()
-
+    revalidateTag('itens')
     if (!response.ok) return NextResponse.json({ data })
 
     return true
