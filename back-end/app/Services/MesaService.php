@@ -21,6 +21,7 @@ class MesaService
     public function store(array $data)
     {
         try {
+            $data['statusMesa'] = 0;
             Mesa::create($data);
             return response()->json(['message' => 'sucess'], 200);
         } catch (\Throwable $th) {

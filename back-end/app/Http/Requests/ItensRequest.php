@@ -22,14 +22,14 @@ class ItensRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'title' => 'required|min:2|max:60|string',
-            'desc' => 'required|min:2|max:255|string',
-            'value' => 'required|min:2|max:8',
-            'qtdIten' => 'required|min:1|max:100',
-            'urlImage' => 'required|min:1|string',
-            'waitTime' => 'required|min:1|max:100|string',
-            'position' => 'required',
-            'idCategory' => 'required',
+            'title' => 'required|min:2|max:60|regex:/^[^<>]*$/',
+            'desc' => 'required|min:2|max:255|regex:/^[^<>]*$/',
+            'value' => 'required|min:2|max:8|regex:/^[^<>]*$/',
+            'qtdIten' => 'required|min:1|max:100|regex:/^[^<>]*$/',
+            'urlImage' => 'required|min:1|regex:/^[^<>]*$/',
+            'waitTime' => 'required|min:1|max:100|regex:/^[^<>]*$/',
+            'position' => 'required|regex:/^[^<>]*$/',
+            'idCategory' => 'required|regex:/^[^<>]*$/',
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {

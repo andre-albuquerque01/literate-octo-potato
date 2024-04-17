@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('idMesa');
             $table->string('numberMesa');
             $table->string('lotacao');
-            $table->boolean('statusMesa');
+            $table->boolean('statusMesa')->nullable();
             $table->timestamps();
         });
     }

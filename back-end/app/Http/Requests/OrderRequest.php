@@ -22,10 +22,10 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "qtdOrder" => "required",
-            "valueOrder" => "required",
-            "idMenu" => "required",
-            "idItens" => "required",
+            "qtdOrder" => "required|regex:/^[^<>]*$/",
+            "valueOrder" => "required|regex:/^[^<>]*$/",
+            "idMenu" => "required|regex:/^[^<>]*$/",
+            "idItens" => "required|regex:/^[^<>]*$/",
         ];
     }
 }

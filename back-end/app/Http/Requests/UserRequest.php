@@ -23,12 +23,12 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            "firstName" => "required|min:3|max:60",
-            "lastName" => "required|min:3|max:60",
-            "DDD" => "required|min:2|max:3",
-            "phoneNumber" => "required|min:8|max:12",
-            "cpf" => "required|min:11|max:11|unique:users,cpf",
-            "term_aceite" => "required",
+            "firstName" => "required|min:3|max:60|regex:/^[^<>]*$/",
+            "lastName" => "required|min:3|max:60|regex:/^[^<>]*$/",
+            "DDD" => "required|min:2|max:3|regex:/^[^<>]*$/",
+            "phoneNumber" => "required|min:8|max:12|regex:/^[^<>]*$/",
+            "cpf" => "required|min:11|max:11|unique:users,cpf|regex:/^[^<>]*$/",
+            "term_aceite" => "required|regex:/^[^<>]*$/",
             "email" => [
                 "required",
                 "email",

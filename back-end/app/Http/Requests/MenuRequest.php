@@ -22,14 +22,14 @@ class MenuRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            "idMesa" => "required",
-            "statusOrder" => "required",
-            "cpf" => "required",
-            "methodPay" => "nullable",
-            "idUser" => "nullable",
-            "value" => "nullable",
-            "desconto" => "nullable",
-            "tip" => "nullable",
+            "idMesa" => "required|regex:/^[^<>]*$/",
+            "statusOrder" => "required|regex:/^[^<>]*$/",
+            "cpf" => "required|regex:/^[^<>]*$/",
+            "methodPay" => "nullable|regex:/^[^<>]*$/",
+            "idUser" => "nullable|regex:/^[^<>]*$/",
+            "value" => "nullable|regex:/^[^<>]*$/",
+            "desconto" => "nullable|regex:/^[^<>]*$/",
+            "tip" => "nullable|regex:/^[^<>]*$/",
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {

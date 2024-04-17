@@ -22,9 +22,9 @@ class MesaRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            "numberMesa" => "required|unique:mesa",
-            "lotacao" => "required|min:1",
-            "statusMesa" => "required",
+            "numberMesa" => "required|unique:mesa|regex:/^[^<>]*$/",
+            "lotacao" => "required|min:1|regex:/^[^<>]*$/",
+            "statusMesa" => "nullable|regex:/^[^<>]*$/",
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {

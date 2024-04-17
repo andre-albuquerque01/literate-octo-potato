@@ -22,7 +22,7 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'typeCategory' => 'required',
+            'typeCategory' => 'required|regex:/^[^<>]*$/',
             'urlImageCategory' => 'nullable'
         ];
     }
