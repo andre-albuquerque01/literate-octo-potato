@@ -2,6 +2,7 @@
 import { InsertMenu } from '@/app/actions/menu/insertMenu'
 import GetAllTableService from '@/app/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
+import { ValidateFormMenu } from '@/data/function/validateFormMenu'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -10,6 +11,7 @@ import { FormEvent, useEffect, useState } from 'react'
 
 export default function InsertOrder() {
   const [data, setData] = useState<TableInterface[]>([])
+  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
   useEffect(() => {
     const hanldeData = async () => {
@@ -24,6 +26,17 @@ export default function InsertOrder() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
+
+    const val = ValidateFormMenu(
+      e.currentTarget.cpf.value,
+      e.currentTarget.value.value,
+      e.currentTarget.idMesa.value,
+      e.currentTarget.statusOrder.value,
+      e.currentTarget.methodPay.value,
+    )
+
+    if (val !== '') setReturnError(val)
+
     const req = await InsertMenu(data)
     if (req) {
       alert('Cadastrado com sucesso!')
@@ -42,6 +55,9 @@ export default function InsertOrder() {
       </Link>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Nova comanda</p>
       <form onSubmit={handleData}>
+        {returnError === 'Preencha os dados!' && (
+          <span className="text-xs text-red-600">Preencha os dados!</span>
+        )}
         <div className="flex flex-col mt-3">
           <label htmlFor="cpf">
             CPF do cliente: <span className="text-red-600">*</span>{' '}

@@ -2,6 +2,7 @@
 import { GetIdItens } from '@/app/actions/itens/getIdItens'
 import { InsertOrder } from '@/app/actions/order/insertOrder'
 import { BtnForm } from '@/components/btnForm'
+import { ValidateFormOrder } from '@/data/function/validateFormOrder'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -9,6 +10,7 @@ import { FormEvent, useEffect, useState } from 'react'
 
 export default function InsertOrderPage() {
   const [data, setData] = useState<InterfaceItens>()
+  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
   const [dados, setDados] = useState({
     qtdOrder: '',
@@ -57,6 +59,14 @@ export default function InsertOrderPage() {
       formData.append('idItens', itens)
       formData.append('idMenu', menu)
       const objet = Object.fromEntries(formData)
+
+      const val = ValidateFormOrder(
+        e.currentTarget.qtdOrder.value,
+        e.currentTarget.valueOrder.value,
+      )
+
+      if (val !== '') setReturnError(val)
+
       const req = await InsertOrder(objet)
       if (req) {
         alert('Item inserido com sucesso!')
@@ -80,6 +90,9 @@ export default function InsertOrderPage() {
         Cadastrado do pedido
       </p>
       <form onSubmit={handleSubmit}>
+        {returnError === 'Preencha os dados!' && (
+          <span className="text-xs text-red-600">Preencha os dados!</span>
+        )}
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label>Item:</label>
           <input
