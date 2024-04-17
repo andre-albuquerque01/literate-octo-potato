@@ -2,6 +2,7 @@
 import { GetAllCategory } from '@/app/actions/category/getAllCatgeory'
 import { InsertItens } from '@/app/actions/itens/insertItens'
 import { BtnForm } from '@/components/btnForm'
+import { ValidateFormItens } from '@/data/function/validateFormItens'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -10,6 +11,7 @@ import { FormEvent, Suspense, useEffect, useState } from 'react'
 
 export default function InsertItensPage() {
   const [category, setCategory] = useState<CategoryInterface[]>([])
+  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
 
   useEffect(() => {
@@ -27,6 +29,19 @@ export default function InsertItensPage() {
 
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
+
+    const val = ValidateFormItens(
+      e.currentTarget.desc.value,
+      e.currentTarget.value.value,
+      e.currentTarget.qtdIten.value,
+      e.currentTarget.urlImage.value,
+      e.currentTarget.waitTime.value,
+      e.currentTarget.idCategory.value,
+      e.currentTarget.position.value,
+    )
+
+    if (val !== '') setReturnError(val)
+
     const req = await InsertItens(data)
 
     if (req) {
@@ -51,6 +66,9 @@ export default function InsertItensPage() {
       </p>
       <Suspense fallback={'Carregando...'}>
         <form onSubmit={handleSubmite}>
+          {returnError === 'Preencha os dados!' && (
+            <span className="text-xs text-red-600">Preencha os dados!</span>
+          )}
           <div className="flex flex-col mt-3 max-md:mt-3">
             <label htmlFor="title">
               Titulo: <span className="text-red-600">*</span>{' '}

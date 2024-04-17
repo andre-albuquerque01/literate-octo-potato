@@ -1,17 +1,27 @@
 'use client'
 import { InsertCategory } from '@/app/actions/category/insertCategory'
 import { BtnForm } from '@/components/btnForm'
+import { ValidateFormCategoria } from '@/data/function/validateFormCategoria'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 export default function InsertCategoryPage() {
+  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
+
+    const val = ValidateFormCategoria(
+      e.currentTarget.typeCategory.value,
+      e.currentTarget.urlImageCategory.value,
+    )
+
+    if (val !== '') setReturnError(val)
+
     const req = await InsertCategory(data)
     if (req) {
       alert('Cadastrado com sucesso!')
@@ -34,6 +44,9 @@ export default function InsertCategoryPage() {
         Cadastro de categoria
       </p>
       <form onSubmit={handleSubmit}>
+        {returnError === 'Preencha os dados!' && (
+          <span className="text-xs text-red-600">Preencha os dados!</span>
+        )}
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="typeCategory">
             Nome da categoria: <span className="text-red-600">*</span>{' '}
