@@ -1,6 +1,7 @@
 'use client'
 import { InsertTable } from '@/app/actions/table/insertTable'
 import { BtnForm } from '@/components/btnForm'
+import { ValidateFormTable } from '@/data/function/validateFormTable'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useState } from 'react'
@@ -12,6 +13,14 @@ export default function InsertTablePage() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
+
+    const val = ValidateFormTable(
+      e.currentTarget.numberMesa.value,
+      e.currentTarget.lotacao.value,
+    )
+
+    if (val !== '') setReturnError(val)
+
     const req = await InsertTable(data)
 
     if (req.message === 'sucess') {
@@ -35,6 +44,9 @@ export default function InsertTablePage() {
         Cadastro da mesa
       </p>
       <form onSubmit={handleSubmit}>
+        {returnError === 'Preencha os dados!' && (
+          <span className="text-xs text-red-600">Preencha os dados!</span>
+        )}
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="numberMesa">
             Número da mesa: <span className="text-red-600">*</span>{' '}
@@ -63,21 +75,6 @@ export default function InsertTablePage() {
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
-        </div>
-        <div className="flex flex-col mt-3">
-          <label htmlFor="statusMesa">
-            Status inicial da mesa: <span className="text-red-600">*</span>{' '}
-          </label>
-          <select
-            name="statusMesa"
-            id="statusMesa"
-            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2 uppercase"
-            required
-          >
-            <option defaultValue={0}>Selecione o status</option>
-            <option value="1">Ativa</option>
-            <option value="0">Desativa</option>
-          </select>
         </div>
         <BtnForm title="Cadastrar" />
       </form>
