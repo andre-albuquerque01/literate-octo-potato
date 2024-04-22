@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\UserRegistered;
 use App\Http\Resources\UserResource;
 use App\Mail\RecoverPassword;
 use App\Mail\VerifyEmail;
@@ -58,9 +59,9 @@ class UserService
             if ($data['term_aceite'] == 'on')
                 $data['term_aceite'] = 1;
             $user = User::create($data);
-            if ($user->firstName !== '') {
-                $this->sendsEmail($data['email'], 'Verificação do e-mail');
-            }
+
+            event(new UserRegistered($user));
+
             return response()->json(['message:' => 'Sucess'], 200);
         } catch (\Exception $e) {
             return $e->getMessage();
