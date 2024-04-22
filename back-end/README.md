@@ -1,17 +1,50 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Como Iniciar o Sistema
 
-## About Laravel
+### Passo 1: Download dos Arquivos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Clone o repositório:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+git clone https://github.com/andre-albuquerque01/literate-octo-potato.git
+```
 
-## License
+### Passo 2: Configuração do Back-end
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Entre na pasta back-end:
+
+```bash
+cd /literate-octo-potato/back-end
+```
+
+Inicialize os pacotes do Laravel:
+
+```php
+composer install
+```
+
+Crie um arquivo `.env` na raiz do seu projeto e configure as variáveis de ambiente conforme necessário.
+Execute `php artisan config:cache` para aplicar as configurações do arquivo `.env`.
+
+Inicie o servidor da API:
+
+```bash
+./vendor/bin/sail up
+```
+
+No Linux:
+
+```bash
+sudo ./vendor/bin/sail up
+```
+
+Para desativar o servidor da API:
+
+```bash
+./vendor/bin/sail down
+```
+
+No Linux:
+
+```bash
+sudo ./vendor/bin/sail down
+```
