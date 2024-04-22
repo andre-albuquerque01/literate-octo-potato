@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\UserRecoverPassword;
 use App\Events\UserRegistered;
 use App\Http\Resources\UserResource;
 use App\Mail\RecoverPassword;
@@ -82,7 +83,7 @@ class UserService
     {
         try {
             $user = Auth::user();
-            return response()->json(['name'=> $user->firstName]);
+            return response()->json(['name' => $user->firstName]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -120,7 +121,7 @@ class UserService
             return $e->getMessage();
         }
     }
-    
+
     public function updateRole(array $dados)
     {
         try {
@@ -171,7 +172,8 @@ class UserService
                         'created_at' => now(),
                     ]);
                 }
-                $this->sendsEmailRecoverPassword($email, 'Redefinir senha', $token);
+                event(new UserRecoverPassword($email, $token));
+                // $this->sendsEmailRecoverPassword($email, 'Redefinir senha', $token);
                 return response()->json(['message' => 'send e-mail'], 200);
             }
             return response()->json(['error' => 'E-mail desconhecido'], 400);
