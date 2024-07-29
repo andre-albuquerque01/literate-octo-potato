@@ -30,6 +30,7 @@ class User extends Authenticatable
         'term_aceite',
         'email',
         'password',
+        'remember_token',
     ];
 
     /**
@@ -40,6 +41,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'role',
     ];
 
     /**
@@ -51,4 +53,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function rates()
+    {
+        return $this->hasMany(Rate::class, 'idUser', 'idUser');
+    }
 }
