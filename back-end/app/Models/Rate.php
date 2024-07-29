@@ -14,4 +14,13 @@ class Rate extends Model
         'idUser',
         'idItens'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'idUser', 'idUser');
+    }
+    public function item()
+    {
+        return $this->belongsTo(Itens::class, 'idItens', 'idItens');
+    }
 }
