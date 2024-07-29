@@ -16,4 +16,9 @@ class Mesa extends Model
         'lotacao',
         'statusMesa',
     ];
+
+    public function menu()
+    {
+        return $this->hasOne(Menu::class, 'idMesa', 'idMesa');
+    }
 }
