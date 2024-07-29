@@ -23,4 +23,17 @@ class Itens extends Model
         'idCategory',
         'waitTime',
     ];
+
+    public function categoria()
+    {
+        return $this->belongsTo(Category::class, 'idCategory', 'idCategory');
+    }
+    public function rates()
+    {
+        return $this->hasMany(Rate::class, 'idItens', 'idItens');
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'idItens', 'idItens');
+    }
 }
