@@ -17,4 +17,13 @@ class Order extends Model
         'qtdOrder',
         'valueOrder',
     ];
+
+    public function itens()
+    {
+        return $this->belongsTo(Itens::class, 'idItens');
+    }
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'idMenu');
+    }
 }
