@@ -22,4 +22,12 @@ class Menu extends Model
         'desconto',
         'tip',
     ];
+
+    public function mesa()
+    {
+        return $this->belongsTo(Mesa::class, 'idMesa');
+    }
+    public function orders(){
+        return $this->hasMany(Order::class, 'idMenu');
+    }
 }
