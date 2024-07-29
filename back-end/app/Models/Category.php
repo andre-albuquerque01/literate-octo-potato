@@ -15,4 +15,9 @@ class Category extends Model
         'typeCategory',
         'urlImageCategory'
     ];
+
+    public function items()
+    {
+        return $this->hasOne(Itens::class, 'idCategory', 'idCategory');
+    }
 }
