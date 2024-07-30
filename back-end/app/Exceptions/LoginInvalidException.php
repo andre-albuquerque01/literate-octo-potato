@@ -6,11 +6,12 @@ use Exception;
 
 class LoginInvalidException extends Exception
 {
+    protected $message = '';
     public function render()
     {
         return response()->json([
             'error' => class_basename($this),
-            'message' => 'Email ou senha invalida'
-        ], 401);
+            'message' => $this->message,
+        ]);
     }
 }
