@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\MesaException;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\CheckAdminToken;
 use App\Http\Requests\MesaRequest;
@@ -15,7 +16,7 @@ class MesaController extends Controller
     public function __construct(MesaService $mesaService)
     {
         $this->mesaService = $mesaService;
-        $this->middleware(CheckAdminToken::class)->only(['index','store', 'show', 'update', 'destroy']);
+        $this->middleware(CheckAdminToken::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     }
 
     /**
@@ -25,8 +26,8 @@ class MesaController extends Controller
     {
         try {
             return $this->mesaService->index();
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MesaException($e->getMessage());
         }
     }
 
@@ -36,10 +37,9 @@ class MesaController extends Controller
     public function store(MesaRequest $request)
     {
         try {
-            $data = $request->validated();
-            return $this->mesaService->store($data);
-        } catch (\Throwable $th) {
-            throw $th;
+            return $this->mesaService->store($request->validated());
+        } catch (\Exception $e) {
+            throw new MesaException($e->getMessage());
         }
     }
 
@@ -50,8 +50,8 @@ class MesaController extends Controller
     {
         try {
             return $this->mesaService->show($id);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MesaException($e->getMessage());
         }
     }
 
@@ -61,10 +61,9 @@ class MesaController extends Controller
     public function update(MesaRequest $request, string $id)
     {
         try {
-            $data = $request->validated();
-            return $this->mesaService->update($data, $id);
-        } catch (\Throwable $th) {
-            throw $th;
+            return $this->mesaService->update($request->validated(), $id);
+        } catch (\Exception $e) {
+            throw new MesaException($e->getMessage());
         }
     }
 
@@ -75,8 +74,8 @@ class MesaController extends Controller
     {
         try {
             return $this->mesaService->destroy($id);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MesaException($e->getMessage());
         }
     }
 }
