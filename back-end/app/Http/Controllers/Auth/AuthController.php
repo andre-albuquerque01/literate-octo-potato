@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\LoginInvalidException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthLoginRequest;
+use App\Http\Resources\GeneralResource;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
@@ -19,10 +21,9 @@ class AuthController extends Controller
     public function login(AuthLoginRequest $request)
     {
         try {
-            $input = $request->validated();
-            return $this->authService->login($input['email'], $input['password']);
+            return $this->authService->login($request->validated());
         } catch (\Exception $e) {
-            throw $e;
+            throw new LoginInvalidException('Error');
         }
     }
 
@@ -30,9 +31,9 @@ class AuthController extends Controller
     {
         try {
             $request->user()->currentAccessToken()->delete();
-            return response()->json(['message' => 'sucess'], 200);
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
-            throw $e;
+            throw new LoginInvalidException('Error');
         }
     }
 }
