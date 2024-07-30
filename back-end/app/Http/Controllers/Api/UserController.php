@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\UserException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RecoverPasswordRequest;
 use App\Http\Requests\UpdateFunctionUserRequest;
-use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdatePassword;
 use App\Services\UserService;
@@ -19,22 +20,15 @@ class UserController extends Controller
         $this->middleware('auth:sanctum')->only(['show', 'showNameUser', 'update', 'destroy', 'updateRole', 'updatePasswordUser']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(UserRequest $request)
     {
         try {
-            $data = $request->validated();
-            return $this->userService->store($data);
+            return $this->userService->store($request->validated());
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show()
     {
         try {
@@ -53,14 +47,10 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UserRequest $request)
     {
         try {
-            $validet = $request->validated();
-            return $this->userService->update($validet);
+            return $this->userService->update($request->validated());
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -69,8 +59,7 @@ class UserController extends Controller
     public function updatePasswordUser(UserUpdatePassword $request)
     {
         try {
-            $validet = $request->validated();
-            return $this->userService->updatePasswordUser($validet);
+            return $this->userService->updatePasswordUser($request->validated());
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -79,16 +68,12 @@ class UserController extends Controller
     public function updateRole(UpdateFunctionUserRequest $request)
     {
         try {
-            $validet = $request->validated();
-            return $this->userService->updateRole($validet);
+            return $this->userService->updateRole($request->validated());
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy()
     {
         try {
@@ -98,12 +83,12 @@ class UserController extends Controller
         }
     }
 
-    public function verifyEmail(string $email)
+    public function verifyEmail(string $id, string $token)
     {
         try {
-            return $this->userService->verifyEmail($email);
-        } catch (\Exception $e) {
-            return $e->getMessage();
+            return $this->userService->verifyEmail($id, $token);
+        } catch (UserException $e) {
+            throw new UserException();
         }
     }
 
@@ -113,7 +98,7 @@ class UserController extends Controller
             $request->validate([
                 'email' => 'required|email'
             ]);
-            return $this->userService->sendsEmail($request->email, 'Verificação do e-mail');
+            return $this->userService->reSendEmail($request->email);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -131,23 +116,10 @@ class UserController extends Controller
         }
     }
 
-    public function verifyTokenRecover(Request $request)
+    public function resetPassword(RecoverPasswordRequest $request)
     {
         try {
-            $request->validate([
-                'token' => 'required'
-            ]);
-            return $this->userService->verifyTokenRecover($request->token);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    public function updatePassword(UpdatePasswordRequest $request, string $token)
-    {
-        try {
-            $data = $request->validated();
-            return $this->userService->updatePassword($data, $token);
+            return $this->userService->resetPassword($request->validated());
         } catch (\Exception $e) {
             return $e->getMessage();
         }
