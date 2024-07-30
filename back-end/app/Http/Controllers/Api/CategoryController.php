@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\CategoryException;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\CheckAdminToken;
 use App\Http\Requests\CategoryRequest;
@@ -23,8 +24,8 @@ class CategoryController extends Controller
     {
         try {
             return $this->categoryService->index();
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
 
@@ -36,8 +37,8 @@ class CategoryController extends Controller
         try {
             $data = $request->validated();
             return $this->categoryService->store($data);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
 
@@ -48,8 +49,8 @@ class CategoryController extends Controller
     {
         try {
             return $this->categoryService->show($id);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
 
@@ -61,8 +62,8 @@ class CategoryController extends Controller
         try {
             $data = $request->validated();
             return $this->categoryService->update($data, $id);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
 
@@ -73,8 +74,8 @@ class CategoryController extends Controller
     {
         try {
             return $this->categoryService->destroy($id);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
 }
