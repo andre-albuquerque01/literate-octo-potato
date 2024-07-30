@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\ItenException;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\CheckAdminToken;
 use App\Http\Requests\ItensRequest;
@@ -17,15 +18,13 @@ class ItensController extends Controller
         $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
         $this->middleware(CheckAdminToken::class)->only(['store', 'update', 'destroy']);
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         try {
             return $this->itensService->index();
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
@@ -33,42 +32,35 @@ class ItensController extends Controller
     {
         try {
             return $this->itensService->indexAll();
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function indexInitial()
+    {
+        try {
+            return $this->itensService->indexInitial();
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
+        }
+    }
+
     public function store(ItensRequest $request)
     {
         try {
-            $data = $request->validated();
-            return $this->itensService->store($data);
-        } catch (\Throwable $th) {
-            throw $th;
+            return $this->itensService->store($request->validated());
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         try {
             return $this->itensService->show($id);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    public function showSlug(string $slug)
-    {
-        try {
-            return $this->itensService->showSlug($slug);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
@@ -76,41 +68,35 @@ class ItensController extends Controller
     {
         try {
             return $this->itensService->showTitle($title);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
+
     public function showCategory(string $typeCategory)
     {
         try {
             return $this->itensService->showCategory($typeCategory);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(ItensRequest $request, string $id)
     {
         try {
-            $data = $request->validated();
-            return $this->itensService->update($data, $id);
-        } catch (\Throwable $th) {
-            throw $th;
+            return $this->itensService->update($request->validated(), $id);
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         try {
             return $this->itensService->destroy($id);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 }
