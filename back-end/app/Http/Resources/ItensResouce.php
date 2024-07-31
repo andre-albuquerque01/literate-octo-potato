@@ -14,6 +14,17 @@ class ItensResouce extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        // return parent::toArray($request);
+        return [
+            'id' => $this->idItens,
+            'title' => $this->title,
+            'desc' => $this->desc,
+            'value' => $this->value,
+            'qtdIten' => $this->qtdIten,
+            'position' => $this->position,
+            'urlImage' => $this->urlImage,
+            'waitTime' => $this->waitTime,
+            'category' => new CategoryResource($this->category),
+        ];
     }
 }
