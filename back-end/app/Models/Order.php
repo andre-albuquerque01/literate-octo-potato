@@ -20,10 +20,10 @@ class Order extends Model
 
     public function itens()
     {
-        return $this->belongsTo(Itens::class, 'idItens');
+        return $this->belongsTo(Itens::class, 'idItens', 'idItens');
     }
     public function menu()
     {
-        return $this->belongsTo(Menu::class, 'idMenu');
+        return $this->belongsTo(Menu::class, 'idMenu','idMenu');
     }
 }
