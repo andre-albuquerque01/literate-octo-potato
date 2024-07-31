@@ -16,26 +16,23 @@ class AuthService
         $this->request = $request;
     }
 
-    public function login(string $email, string $password)
+    public function login(array $data)
     {
         try {
-            $login = ['email' => $email, 'password' => $password];
-
-            if (!Auth::attempt($login)) {
+            if (!Auth::attempt($data)) {
                 throw new LoginInvalidException;
             }
-            if (User::where('email', $email)->whereNull('email_verified_at')->exists()) {
+            $user = Auth::user();
+            if (User::where('email', $user->email)->whereNull('email_verified_at')->exists()) {
                 return response()->json(['message' => 'E-mail não verificado']);
             }
-            $user = Auth::user();
             $scopes = ($user->role == "admin") ? ['admin'] : ['user'];
             $token = $this->request->user()->createToken('user', $scopes, now()->addHours(2))->plainTextToken;
-            if ($user->role == 'user') $role = 'u';
-            elseif ($user->role == 'admin') $role = 'JesusIsKingADM';
+            if ($user->role == 'admin') $role = 'JesusIsKingADM';
             else $role = 'u';
             return new AuthLoginResource(['token' => $token, 'r' => $role]);
         } catch (\Exception $e) {
-            throw $e;
+            throw new LoginInvalidException('Erro ao fazer o login!');
         }
     }
 }
