@@ -54,10 +54,10 @@ class OrderController extends Controller
         }
     }
 
-    public function showAll(string $id)
+    public function getMenuOrder(string $id)
     {
         try {
-            return $this->orderService->showAll($id);
+            return $this->orderService->getMenuOrder($id);
         } catch (\Throwable $th) {
             throw $th;
         }
