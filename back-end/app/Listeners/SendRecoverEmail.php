@@ -25,9 +25,8 @@ class SendRecoverEmail
     {
         Mail::to($event->email)->send(new RecoverPassword([
             'toEmail' => $event->email,
-            'subject' => 'Redefinir senha',
-            'message' => $event->token,
-            'expiration_hours' => "10 minutos"
+            'subject' => 'Recuperação de senha',
+            'token' => $event->token
         ]));
     }
 }
