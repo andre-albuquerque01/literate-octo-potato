@@ -24,10 +24,11 @@ class SendVerifyEmail
      */
     public function handle(UserRegistered $event): void
     {
-        Mail::to($event->user->email)->send(new VerifyEmail([
-            'toEmail' => $event->user->email,
-            'subject' => "Verificação do e-mail",
-            'message' => Crypt::encryptString($event->user->email)
+        Mail::to($event->email)->send(new VerifyEmail([
+            'toEmail' => $event->email,
+            'subject' => 'Verificação de e-mail',
+            'message' => $event->id,
+            'token' => $event->token
         ]));
     }
 }
