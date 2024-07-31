@@ -18,12 +18,11 @@ class MenuResource extends JsonResource
             'idMenu' => $this->idMenu,
             'codigo' => $this->codigo,
             'idUser' => $this->idUser,
-            'numberMesa' => $this->numberMesa,
+            'numberMesa' => $this->mesa->numberMesa ?? null, 
             'cpf' => $this->cpf,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'idOrder' => $this->idOrder,
-
+            'orders' => OrderResource::collection($this->whenLoaded('orders')), 
         ];
         // return parent::toArray($request);
     }
