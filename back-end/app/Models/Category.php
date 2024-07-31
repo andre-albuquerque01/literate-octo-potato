@@ -18,6 +18,6 @@ class Category extends Model
 
     public function items()
     {
-        return $this->hasOne(Itens::class, 'idCategory', 'idCategory');
+        return $this->hasMany(Itens::class, 'idCategory', 'idCategory');
     }
 }
