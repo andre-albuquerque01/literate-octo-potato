@@ -24,7 +24,7 @@ class Itens extends Model
         'waitTime',
     ];
 
-    public function categoria()
+    public function category()
     {
         return $this->belongsTo(Category::class, 'idCategory', 'idCategory');
     }
