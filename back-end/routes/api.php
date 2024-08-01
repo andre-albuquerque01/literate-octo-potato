@@ -22,12 +22,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v2')->group(function () {
     // Login
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
-        // Table
+        // Table check
         Route::apiResource('/table', MesaController::class);
         // Menu
         Route::apiResource('/menu', MenuController::class);
@@ -37,35 +37,37 @@ Route::prefix('v1')->group(function () {
         Route::get('/menuHistoric', [MenuController::class, 'showHistoric']);
         Route::get('/menucpf/{cpf}', [MenuController::class, 'showCPF']);
         Route::get('/menuCodigo/{codigo}', [MenuController::class, 'showCodigo']);
-        // Order
-        Route::get('/ordersa/{id}', [OrderController::class, 'showAll']);
+        // Order check
+        Route::get('/ordersa/{id}', [OrderController::class, 'getMenuOrder']);
         Route::get('/orderMenu/{id}', [OrderController::class, 'showMenuUser']);
         Route::apiResource('/order', OrderController::class);
     });
-    // Itens
+    // Itens check
     Route::apiResource('/itens', ItensController::class);
     Route::get('/itensa', [ItensController::class, 'indexAll']);
+    Route::get('/itensInitial', [ItensController::class, 'indexInitial']);
     Route::get('/itenst/{title}', [ItensController::class, 'showTitle']);
     Route::get('/itensc/{typeCategory}', [ItensController::class, 'showCategory']);
-    Route::get('/itenss/{slug}', [ItensController::class, 'showSlug']);
-    // User
+
+    // User check
     Route::apiResource('/user', UserController::class);
     Route::get('/userShow', [UserController::class, 'show']);
     Route::get('/userName', [UserController::class, 'showNameUser']);
     Route::put('/userUpdate', [UserController::class, 'update']);
-    Route::put('/userFunction', [UserController::class, 'updateRole']);
+    Route::put('/userRole', [UserController::class, 'updateRole']);
     Route::put('/userPassword', [UserController::class, 'updatePasswordUser']);
     Route::get('/userDelete', [UserController::class, 'destroy']);
     Route::post('/reSendEmail', [UserController::class, 'reSendEmail']);
-    Route::get('/verifyEmail/{email}', [UserController::class, 'verifyEmail']);
+    Route::get('email/verify/{id}/{token}', [UserController::class, 'verifyEmail']);
     Route::post('/sendTokenRecover', [UserController::class, 'sendTokenRecover']);
-    Route::post('/verifyTokenRecover', [UserController::class, 'verifyTokenRecover']);
-    Route::put('/updatePassword/{token}', [UserController::class, 'updatePassword']);
-    // Avaliação
+    Route::put('resetPassword', [UserController::class, 'resetPassword']);
+
+    // Avaliação check
     Route::post('/rate', [RateController::class, 'store']);
     Route::get('/rate/{id}', [RateController::class, 'index']);
     Route::get('/rateU/{id}', [RateController::class, 'showLikeUser']);
     Route::delete('/rate/{id}', [RateController::class, 'destroy']);
-    // Categoria
+
+    // Categoria check
     Route::apiResource('/category', CategoryController::class);
 });
