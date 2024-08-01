@@ -17,7 +17,8 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'typeCategory' => fake()->name(),
+            'urlImageCategory' => $this->faker->imageUrl(480, 480),
         ];
     }
 }
