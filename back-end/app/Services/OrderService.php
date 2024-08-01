@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\OrderException;
+use App\Http\Resources\GeneralResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 
@@ -10,10 +12,10 @@ class OrderService
     public function index()
     {
         try {
-            $order = Order::join('menu', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->paginate();
+            $order = Order::with(['menu', 'itens'])->paginate();
             return OrderResource::collection($order);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new OrderException($e->getMessage());
         }
     }
 
@@ -21,39 +23,43 @@ class OrderService
     {
         try {
             Order::create($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new OrderException($e->getMessage());
         }
     }
 
     public function show(string $id)
     {
         try {
-            $order = Order::join('menu', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->where('orders.idOrder', $id)->paginate();
+            $order = Order::with(['menu', 'itens'])->where('orders.idOrder', $id)->paginate();
             return OrderResource::collection($order);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new OrderException($e->getMessage());
         }
     }
 
-    public function showAll(string $id)
+    public function getMenuOrder(string $id)
     {
         try {
-            $order = Order::join('menu', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->where('menu.idMenu', $id)->get();
+            $order = Order::whereHas('menu', function ($query) use ($id) {
+                $query->where('menu.idMenu', $id);
+            })->with(['menu.mesa', 'itens'])->get();
             return OrderResource::collection($order);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new OrderException($e->getMessage());
         }
     }
 
     public function showMenuUser(string $id)
     {
         try {
-            $order = Order::join('menu', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->where('menu.idMenu', $id)->get();
+            $order = Order::whereHas('menu', function ($query) use ($id) {
+                $query->where('menu.idMenu', $id);
+            })->with(['menu', 'itens'])->get();
             return OrderResource::collection($order);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new OrderException($e->getMessage());
         }
     }
 
@@ -61,9 +67,9 @@ class OrderService
     {
         try {
             Order::where('idOrder', $id)->update($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new OrderException($e->getMessage());
         }
     }
 
@@ -71,9 +77,9 @@ class OrderService
     {
         try {
             Order::where('idOrder', $id)->delete();
-            return response()->json(['message' => 'sucess'], 204);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new OrderException($e->getMessage());
         }
     }
 }
