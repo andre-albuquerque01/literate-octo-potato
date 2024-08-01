@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Exceptions\CategoryException;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\GeneralResource;
 use App\Models\Category;
 
 class CategoryService
@@ -11,8 +13,8 @@ class CategoryService
     {
         try {
             return new CategoryResource(Category::get());
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
     
@@ -21,9 +23,9 @@ class CategoryService
         try {
             $data['typeCategory'] = strtolower($data['typeCategory']);
             Category::create($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
     public function show(string $id)
@@ -31,26 +33,26 @@ class CategoryService
         try {
             $category = Category::findOrFail($id);
             return new CategoryResource($category);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
     public function update(array $data, string $id)
     {
         try {
             Category::find($id)->update($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
     public function destroy(string $id)
     {
         try {
             Category::findOrFail($id)->delete();
-            return response()->json(['message' => 'sucess'], 204);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new CategoryException($e->getMessage());
         }
     }
 }
