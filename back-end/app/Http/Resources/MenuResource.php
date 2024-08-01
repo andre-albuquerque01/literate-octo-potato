@@ -17,9 +17,9 @@ class MenuResource extends JsonResource
         return [
             'idMenu' => $this->idMenu,
             'codigo' => $this->codigo,
-            'idUser' => $this->idUser,
             'numberMesa' => $this->mesa->numberMesa ?? null, 
             'cpf' => $this->cpf,
+            'statusOrder' => $this->statusOrder,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'orders' => OrderResource::collection($this->whenLoaded('orders')), 
