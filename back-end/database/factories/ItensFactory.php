@@ -23,9 +23,8 @@ class ItensFactory extends Factory
             'value' => fake()->randomNumber(3),
             'statusIten' => 1,
             'qtdIten' => fake()->randomNumber(),
-            'slug' => fake()->name(),
             'urlImage' => $this->faker->imageUrl(480, 480),
-            'idCategory' => fake()->numberBetween(5, 12),
+            'idCategory' => fake()->numberBetween(1, 5),
             'waitTime' => fake()->randomNumber(1).' - '.fake()->randomNumber(2).' minutes',
             'position'=> 'entrada'
         ];
