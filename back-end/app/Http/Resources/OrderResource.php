@@ -19,6 +19,8 @@ class OrderResource extends JsonResource
             'idOrder' => $this->idOrder,
             'qtdOrder' => $this->qtdOrder,
             'valueOrder' => $this->valueOrder,
+            'updated_at' => $this->updated_at,
+            'numberMesa' => $this->menu->mesa->numberMesa ?? null,
             'itens' => new ItensResouce($this->itens),
         ];
     }
