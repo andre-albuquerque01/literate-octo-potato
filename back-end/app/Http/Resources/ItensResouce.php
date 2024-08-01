@@ -16,7 +16,7 @@ class ItensResouce extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->idItens,
+            'idItens' => $this->idItens,
             'title' => $this->title,
             'desc' => $this->desc,
             'value' => $this->value,
