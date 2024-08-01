@@ -50,25 +50,22 @@
 </head>
 
 <body>
-
     <div class="container">
         <h2>Olá,</h2>
         <p>Recebemos uma solicitação para recuperação de senha associada à sua conta. Para continuar o processo de
             recuperação, clique no botão abaixo:</p>
 
         <p>Seu token para recuperação de senha é:</p>
-        <h2>{{ $data['message'] }}</h2>
 
-        <a href="http://localhost:3000/user/recoverPassword/validationToken">Recuperar Senha</a>
+        <a href="{{ env('PATH_RECOVER_PASSWORD') }}/{{ $data['token'] }}">Recuperar Senha</a>
 
-        <p>Este link de recuperação é válido por {{ $data['expiration_hours'] }}. Após este período, será
+        <p>Este link de recuperação é válido por 15 minutos. Após este período, será
             necessário solicitar uma nova recuperação de senha.</p>
 
         <p>Se você não solicitou a recuperação de senha, pode ignorar este e-mail.</p>
 
         <p class="signature">Obrigado,<br>Equipe de Suporte</p>
     </div>
-
 </body>
 
 </html>
