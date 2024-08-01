@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\ItenException;
 use App\Http\Resources\ItensResouce;
 use App\Models\Itens;
 use Illuminate\Support\Str;
@@ -11,20 +12,30 @@ class ItensService
     public function index()
     {
         try {
-            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('statusIten', '=', 1)->get();
+            $iten = Itens::with('category')->where('statusIten',  1)->get();
             return ItensResouce::collection($iten);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
     public function indexAll()
     {
         try {
-            $iten = Itens::paginate(16);
+            $iten = Itens::with('category')->paginate(16);
             return ItensResouce::collection($iten);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
+        }
+    }
+
+    public function indexInitial()
+    {
+        try {
+            $iten = Itens::with('category')->where('position', 'entrada')->get();
+            return ItensResouce::collection($iten);
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
@@ -38,70 +49,62 @@ class ItensService
             $data['waitTime'] = strtolower($data['waitTime']);
             $data['urlImage'] = strtolower($data['urlImage']);
             Itens::create($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            return response()->json(['message' => 'success'], 200);
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
     public function show(string $id)
     {
         try {
-            $iten = Itens::find($id);
+            $iten = Itens::find($id)->with('category')->first();
             if ($iten === null) {
-                throw new \Exception("Item not found");
+                throw new ItenException("Item not found");
             }
             return new ItensResouce($iten);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-    public function showSlug(string $slug)
-    {
-        try {
-            $iten = Itens::where('slug', $slug)->get();;
-            if ($iten === null) {
-                throw new \Exception("Item not found");
-            }
-            return ItensResouce::collection($iten);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
     public function showTitle(string $title)
     {
         try {
-            $iten = Itens::where('title', 'LIKE', '%' . $title . '%')->paginate(16);
+            $iten = Itens::where('title', 'LIKE', '%' . $title . '%')->with('category')->paginate(16);
             if ($iten === null) {
-                throw new \Exception("Item not found");
+                throw new ItenException("Item not found");
             }
             return ItensResouce::collection($iten);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
     public function showCategory(string $typeCategory)
     {
         try {
-            $iten = Itens::join('categories', 'categories.idCategory', '=', 'itens.idCategory')->where('categories.typeCategory', '=', $typeCategory)->paginate(16);;
-            if ($iten === null) {
-                throw new \Exception("Item not found");
-            }
+            $iten = Itens::whereHas('category', function ($query) use ($typeCategory) {
+                $query->where('typeCategory', 'LIKE', '%' . $typeCategory . '%');
+            })->with('category')->paginate(16);
+
+            if ($iten->isEmpty())
+                throw new ItenException("Item not found");
+
+
             return ItensResouce::collection($iten);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
     public function update(array $data, string $id)
     {
         try {
-            Itens::where('idItens', '=', $id)->update($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            Itens::where('idItens',  $id)->update($data);
+            return response()->json(['message' => 'success'], 200);
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 
@@ -109,9 +112,9 @@ class ItensService
     {
         try {
             Itens::findOrFail($id)->delete();
-            return response()->json(['message' => 'sucess'], 204);
-        } catch (\Throwable $th) {
-            throw $th;
+            return response()->json(['message' => 'success'], 204);
+        } catch (\Exception $e) {
+            throw new ItenException($e->getMessage());
         }
     }
 }
