@@ -2,90 +2,46 @@
 
 namespace App\Services;
 
-use App\Events\UserRecoverPassword;
-use App\Events\UserRegistered;
+use App\Exceptions\GeneralExceptionCatch;
+use App\Exceptions\UserException;
+use App\Http\Resources\GeneralResource;
 use App\Http\Resources\UserResource;
-use App\Mail\RecoverPassword;
-use App\Mail\VerifyEmail;
+use App\Jobs\SendRecoverPasswordEmailJob;
+use App\Jobs\SendVerifyEmailJob;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class UserService
 {
-
-    public function sendsEmail(string $email, string $assunto)
+    public function store(array $data)
     {
         try {
-            if (User::where('email', $email)->exists()) {
-                Mail::to($email)->send(new VerifyEmail([
-                    'toEmail' => $email,
-                    'subject' => $assunto,
-                    'message' => Crypt::encryptString($email)
-                ]));
-                return response()->json(['message' => 'sucess'], 200);
-            }
-            return response()->json(['message' => 'E-mail não cadastrado.'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    public function sendsEmailRecoverPassword(string $email, string $assunto, string $token,)
-    {
-        try {
-            Mail::to($email)->send(new RecoverPassword([
-                'toEmail' => $email,
-                'subject' => $assunto,
-                'message' => $token,
-                'expiration_hours' => "10 minutos"
-            ]));
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    public function store(array $dados)
-    {
-        try {
-            $data = $dados;
             $data['role'] = 'user';
             $data['password'] = Hash::make($data['password']);
+            $data['remember_token'] = Str::random(60);
             if ($data['term_aceite'] == 'on')
                 $data['term_aceite'] = 1;
             $user = User::create($data);
 
-            event(new UserRegistered($user));
+            dispatch(new SendVerifyEmailJob($user->email, $user->remember_token, $user->idUser));
 
-            return response()->json(['message:' => 'Sucess'], 200);
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            throw new GeneralExceptionCatch($e->getMessage());
         }
     }
 
     public function show()
     {
         try {
-            $user = Auth::user();
-            $find = User::findOrFail($user->idUser);
+            $find = User::findOrFail(auth()->user()->idUser);
             return new UserResource($find);
         } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-    public function showNameUser()
-    {
-        try {
-            $user = Auth::user();
-            return response()->json(['name' => $user->firstName]);
-        } catch (\Exception $e) {
-            return $e->getMessage();
+            throw new GeneralExceptionCatch($e->getMessage());
         }
     }
 
@@ -97,10 +53,30 @@ class UserService
             if (Hash::check($data['password'], $user->password)) {
                 $data['password'] = Hash::make($data['password']);
                 User::where('idUser', $user->idUser)->update($data);
-                return response()->json(['message' => 'sucess'], 200);
+                return new GeneralResource(['message' => 'success']);
             }
         } catch (\Exception $e) {
-            return $e->getMessage();
+            throw new GeneralExceptionCatch($e->getMessage());
+        }
+    }
+
+    public function destroy()
+    {
+        try {
+            User::findOrFail(auth()->user()->idUser)->delete();
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new GeneralExceptionCatch($e->getMessage());
+        }
+    }
+
+    public function showNameUser()
+    {
+        try {
+            $user = Auth::user();
+            return new GeneralResource(['name' => $user->firstName]);
+        } catch (\Exception $e) {
+            throw new GeneralExceptionCatch($e->getMessage());
         }
     }
 
@@ -109,16 +85,19 @@ class UserService
         try {
             $user = Auth::user();
             $data = $dados;
-            if (Hash::check($data['password'], $user->password) && $data['password_new'] === $data['password_confirmation']) {
+            if (
+                Hash::check($data['password'], $user->password)
+                && $data['password_new'] === $data['password_confirmation']
+            ) {
                 $data['password'] = Hash::make($data['password_new']);
                 User::where('idUser', $user->idUser)->update([
                     'password' => $data['password'],
                     'updated_at' => now(),
                 ]);
-                return response()->json(['message' => 'sucess'], 200);
+                return new GeneralResource(['message' => 'success']);
             }
         } catch (\Exception $e) {
-            return $e->getMessage();
+            throw new GeneralExceptionCatch($e->getMessage());
         }
     }
 
@@ -127,101 +106,78 @@ class UserService
         try {
             $data = $dados;
             User::where('cpf', $data['cpf'])->update($data);
-            return response()->json(['message' => 'sucess'], 200);
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-    public function destroy()
-    {
-        try {
-            $user = Auth::user();
-            User::findOrFail($user->idUserid)->delete();
-            return response()->json(['message:' => 'Sucess'], 204);
-        } catch (\Exception $e) {
-            return $e->getMessage();
+            throw new GeneralExceptionCatch($e->getMessage());
         }
     }
 
-    public function verifyEmail(string $email)
+
+    public function verifyEmail(string $id, string $token)
     {
         try {
-            User::where('email', '=', Crypt::decryptString($email))->update([
-                'email_verified_at' => now(),
-            ]);
-            return response()->json(['message' => 'E-mail verificado'], 200);
+            $user = User::findOrFail($id);
+            if (Crypt::decrypt($token) == $user->remember_token) {
+                $user->touch("email_verified_at");
+                return new GeneralResource(['message' => 'success']);
+            }
+            throw new UserException("Token invalid");
+        } catch (UserException $e) {
+            throw new UserException();
+        }
+    }
+
+    public function reSendEmail(string $email)
+    {
+        try {
+            $user = User::where('email', $email)->first();
+            if (!$user) throw new UserException('user not found');
+            dispatch(new SendVerifyEmailJob($user->email, $user->remember_token, $user->idUser));
+            return new GeneralResource(['message' => 'send e-mail']);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            throw new GeneralExceptionCatch($e->getMessage());
         }
     }
 
     public function sendTokenRecover(string $email)
     {
         try {
-            if (User::where('email', $email)->first()) {
-                $token = strtoupper(Str::random(6));
-                if (DB::table('password_reset_tokens')->where('email', $email)->first() == null) {
-                    DB::table('password_reset_tokens')->insert([
-                        'email' => $email,
-                        'token' => $token,
-                        'created_at' => now(),
-                    ]);
-                } else {
-                    DB::table('password_reset_tokens')->update([
-                        'token' => $token,
-                        'created_at' => now(),
-                    ]);
-                }
-                event(new UserRecoverPassword($email, $token));
-                // $this->sendsEmailRecoverPassword($email, 'Redefinir senha', $token);
-                return response()->json(['message' => 'send e-mail'], 200);
+            $user = User::where('email', $email)->first();
+            if (!$user) throw new UserException('user not found');
+
+            $token = strtoupper(Str::random(60));
+            $table = DB::table('password_reset_tokens')->where('email', $email)->first();
+            if (!$table) {
+                DB::table('password_reset_tokens')->insert([
+                    'email' => $email,
+                    'token' => $token,
+                    'created_at' => now(),
+                ]);
+            } else {
+                DB::table('password_reset_tokens')->update([
+                    'token' => $token,
+                    'created_at' => now(),
+                ]);
             }
-            return response()->json(['error' => 'E-mail desconhecido'], 400);
-        } catch (\Throwable $th) {
-            throw $th;
+            dispatch(new SendRecoverPasswordEmailJob($user->email, $token));
+            return new GeneralResource(['message' => 'send e-mail']);
+        } catch (\Exception $e) {
+            throw new GeneralExceptionCatch($e->getMessage());
         }
     }
-
-    public function verifyTokenRecover(string $token)
+    public function resetPassword(array $data)
     {
         try {
-            $user = DB::table('password_reset_tokens')->where('token', $token)->first();
-            if ($user) {
-                $expiration = (Carbon::make($user->created_at))->addMinutes(10);
-                if (now()->greaterThanOrEqualTo($expiration)) {
-                    return response()->json(['message' => 'token expirado'], 400);
-                } else {
-                    $tokenCript = Crypt::encryptString($token);
-                    return response()->json(['token' => $tokenCript], 200);
-                }
-            } else {
-                return response()->json(['error' => 'Error, token invalido'], 400);
-            }
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
-        }
-    }
+            $passwordResetTokens = DB::table('password_reset_tokens')->where('token', $data['token'])->first();
+            if (!isset($passwordResetTokens)) throw new UserException("Token invalid");
 
-    public function updatePassword(array $data, string $token)
-    {
-        try {
-            $decriptToken = Crypt::decryptString($token);
-            $check = DB::table('password_reset_tokens')->where('token', $decriptToken)->first();
-            $expiration = (Carbon::make($check->created_at))->addMinutes(10);
-            if (now()->greaterThanOrEqualTo($expiration)) {
-                return response()->json(['message' => 'token expirado'], 400);
-            } else {
-                if ($check) {
-                    User::where('email', $check->email)->update([
-                        'password' => Hash::make($data['password'])
-                    ]);
-                    return response()->json(['message' => 'sucess'], 200);
-                } else {
-                    return response()->json(['error' => 'Error, token invalido'], 400);
-                }
-            }
+            User::where('email', $passwordResetTokens->email)->update([
+                'password' => Hash::make($data['password']),
+            ]);
+            DB::table('password_reset_tokens')->where('token', $data['token'])->delete();
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            throw new UserException('', $e->getCode(), $e);
         }
     }
 }
