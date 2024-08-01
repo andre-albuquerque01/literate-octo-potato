@@ -2,73 +2,65 @@
 
 namespace App\Services;
 
+use App\Exceptions\MenuException;
+use App\Http\Resources\GeneralResource;
 use App\Http\Resources\MenuResource;
-use App\Http\Resources\MenuResource2;
 use App\Models\Menu;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class MenuService
 {
-    private $user;
-
-    public function __construct(Request $request)
-    {
-        $this->user = $request->user();
-    }
-
     public function index()
     {
         try {
-            $user = Auth::user();
-            $cpf = $user->cpf;
-            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->get();
+            // $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->get();
+            $cpf = auth()->user()->cpf;
+            $menu = Menu::with(['mesa', 'orders.itens'])
+                ->where('cpf', $cpf)
+                ->get();
             return MenuResource::collection($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
     public function showUser()
     {
         try {
-            $user = Auth::user();
-            $cpf = $user->cpf;
-            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->where('menu.statusOrder', '=', 'aberto')->get();
+            $cpf = auth()->user()->cpf;
+            $menu = Menu::where('cpf', $cpf)->where('menu.statusOrder', '=', 'aberto')->get();
             return MenuResource::collection($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
     public function showHistoric()
     {
         try {
-            $user = Auth::user();
-            $cpf = $user->cpf;
-            $menu = Menu::join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->get();
+            $cpf = auth()->user()->cpf;
+            $menu = Menu::where('cpf', $cpf)->get();
             return MenuResource::collection($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
     public function showAll()
     {
         try {
-            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->where('menu.statusOrder', '=', 'aberto')->get();
+            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.statusOrder', '=', 'aberto')->get();
             return MenuResource::collection($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
     public function showAllOpenAndClose()
     {
         try {
-            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->paginate(20);
+            $menu = Menu::with(['mesa', 'orders.itens'])->paginate(20);
             return MenuResource::collection($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
@@ -77,29 +69,29 @@ class MenuService
         try {
             $data['codigo'] = strtoupper(Str::random(10));
             Menu::create($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
     public function show(string $id)
     {
         try {
-            $menu = Menu::find($id);
-            return new MenuResource2($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+            $menu = Menu::findOrFail($id)->first();
+            return new MenuResource($menu);
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
     public function showCPF(string $cpf)
     {
         try {
-            $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->where('menu.cpf', 'LIKE', '%' . $cpf . '%')->paginate(20);
+            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.cpf', 'LIKE', '%' . $cpf . '%')->paginate(20);
             return MenuResource::collection($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
@@ -107,9 +99,9 @@ class MenuService
     {
         try {
             $menu = Menu::where('codigo', $codigo);
-            return new MenuResource2($menu);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new MenuResource($menu);
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
@@ -117,9 +109,9 @@ class MenuService
     {
         try {
             Menu::where('idMenu', $id)->update($data);
-            return response()->json(['message' => 'sucess'], 200);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 
@@ -127,9 +119,9 @@ class MenuService
     {
         try {
             Menu::findOrFail($id)->delete();
-            return response()->json(['message' => 'sucess'], 204);
-        } catch (\Throwable $th) {
-            throw $th;
+            return new GeneralResource(['message' => 'success']);
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
         }
     }
 }
