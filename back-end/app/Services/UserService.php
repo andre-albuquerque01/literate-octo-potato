@@ -23,8 +23,6 @@ class UserService
             $data['role'] = 'user';
             $data['password'] = Hash::make($data['password']);
             $data['remember_token'] = Str::random(60);
-            if ($data['term_aceite'] == 'on')
-                $data['term_aceite'] = 1;
             $user = User::create($data);
 
             dispatch(new SendVerifyEmailJob($user->email, $user->remember_token, $user->idUser));
