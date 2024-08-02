@@ -12,7 +12,7 @@ class CategoryService
     public function index()
     {
         try {
-            return new CategoryResource(Category::get());
+            return CategoryResource::collection(Category::get());
         } catch (\Exception $e) {
             throw new CategoryException($e->getMessage());
         }
