@@ -23,14 +23,16 @@ class RateService
     public function showLikeUser(string $id)
     {
         try {
-            $rate = Rate::where('idUser', auth()->user()->idUser)->where('idItens', $id)->get();
-            if ($rate->isNotEmpty())
+            $exists = Rate::where('idUser', auth()->user()->idUser)->where('idItens', $id)->exists();
+            if ($exists) {
                 return new GeneralResource(['data' => 'true']);
+            }
             return new GeneralResource(['data' => 'false']);
         } catch (\Exception $e) {
             throw new RateException($e->getMessage());
         }
     }
+
     public function store(array $data)
     {
         try {
