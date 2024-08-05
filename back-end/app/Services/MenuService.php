@@ -38,7 +38,7 @@ class MenuService
     {
         try {
             $cpf = auth()->user()->cpf;
-            $menu = Menu::where('cpf', $cpf)->get();
+            $menu = Menu::with(['mesa', 'orders.itens'])->where('cpf', $cpf)->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
