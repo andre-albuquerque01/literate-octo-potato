@@ -1,4 +1,4 @@
-import { GetAllItens } from '@/app/actions/itens/getAllItens'
+import { GetAllItens } from '@/actions/itens/getAllItens'
 import { SnackCarrossel } from '@/components/SnackCarousel'
 import { Carrossel } from '@/components/carousel'
 import { DinnerCarrossel } from '@/components/dinnerCarousel'
