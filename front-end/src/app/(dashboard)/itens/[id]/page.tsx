@@ -1,15 +1,15 @@
-import { GetIdItens } from '@/app/actions/itens/getIdItens'
-import { GetIdItensRate } from '@/app/actions/itens/rate/rateIdItens'
+import { GetIdItens } from '@/actions/itens/getIdItens'
+import { GetIdItensRate } from '@/actions/itens/rate/rateIdItens'
+import { VerifyLike } from '@/actions/itens/rate/verifyLike'
 import { BtnLike } from '@/components/btnLike'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Iten({ params }: { params: { id: number } }) {
-  const reqBody = await GetIdItens(params.id)
-  const data = reqBody.data
-  const reqRate = await GetIdItensRate(params.id)
-  const rate = reqRate.data
+  const data = await GetIdItens(params.id)
+  const rate = await GetIdItensRate(params.id)
+  const verifyRate = await VerifyLike(params.id)
 
   return (
     <div className="md:flex md:flex-col md:items-center md:justify-center  md:mt-8">
@@ -46,7 +46,7 @@ export default async function Iten({ params }: { params: { id: number } }) {
                 pessoas gostaram.
               </p>
             )}
-            <BtnLike id={data.idItens} />
+            <BtnLike id={params.id} data={verifyRate} />
           </div>
         </>
       ) : (
