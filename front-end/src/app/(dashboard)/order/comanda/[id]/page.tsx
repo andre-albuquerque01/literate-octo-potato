@@ -1,61 +1,38 @@
-import ComandaService from '@/app/actions/order/comanda'
+import ComandaService from '@/actions/order/comanda'
 import { RemoveItenComanda } from '@/components/removeItemComanda'
+import { FormatData } from '@/data/function/formateData'
 import { InterfaceItens } from '@/data/type/interfaceItens'
+import { OrderInterface } from '@/data/type/order'
 import { ArrowLeft, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Comanda({ params }: { params: { id: number } }) {
-  const dt = await ComandaService(params.id)
-  const data = dt.data
+  const data = await ComandaService(params.id)
 
   let soma = 0
   let mesa = 0
   let qtdOrder = 0
-  let date = ''
   let dateUpdated = ''
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data.forEach((sm: any) => {
-    soma += sm.valueOrder
-    mesa = sm.numberMesa
-    date = sm.created_at
-    qtdOrder += sm.qtdOrder
-    if (mesa !== sm.numberMesa) {
+  data &&
+    data.forEach((sm: OrderInterface) => {
+      soma += sm.valueOrder
       mesa = sm.numberMesa
-    }
-    if (date !== sm.created_at) {
-      date = sm.created_at
-    }
-    dateUpdated = sm.updated_at
-  })
-
-  function formatarData(dataISO: string): string {
-    function padLeft(value: number): string {
-      return value < 10 ? '0' + value : value.toString()
-    }
-
-    if (dataISO) {
-      const data = new Date(dataISO)
-
-      const dia = padLeft(data.getDate())
-      const mes = padLeft(data.getMonth() + 1)
-      const ano = data.getFullYear()
-      const hora = padLeft(data.getHours())
-      const minuto = padLeft(data.getMinutes())
-
-      return `${hora}:${minuto} - ${dia}/${mes}/${ano}`
-    }
-    return ''
-  }
+      dateUpdated = sm.updated_at
+      qtdOrder += sm.qtdOrder
+      if (mesa !== sm.numberMesa) {
+        mesa = sm.numberMesa
+      }
+    })
 
   return (
     <div className="w-full">
       <div className="max-md:w-[90%] min-h-full max-md:mx-auto md:mt-4">
-        <Link href="/menu/list" className="flex items-center py-4 md:hidden">
+        <h1 className="text-2xl">Comanda</h1>
+        <Link href="/menu/list" className="flex items-center py-4">
           <ArrowLeft className="w-5 h-5" /> Voltar
         </Link>
-        <h1 className="text-2xl">Comanda</h1>
         <div className="flex flex-wrap max-md:justify-center gap-5 md:mt-4">
           {data &&
             data.map((itens: InterfaceItens, index: number) => (
@@ -65,7 +42,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
               >
                 <div className="flex gap-3">
                   <Image
-                    src={itens.urlImage}
+                    src={itens.itens.urlImage}
                     alt={`Imagem do ${itens.title}`}
                     width={150}
                     height={150}
@@ -73,7 +50,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
                   />
                   <div className="flex flex-col justify-evenly w-[150px]">
                     <p className="font-medium text-lg truncate">
-                      {itens.title}
+                      {itens.itens.title}
                     </p>
                     <p className="font-medium text-lg text-wrap">
                       Qtd: {itens.qtdOrder}
@@ -104,7 +81,7 @@ export default async function Comanda({ params }: { params: { id: number } }) {
         <div className="border border-zinc-500 max-md:fixed md:mt-5 bottom-0 max-md:z-30 px-4 md:py-5 bg-white max-md:w-full md:mb-5 md:w-[40%] space-y-1 md:rounded-xl">
           <div className="flex justify-between">
             <span className="font-medium">Data</span>
-            <span>{formatarData(dateUpdated)}</span>
+            <span>{FormatData(dateUpdated)}</span>
           </div>
           <div className="flex justify-between">
             <span className="font-medium">Mesa</span>
