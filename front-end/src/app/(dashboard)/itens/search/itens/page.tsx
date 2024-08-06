@@ -1,6 +1,6 @@
-import { GetListItens } from '@/app/actions/itens/listItens'
-import { GetListSearchCategory } from '@/app/actions/itens/search/GetListSearchCategory'
-import { GetListSearchTitle } from '@/app/actions/itens/search/GetListSearchTitle'
+import { GetListItens } from '@/actions/itens/listItens'
+import { GetListSearchCategory } from '@/actions/itens/search/GetListSearchCategory'
+import { GetListSearchTitle } from '@/actions/itens/search/GetListSearchTitle'
 import LinkPagination from '@/components/LinkPagination'
 import LinkPaginationQuery from '@/components/LinkPaginationQuery'
 import { ListItens } from '@/components/ListItens'
@@ -28,20 +28,17 @@ export default async function SearchIten({ searchParams }: SearchParamsProps) {
   let countPage = 0
 
   if (queryC && queryC !== '') {
-    const datas = await GetListSearchCategory(queryC, page)
-    const dt = await datas.json()
+    const dt = await GetListSearchCategory(queryC, page)
     data = dt.data
     countPage = dt.countPage
     title = `Categoria ${queryC}.`
   } else if (queryQ && queryQ !== '') {
-    const datas = await GetListSearchTitle(queryQ, page)
-    const dt = await datas.json()
+    const dt = await GetListSearchTitle(queryQ, page)
     data = dt.data
     countPage = dt.countPage
     title = `${queryQ}`
   } else {
-    const datas = await GetListItens(page)
-    const dt = await datas.json()
+    const dt = await GetListItens(page)
     data = dt.data
     countPage = dt.countPage
     title = 'Todos os itens.'
