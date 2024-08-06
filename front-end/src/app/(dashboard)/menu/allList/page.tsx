@@ -1,10 +1,10 @@
-import { GetAllListMenu } from '@/app/actions/menu/getAllListMenu'
-import { GetCpfMenu } from '@/app/actions/menu/getCpfMenu'
+import { GetAllListMenu } from '@/actions/menu/getAllListMenu'
+import { GetCpfMenu } from '@/actions/menu/getCpfMenu'
 import LinkPagination from '@/components/LinkPagination'
 import LinkPaginationQuery from '@/components/LinkPaginationQuery'
 import { FormSearchMenuCPF } from '@/components/form-search-menuCpf'
-import { MenuInterface } from '@/data/type/menu'
-import { ArrowLeft, Edit, EyeIcon } from 'lucide-react'
+import { GetAllMenuComponent } from '@/components/getAllMenu'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 interface PropsSearchParams {
@@ -25,14 +25,12 @@ export default async function allListMenu({ searchParams }: PropsSearchParams) {
   let countPage = 0
 
   if (queryQ && queryQ !== '') {
-    const datas = await GetCpfMenu(queryQ, page)
-    const dt = await datas.json()
+    const dt = await GetCpfMenu(queryQ, page)
     data = dt.data
     countPage = dt.countPage
     title = `CPF pesquisado: ${queryQ}`
   } else {
-    const datas = await GetAllListMenu(page)
-    const dt = await datas.json()
+    const dt = await GetAllListMenu(page)
     data = dt.data
     countPage = dt.countPage
     title = 'Todos os pedidos.'
@@ -73,37 +71,7 @@ export default async function allListMenu({ searchParams }: PropsSearchParams) {
       <p className="text-xl mb-1 max-md:mb-0 mt-5">
         Lista de todos pedido, tanto aberto como fechados.
       </p>
-      <div className="space-y-5 mt-4">
-        {data !== undefined && data.length > 0 ? (
-          data.map((menu: MenuInterface, key: number) => (
-            <div key={key}>
-              <div className="flex mx-auto justify-between">
-                <span className="max-w-96">Mesa: {menu.numberMesa}</span>
-                <span className="max-md:hidden truncate w-96 text-center">
-                  CPF cliente: {menu.cpf}
-                </span>
-                <div className="flex items-center gap-3">
-                  <Link
-                    href={`/menu/update/${menu.idMenu}`}
-                    title={`Editar o item, ${menu.numberMesa}`}
-                  >
-                    <Edit className="w-5 h-5" />
-                  </Link>
-                  <Link
-                    href={`/order/comanda/${menu.idMenu}`}
-                    title="Mostra o pedido"
-                  >
-                    <EyeIcon className="w-5 h-5" />
-                  </Link>
-                </div>
-              </div>
-              <div className="w-full h-[1px] bg-zinc-600"></div>
-            </div>
-          ))
-        ) : (
-          <h1>Nenhuma comanda!</h1>
-        )}
-      </div>
+      <GetAllMenuComponent data={data} />
       <div className="max-md:h-28">
         <div className="flex justify-center mt-4 h-10">{VerifyQuery()}</div>
       </div>
