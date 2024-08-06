@@ -1,5 +1,5 @@
 'use client'
-import { InsertCategory } from '@/app/actions/category/insertCategory'
+import { InsertCategory } from '@/actions/category/insertCategory'
 import { BtnForm } from '@/components/btnForm'
 import { ValidateFormCategoria } from '@/data/function/validateFormCategoria'
 import { ArrowLeft } from 'lucide-react'
