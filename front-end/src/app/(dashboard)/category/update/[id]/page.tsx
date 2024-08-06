@@ -1,6 +1,6 @@
 'use client'
-import { GetIdCategory } from '@/app/actions/category/getIdCategory'
-import { UpdateCategory } from '@/app/actions/category/updateCategory'
+import { GetIdCategory } from '@/actions/category/getIdCategory'
+import { UpdateCategory } from '@/actions/category/updateCategory'
 import { BtnForm } from '@/components/btnForm'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
