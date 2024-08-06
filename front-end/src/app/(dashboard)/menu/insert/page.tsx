@@ -1,6 +1,6 @@
 'use client'
-import { InsertMenu } from '@/app/actions/menu/insertMenu'
-import GetAllTableService from '@/app/actions/table/getAllTable'
+import { InsertMenu } from '@/actions/menu/insertMenu'
+import GetAllTableService from '@/actions/table/getAllTable'
 import { BtnForm } from '@/components/btnForm'
 import { ValidateFormMenu } from '@/data/function/validateFormMenu'
 import { TableInterface } from '@/data/type/table'
