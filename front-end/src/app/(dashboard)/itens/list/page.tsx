@@ -1,4 +1,4 @@
-import { GetListItens } from '@/app/actions/itens/listItens'
+import { GetListItens } from '@/actions/itens/listItens'
 import LinkPagination from '@/components/LinkPagination'
 import { RemoveIten } from '@/components/removeItem'
 import { InterfaceItens } from '@/data/type/interfaceItens'
@@ -15,8 +15,7 @@ interface PropsSearchParams {
 export default async function ListItens({ searchParams }: PropsSearchParams) {
   let { page: query } = searchParams || 1
   if (query === undefined) query = 1
-  const datas = await GetListItens(query)
-  const dt = await datas.json()
+  const dt = await GetListItens(query)
   const data = dt.data
   const countPage = dt.countPage
 
