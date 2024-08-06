@@ -1,12 +1,11 @@
-import { GetAllCategory } from '@/app/actions/category/getAllCatgeory'
+import { GetAllCategory } from '@/actions/category/getAllCatgeory'
 import { CategorySearch } from '@/components/categorySearch'
 import { FormSearch } from '@/components/form-search'
 import { CategoryInterface } from '@/data/type/category'
 import { Suspense } from 'react'
 
 export default async function SearchIten() {
-  const reqBody = await GetAllCategory()
-  const data = reqBody.data
+  const data = await GetAllCategory()
 
   return (
     <div className="max-md:w-[390px] mx-auto space-y-5">
