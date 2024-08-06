@@ -1,6 +1,6 @@
 'use client'
-import { GetAllCategory } from '@/app/actions/category/getAllCatgeory'
-import { InsertItens } from '@/app/actions/itens/insertItens'
+import { GetAllCategory } from '@/actions/category/getAllCatgeory'
+import { InsertItens } from '@/actions/itens/insertItens'
 import { BtnForm } from '@/components/btnForm'
 import { ValidateFormItens } from '@/data/function/validateFormItens'
 import { CategoryInterface } from '@/data/type/category'
