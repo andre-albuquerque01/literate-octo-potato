@@ -1,4 +1,3 @@
-import ApiRoute from '@/data/apiRoute'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,16 +9,7 @@ export const metadata: Metadata = {
   },
 }
 
-async function GetXSRF() {
-  try {
-    await ApiRoute('/sanctum/csrf-cookie')
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 export default async function Home() {
-  await GetXSRF()
   return (
     <div className="flex flex-col gap-5 items-center justify-end h-screen max-md:mt-[-80px] md:mt-[-160px] w-80 mx-auto">
       <Image
