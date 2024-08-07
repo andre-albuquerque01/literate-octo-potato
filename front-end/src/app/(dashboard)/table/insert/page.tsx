@@ -1,5 +1,5 @@
 'use client'
-import { InsertTable } from '@/app/actions/table/insertTable'
+import { InsertTable } from '@/actions/table/insertTable'
 import { BtnForm } from '@/components/btnForm'
 import { ValidateFormTable } from '@/data/function/validateFormTable'
 import { ArrowLeft } from 'lucide-react'
