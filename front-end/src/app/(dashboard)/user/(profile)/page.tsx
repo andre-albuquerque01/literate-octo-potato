@@ -1,4 +1,4 @@
-import { GetNameUser } from '@/app/actions/user/getNameUser'
+import { GetNameUser } from '@/actions/user/getNameUser'
 import { Logout } from '@/components/logout'
 import {
   Apple,
