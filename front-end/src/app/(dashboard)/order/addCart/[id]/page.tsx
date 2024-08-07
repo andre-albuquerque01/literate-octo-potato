@@ -1,5 +1,5 @@
-import { GetListItens } from '@/app/actions/itens/listItens'
-import { GetListSearchTitle } from '@/app/actions/itens/search/GetListSearchTitle'
+import { GetListItens } from '@/actions/itens/listItens'
+import { GetListSearchTitle } from '@/actions/itens/search/GetListSearchTitle'
 import LinkPagination from '@/components/LinkPagination'
 import LinkPaginationQuery from '@/components/LinkPaginationQuery'
 import { AddCartComanda } from '@/components/addCart'
@@ -34,14 +34,12 @@ export default async function AddCart({
   let countPage = 0
 
   if (queryQ && queryQ !== '') {
-    const datas = await GetListSearchTitle(queryQ, page)
-    const dt = await datas.json()
+    const dt = await GetListSearchTitle(queryQ, page)
     data = dt.data
     countPage = dt.countPage
     title = `${queryQ}`
   } else {
-    const datas = await GetListItens(page)
-    const dt = await datas.json()
+    const dt = await GetListItens(page)
     data = dt.data
     countPage = dt.countPage
   }
