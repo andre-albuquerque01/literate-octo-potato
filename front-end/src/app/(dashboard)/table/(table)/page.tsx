@@ -1,8 +1,11 @@
+import GetAllTableService from '@/actions/table/getAllTable'
 import { TableStatus } from '@/components/Table-status'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function Tables() {
+  const data = await GetAllTableService()
+
   return (
     <div className="max-md:w-[80%] max-md:mx-auto md:mt-4">
       <Link
@@ -13,7 +16,7 @@ export default async function Tables() {
       </Link>
       <h1 className="text-2xl mt-2">Mesas</h1>
       <div className="max-md:space-y-5 mt-5 md:flex md:gap-5 md:flex-wrap md:items-center md:w-full">
-        <TableStatus />
+        <TableStatus data={data} />
       </div>
     </div>
   )
