@@ -1,6 +1,6 @@
 'use client'
-import { GetIdTableService } from '@/app/actions/table/getIdTable'
-import { UpdateTable } from '@/app/actions/table/updateTable'
+import { GetIdTableService } from '@/actions/table/getIdTable'
+import { UpdateTable } from '@/actions/table/updateTable'
 import { BtnForm } from '@/components/btnForm'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
