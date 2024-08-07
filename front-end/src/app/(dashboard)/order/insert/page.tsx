@@ -1,6 +1,6 @@
 'use client'
-import { GetIdItens } from '@/app/actions/itens/getIdItens'
-import { InsertOrder } from '@/app/actions/order/insertOrder'
+import { GetIdItens } from '@/actions/itens/getIdItens'
+import { InsertOrder } from '@/actions/order/insertOrder'
 import { BtnForm } from '@/components/btnForm'
 import { ValidateFormOrder } from '@/data/function/validateFormOrder'
 import { InterfaceItens } from '@/data/type/interfaceItens'
@@ -139,7 +139,7 @@ export default function InsertOrderPage() {
             required
           />
         </div>
-        <BtnForm title="Cadastrar" />
+        <BtnForm title="Adicionar" />
       </form>
     </div>
   )
