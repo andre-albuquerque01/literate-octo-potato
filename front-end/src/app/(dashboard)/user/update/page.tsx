@@ -1,6 +1,6 @@
 'use client'
-import { ShowUser } from '@/app/actions/user/showUser'
-import { UpdateUser } from '@/app/actions/user/updateUser'
+import { ShowUser } from '@/actions/user/showUser'
+import { UpdateUser } from '@/actions/user/updateUser'
 import { BtnForm } from '@/components/btnForm'
 import { ValidateForm } from '@/data/function/validateForm'
 import { UserInterface } from '@/data/type/user'
