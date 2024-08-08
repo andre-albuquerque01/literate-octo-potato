@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { LoginUser } from '@/app/actions/user/login'
-import { VerifyEmail } from '@/app/actions/user/verifyEmail'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
 import { ReCaptchaProvider } from 'next-recaptcha-v3'
+import { VerifyEmail } from '@/actions/user/verifyEmail'
+import { LoginUser } from '@/actions/user/login'
 
 export default function Login({
   searchParams,
