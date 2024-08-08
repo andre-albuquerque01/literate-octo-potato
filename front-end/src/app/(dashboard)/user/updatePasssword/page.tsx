@@ -1,5 +1,5 @@
 'use client'
-import { UpdatePasswordUser } from '@/app/actions/user/updatePassword'
+import { UpdatePasswordUser } from '@/actions/user/updatePassword'
 import { BtnForm } from '@/components/btnForm'
 import { ArrowLeft } from 'lucide-react'
 import { ReCaptchaProvider } from 'next-recaptcha-v3'
