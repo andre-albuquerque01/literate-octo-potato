@@ -1,5 +1,5 @@
 'use client'
-import { UpdateFunction } from '@/app/actions/user/updateFunction'
+import { UpdateFunction } from '@/actions/user/updateFunction'
 import { BtnForm } from '@/components/btnForm'
 import { validarCPF } from '@/data/function/validateCpf'
 import { ArrowLeft } from 'lucide-react'
