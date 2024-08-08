@@ -1,5 +1,5 @@
 'use client'
-import { SendEmail } from '@/app/actions/user/recoverPassword/sendEmail'
+import { SendEmail } from '@/actions/user/recoverPassword/sendEmail'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
