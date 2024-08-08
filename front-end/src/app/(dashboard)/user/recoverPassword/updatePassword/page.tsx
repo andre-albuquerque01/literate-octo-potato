@@ -1,5 +1,5 @@
 'use client'
-import { RecoverUpdatePassword } from '@/app/actions/user/recoverPassword/recoverUpdatePassword'
+import { RecoverUpdatePassword } from '@/actions/user/recoverPassword/recoverUpdatePassword'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -47,7 +47,6 @@ export default function UpdatePassword() {
       validatePassword(data.password) === ''
     ) {
       const req = await RecoverUpdatePassword(data)
-      console.log(req)
       if (req.error === 'The payload is invalid.') {
         alert('Token expirado, tente recuperar a senha novamente')
         router.push('/user/recoverPassword/sendEmail')
