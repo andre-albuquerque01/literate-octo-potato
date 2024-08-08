@@ -1,5 +1,5 @@
 'use client'
-import { SendEmailVerification } from '@/app/actions/user/sendEmailVerification'
+import { SendEmailVerification } from '@/actions/user/sendEmailVerification'
 import { ArrowLeft } from 'lucide-react'
 import { ReCaptchaProvider } from 'next-recaptcha-v3'
 import Link from 'next/link'
