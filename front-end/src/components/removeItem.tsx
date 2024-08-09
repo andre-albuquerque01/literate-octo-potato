@@ -1,5 +1,5 @@
 'use client'
-import { DeleteItens } from '@/app/actions/itens/deleteItens'
+import { DeleteItens } from '@/actions/itens/deleteItens'
 import { Trash2 } from 'lucide-react'
 
 export const RemoveIten = ({ id }: { id: number }) => {
