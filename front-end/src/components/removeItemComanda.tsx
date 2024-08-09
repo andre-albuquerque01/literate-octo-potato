@@ -1,5 +1,5 @@
 'use client'
-import { DeleteOrder } from '@/app/actions/order/deleteOrder'
+import { DeleteOrder } from '@/actions/order/deleteOrder'
 import { Trash2 } from 'lucide-react'
 
 export const RemoveItenComanda = ({
