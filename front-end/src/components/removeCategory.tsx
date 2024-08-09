@@ -1,5 +1,5 @@
 'use client'
-import { DeleteCategory } from '@/app/actions/category/deleteCategory'
+import { DeleteCategory } from '@/actions/category/deleteCategory'
 import { Trash2 } from 'lucide-react'
 
 export const RemoveCategory = ({ id }: { id: number }) => {
