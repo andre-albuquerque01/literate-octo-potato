@@ -1,33 +1,17 @@
 'use client'
-import { InsertLike } from '@/app/actions/itens/rate/insertLike'
-import { DeleteLike } from '@/app/actions/itens/rate/removeLike'
-import { VerifyLike } from '@/app/actions/itens/rate/verifyLike'
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { InsertLike } from '@/actions/itens/rate/insertLike'
+import { DeleteLike } from '@/actions/itens/rate/removeLike'
 
-type ProspLike = {
-  id: number
-}
-
-export const BtnLike = (props: ProspLike) => {
-  const [data, setData] = useState<boolean>()
+export const BtnLike = ({ id, data }: { id: number; data: boolean }) => {
   const router = useRouter()
-
-  useEffect(() => {
-    const handleData = async () => {
-      const reqbody = await VerifyLike(props.id)
-      const dat = reqbody
-      setData(dat)
-    }
-    handleData()
-  })
 
   const hanldeLike = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const like = await InsertLike({ idItens: props.id })
+    const like = await InsertLike({ idItens: id })
 
     if (like.message === 'sucess') {
       alert('Avaliado!')
@@ -44,7 +28,7 @@ export const BtnLike = (props: ProspLike) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
-    const dislike = await DeleteLike(props.id)
+    const dislike = await DeleteLike(id)
     if (dislike) {
       alert('Removida avaliação!')
       // router.refresh()
