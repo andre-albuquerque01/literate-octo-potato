@@ -60,7 +60,7 @@ export const LunchCarrossel = ({ data }: LunchCarrosselProps) => {
       >
         {data.map(
           (itens, key) =>
-            itens.typeCategory === 'almoco' &&
+            itens.category.typeCategory === 'almoco' &&
             itens.position === 'entrada' && (
               <SwiperSlide key={key}>
                 <div>
