@@ -8,4 +8,15 @@ export interface MenuInterface {
   methodPay: string
   value: string
   updated_at: string
+  orders: [
+    {
+      idOrder: number
+      qtdOrder: number
+      valueOrder: number
+      itens: {
+        idItens: number
+        title: string
+      }
+    },
+  ]
 }
