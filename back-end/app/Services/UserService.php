@@ -48,11 +48,12 @@ class UserService
         try {
             $user = Auth::user();
             $data = $dados;
-            if (Hash::check($data['password'], $user->password)) {
-                $data['password'] = Hash::make($data['password']);
-                User::where('idUser', $user->idUser)->update($data);
-                return new GeneralResource(['message' => 'success']);
+            if (!Hash::check($data['password'], $user->password)) {
+                return new GeneralResource(['message' => 'incorrect password']);
             }
+            $data['password'] = $user->password;
+            User::where('idUser', $user->idUser)->update($data);
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new GeneralExceptionCatch($e->getMessage());
         }
@@ -99,10 +100,9 @@ class UserService
         }
     }
 
-    public function updateRole(array $dados)
+    public function updateRole(array $data)
     {
         try {
-            $data = $dados;
             User::where('cpf', $data['cpf'])->update($data);
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {

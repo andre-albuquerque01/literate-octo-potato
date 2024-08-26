@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class UserRequest extends FormRequest
@@ -27,7 +28,7 @@ class UserRequest extends FormRequest
             "lastName" => "required|min:3|max:60|regex:/^[^<>]*$/",
             "DDD" => "required|min:2|max:3|regex:/^[^<>]*$/",
             "phoneNumber" => "required|min:8|max:12|regex:/^[^<>]*$/",
-            "cpf" => "required|min:11|max:11|unique:users,cpf|regex:/^[^<>]*$/",
+            "cpf" => "required|min:14|max:14|unique:users,cpf|regex:/^[^<>]*$/",
             "term_aceite" => "required|regex:/^[^<>]*$/",
             "email" => [
                 "required",
@@ -82,12 +83,13 @@ class UserRequest extends FormRequest
                 'nullable',
                 'min:11',
                 'max:11',
+                Rule::unique('users', 'cpf')->ignore($this->user()->cpf, 'cpf'),
             ];
             $rules["email"] = [
                 "nullable",
                 "email",
                 "max:255",
-                // "unique:users,email,{$this->idUser},idUser",
+                Rule::unique('users', 'email')->ignore($this->user()->idUser, 'idUser'),
             ];
             $rules["term_aceite"] = [
                 "nullable"
