@@ -17,7 +17,7 @@ export async function UpdateFunction(reqBody: object) {
 
     const data = await response.json()
 
-    return data
+    return data.data
   } catch (error) {
     return 'Houver error'
   }
