@@ -1,28 +1,38 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import ApiError from '@/data/function/apiErro'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-export async function LoginUser(requestBody: object) {
+export async function LoginUser(
+  state: { ok: boolean; data: null; error: string },
+  request: FormData,
+) {
+  const email = request.get('email') as string | null
+  const password = request.get('password') as string | null
   try {
+    if (!email || !password) {
+      throw new Error('Preenchas os dados!')
+    }
     const cookiesStore = cookies()
 
     const response = await ApiRoute('/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-      body: JSON.stringify(requestBody),
+      body: request,
     })
 
     const data = await response.json()
 
     if (!response.ok) {
-      return { message: 'error' }
+      throw new Error('error')
     }
 
     if (data.message === 'E-mail não verificado') {
-      return { message: 'E-mail não verificado' }
+      throw new Error('E-mail não verificado')
     }
 
     cookiesStore.set('token', data.data.token, {
@@ -39,13 +49,8 @@ export async function LoginUser(requestBody: object) {
         sameSite: 'strict',
       })
     }
-
-    if (data.message === 'erro') {
-      return { data: 'Error' }
-    }
-
-    return { message: 'sucess' }
   } catch (error) {
-    return { message: 'error' }
+    return ApiError(error)
   }
+  redirect('/user/profile')
 }
