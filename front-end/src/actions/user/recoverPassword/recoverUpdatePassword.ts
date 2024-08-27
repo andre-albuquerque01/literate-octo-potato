@@ -1,14 +1,32 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
-import { cookies } from 'next/headers'
+import VerificationPasswordWithReturn from '@/data/function/validatePasswordWithReturn'
 
-export async function RecoverUpdatePassword(requestBody: object) {
+interface UpdatePasswordRequestInterface {
+  token: string
+  email: string
+  password: string
+  password_confirmation: string
+}
+
+export async function RecoverUpdatePassword(
+  requestBody: UpdatePasswordRequestInterface,
+) {
   try {
-    const cookiesStore = cookies()
-    const tokenRecover = cookiesStore.get('tokenRecover')
+    if (
+      !requestBody.token ||
+      !requestBody.password ||
+      !requestBody.password_confirmation
+    ) {
+      return 'Preencha os dados!'
+    }
+    if (requestBody.password !== requestBody.password_confirmation) {
+      return 'Senhas incompatíveis!'
+    }
+    VerificationPasswordWithReturn(requestBody.password)
 
-    const response = await ApiRoute(`/updatePassword/${tokenRecover?.value}`, {
+    const response = await ApiRoute(`/resetPassword`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -16,10 +34,37 @@ export async function RecoverUpdatePassword(requestBody: object) {
       },
       body: JSON.stringify(requestBody),
     })
-    cookiesStore.delete('tokenRecover')
+
     const data = await response.json()
-    return data
+
+    let text = ''
+    switch (data) {
+      case data.data.message ===
+        'The password field must be at least 8 characters.':
+        text = 'A senha deve ter ao menos 8 caracteres'
+        break
+      case data.data.message ===
+        'The password field must contain at least one symbol.':
+        text = 'A senha precisa de um caractere especial'
+        break
+      case data.data.message ===
+        'The password field must contain at least one uppercase and one lowercase letter.':
+        text = 'A senha precisa de ao menos uma letra maiúscula e uma minúscula'
+        break
+      case data.data.message ===
+        'The given password has appeared in a data leak. Please choose a different password.':
+        text = 'Senha fraca.'
+        break
+      default:
+        return ''
+    }
+
+    if (!response.ok) {
+      return 'Erro ao fazer alteração!'
+    }
+
+    return text
   } catch (error) {
-    return error
+    return 'Erro ao fazer alteração!'
   }
 }
