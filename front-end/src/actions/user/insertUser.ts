@@ -1,7 +1,7 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
-import apiError from '@/data/function/apiErro'
+import ApiError from '@/data/function/apiErro'
 import VerificationPassword from '@/data/function/validatePassword'
 import { revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -73,7 +73,7 @@ export async function InsertUser(
       )
     )
       throw new Error(
-        'Senha precisa de ao menos uma letra maisucla e uma minisucla',
+        'Senha precisa de ao menos uma letra maiúscula e uma minúsculas',
       )
     if (
       message &&
@@ -82,8 +82,10 @@ export async function InsertUser(
       )
     )
       throw new Error('Senha fraca.')
+    if (message && message.includes('The cpf has already been taken.'))
+      throw new Error('CPF já usado.')
   } catch (error) {
-    return apiError(error)
+    return ApiError(error)
   }
   revalidateTag('user')
   redirect('/user/login')
