@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUlids;
 
     protected $table = "orders";
     protected $primarykey = "idOrder";
@@ -16,6 +17,7 @@ class Order extends Model
         'idMenu',
         'qtdOrder',
         'valueOrder',
+        'observation',
     ];
 
     public function itens()
