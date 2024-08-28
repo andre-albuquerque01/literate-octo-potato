@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id('idOrder');
-            $table->unsignedBigInteger('idMenu');
-            $table->foreign('idMenu')->references('idMenu')->on('menu')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('idItens');
-            $table->foreign('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
+            $table->ulid('idOrder')->primary();
+            $table->index('idMenu');
+            $table->foreignUlid('idMenu')->references('idMenu')->on('menu')->onDelete('cascade')->onUpdate('cascade');
+            $table->index('idItens');
+            $table->foreignUlid('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('qtdOrder')->nullable();
             $table->double('valueOrder')->nullable();
+            $table->text('observation')->nullable();
             $table->timestamps();
         });
     }

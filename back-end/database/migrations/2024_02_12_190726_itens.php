@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('itens', function (Blueprint $table) {
-            $table->id('idItens');
+            $table->ulid('idItens')->primary();
             $table->string('codigo')->unique();
             $table->string('title');
             $table->string('desc');
@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('urlImage');
             $table->string('waitTime');
             $table->string('position');
-            $table->unsignedBigInteger('idCategory');
-            $table->foreign("idCategory")->references('idCategory')->on("categories")->onDelete("cascade")->onUpdate("cascade");
+            $table->index('idCategory');
+            $table->foreignUlid("idCategory")->references('idCategory')->on("categories")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });
     }
