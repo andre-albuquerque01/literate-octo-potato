@@ -22,6 +22,7 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "observation" => "nullable|regex:/^[^<>]*$/",
             "qtdOrder" => "required|regex:/^[^<>]*$/",
             "valueOrder" => "required|regex:/^[^<>]*$/",
             "idMenu" => "required|regex:/^[^<>]*$/",
