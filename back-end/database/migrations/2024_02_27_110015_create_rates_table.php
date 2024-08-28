@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rates', function (Blueprint $table) {
-            $table->id('idRate');
-            $table->unsignedBigInteger('idUser');
-            $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('idItens');
-            $table->foreign('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
+            $table->ulid('idRate')->primary();
+            $table->index('idUser');
+            $table->foreignUlid('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->index('idItens');
+            $table->foreignUlid('idItens')->references('idItens')->on('itens')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
