@@ -36,7 +36,7 @@ class UserService
     public function show()
     {
         try {
-            $find = User::findOrFail(auth()->user()->idUser);
+            $find = User::findOrFail(auth()->user()->idUser)->whereNull('deleted_at');
             return new UserResource($find);
         } catch (\Exception $e) {
             throw new GeneralExceptionCatch($e->getMessage());
@@ -62,7 +62,7 @@ class UserService
     public function destroy()
     {
         try {
-            User::findOrFail(auth()->user()->idUser)->delete();
+            User::findOrFail(auth()->user()->idUser)->touch('deleted_at');
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new GeneralExceptionCatch($e->getMessage());
