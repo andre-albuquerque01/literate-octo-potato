@@ -15,6 +15,7 @@ return new class extends Migration
             $table->ulid('idCategory')->primary();
             $table->string('typeCategory');
             $table->string('urlImageCategory')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
