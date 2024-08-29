@@ -13,7 +13,7 @@ class MesaService
     public function index()
     {
         try {
-            $mesa = Mesa::get();
+            $mesa = Mesa::whereNull('deleted_at')->get();
             return MesaResource::collection($mesa);
         } catch (\Exception $e) {
             throw new MesaException($e->getMessage());
@@ -34,7 +34,7 @@ class MesaService
     public function show(string $id)
     {
         try {
-            $mesa = Mesa::findOrFail($id)->first();
+            $mesa = Mesa::findOrFail($id)->whereNull('deleted_at')->first();
             return new MesaResource($mesa);
         } catch (\Exception $e) {
             throw new MesaException($e->getMessage());
@@ -52,7 +52,7 @@ class MesaService
     public function destroy(string $id)
     {
         try {
-            Mesa::findOrFail($id)->delete();
+            Mesa::findOrFail($id)->touch('deleted_at');
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new MesaException($e->getMessage());
