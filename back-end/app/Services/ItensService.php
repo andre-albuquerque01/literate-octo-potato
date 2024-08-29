@@ -12,7 +12,9 @@ class ItensService
     public function index()
     {
         try {
-            $iten = Itens::with('category')->where('statusIten',  1)->get();
+            $iten = Itens::with('category', function ($query) {
+                $query->whereNull('deleted_at');
+            })->whereNull('deleted_at')->where('statusIten',  1)->get();
             return ItensResouce::collection($iten);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
@@ -22,7 +24,9 @@ class ItensService
     public function indexAll()
     {
         try {
-            $iten = Itens::with('category')->paginate(16);
+            $iten = Itens::with('category', function ($query) {
+                $query->whereNull('deleted_at');
+            })->whereNull('deleted_at')->paginate(16);
             return ItensResouce::collection($iten);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
@@ -32,7 +36,9 @@ class ItensService
     public function indexInitial()
     {
         try {
-            $iten = Itens::with('category')->where('position', 'entrada')->get();
+            $iten = Itens::with('category', function ($query) {
+                $query->whereNull('deleted_at');
+            })->where('position', 'entrada')->whereNull('deleted_at')->get();
             return ItensResouce::collection($iten);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
@@ -58,7 +64,9 @@ class ItensService
     public function show(string $id)
     {
         try {
-            $iten = Itens::find($id)->with('category')->first();
+            $iten = Itens::find($id)->with('category', function ($query) {
+                $query->whereNull('deleted_at');
+            })->whereNull('deleted_at')->first();
             if ($iten === null) {
                 throw new ItenException("Item not found");
             }
@@ -71,7 +79,9 @@ class ItensService
     public function showTitle(string $title)
     {
         try {
-            $iten = Itens::where('title', 'LIKE', '%' . $title . '%')->with('category')->paginate(16);
+            $iten = Itens::where('title', 'LIKE', '%' . $title . '%')->with('category', function ($query) {
+                $query->whereNull('deleted_at');
+            })->whereNull('deleted_at')->paginate(16);
             if ($iten === null) {
                 throw new ItenException("Item not found");
             }
@@ -86,6 +96,7 @@ class ItensService
         try {
             $iten = Itens::whereHas('category', function ($query) use ($typeCategory) {
                 $query->where('typeCategory', 'LIKE', '%' . $typeCategory . '%');
+                $query->whereNull('deleted_at');
             })->with('category')->paginate(16);
 
             if ($iten->isEmpty())
@@ -111,7 +122,7 @@ class ItensService
     public function destroy(string $id)
     {
         try {
-            Itens::findOrFail($id)->delete();
+            Itens::findOrFail($id)->touch('deleted_at');
             return response()->json(['message' => 'success'], 204);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
