@@ -15,7 +15,7 @@ return new class extends Migration
             $table->ulid('idItens')->primary();
             $table->string('codigo')->unique();
             $table->string('title');
-            $table->string('desc');
+            $table->string('description');
             $table->double('value');
             $table->boolean('statusIten')->nullable(false);
             $table->integer('qtdIten');

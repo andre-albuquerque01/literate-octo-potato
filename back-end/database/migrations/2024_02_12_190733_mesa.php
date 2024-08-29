@@ -15,6 +15,7 @@ return new class extends Migration
             $table->ulid('idMesa')->primary();
             $table->string('numberMesa');
             $table->string('lotacao');
+            $table->softDeletes();
             $table->boolean('statusMesa')->nullable();
             $table->timestamps();
         });
