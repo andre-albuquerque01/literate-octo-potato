@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('value')->nullable();
             $table->double('desconto')->nullable();
             $table->double('tip')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

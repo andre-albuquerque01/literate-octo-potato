@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('qtdOrder')->nullable();
             $table->double('valueOrder')->nullable();
             $table->text('observation')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
