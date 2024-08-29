@@ -12,7 +12,7 @@ class OrderService
     public function index()
     {
         try {
-            $order = Order::with(['menu', 'itens'])->paginate();
+            $order = Order::with(['menu', 'itens'])->whereNull('deleted_at')->paginate();
             return OrderResource::collection($order);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
@@ -32,7 +32,7 @@ class OrderService
     public function show(string $id)
     {
         try {
-            $order = Order::with(['menu', 'itens'])->where('orders.idOrder', $id)->paginate();
+            $order = Order::with(['menu', 'itens'])->where('orders.idOrder', $id)->whereNull('deleted_at')->paginate();
             return OrderResource::collection($order);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
@@ -44,7 +44,7 @@ class OrderService
         try {
             $order = Order::whereHas('menu', function ($query) use ($id) {
                 $query->where('menu.idMenu', $id);
-            })->with(['menu.mesa', 'itens'])->get();
+            })->with(['menu.mesa', 'itens'])->whereNull('deleted_at')->get();
             return OrderResource::collection($order);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
@@ -56,7 +56,7 @@ class OrderService
         try {
             $order = Order::whereHas('menu', function ($query) use ($id) {
                 $query->where('menu.idMenu', $id);
-            })->with(['menu', 'itens'])->get();
+            })->with(['menu', 'itens'])->whereNull('deleted_at')->get();
             return OrderResource::collection($order);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
@@ -76,7 +76,7 @@ class OrderService
     public function destroy(string $id)
     {
         try {
-            Order::where('idOrder', $id)->delete();
+            Order::where('idOrder', $id)->touch('deleted_at');
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
