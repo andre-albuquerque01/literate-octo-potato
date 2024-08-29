@@ -15,7 +15,7 @@ class Itens extends Model
     protected $fillable = [
         'codigo',
         'title',
-        'desc',
+        'description',
         'value',
         'statusIten',
         'qtdIten',
