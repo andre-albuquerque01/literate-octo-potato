@@ -49,7 +49,7 @@ class CategoryService
     public function destroy(string $id)
     {
         try {
-            Category::findOrFail($id)->delete();
+            Category::findOrFail($id)->touch('deleted_at');
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new CategoryException($e->getMessage());
