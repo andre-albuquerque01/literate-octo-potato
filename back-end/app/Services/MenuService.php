@@ -16,7 +16,7 @@ class MenuService
             // $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->get();
             $cpf = auth()->user()->cpf;
             $menu = Menu::with(['mesa', 'orders.itens'])
-                ->where('cpf', $cpf)
+                ->where('cpf', $cpf)->whereNull('deleted_at')
                 ->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
@@ -28,7 +28,7 @@ class MenuService
     {
         try {
             $cpf = auth()->user()->cpf;
-            $menu = Menu::where('cpf', $cpf)->where('menu.statusOrder', '=', 'aberto')->get();
+            $menu = Menu::where('cpf', $cpf)->where('menu.statusOrder', '=', 'aberto')->whereNull('deleted_at')->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -38,7 +38,7 @@ class MenuService
     {
         try {
             $cpf = auth()->user()->cpf;
-            $menu = Menu::with(['mesa', 'orders.itens'])->where('cpf', $cpf)->get();
+            $menu = Menu::with(['mesa', 'orders.itens'])->where('cpf', $cpf)->whereNull('deleted_at')->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -47,7 +47,7 @@ class MenuService
     public function showAll()
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.statusOrder', '=', 'aberto')->get();
+            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.statusOrder', '=', 'aberto')->whereNull('deleted_at')->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -57,7 +57,7 @@ class MenuService
     public function showAllOpenAndClose()
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])->paginate(20);
+            $menu = Menu::with(['mesa', 'orders.itens'])->whereNull('deleted_at')->paginate(20);
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -78,7 +78,7 @@ class MenuService
     public function show(string $id)
     {
         try {
-            $menu = Menu::findOrFail($id)->first();
+            $menu = Menu::findOrFail($id)->whereNull('deleted_at')->first();
             return new MenuResource($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -88,7 +88,7 @@ class MenuService
     public function showCPF(string $cpf)
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.cpf', 'LIKE', '%' . $cpf . '%')->paginate(20);
+            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.cpf', 'LIKE', '%' . $cpf . '%')->whereNull('deleted_at')->paginate(20);
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -98,7 +98,7 @@ class MenuService
     public function showCodigo(string $codigo)
     {
         try {
-            $menu = Menu::where('codigo', $codigo);
+            $menu = Menu::where('codigo', $codigo)->whereNull('deleted_at');
             return new MenuResource($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -118,7 +118,7 @@ class MenuService
     public function destroy(string $id)
     {
         try {
-            Menu::findOrFail($id)->delete();
+            Menu::findOrFail($id)->touch('deleted_at');
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
