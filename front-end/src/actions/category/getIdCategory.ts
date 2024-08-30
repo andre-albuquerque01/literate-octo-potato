@@ -2,7 +2,7 @@
 
 import ApiRoute from '@/data/apiRoute'
 
-export async function GetIdCategory(id: number) {
+export async function GetIdCategory(id: string) {
   try {
     const response = await ApiRoute(`/category/${id}`, {
       method: 'GET',
@@ -15,10 +15,8 @@ export async function GetIdCategory(id: number) {
 
     const data = await response.json()
 
-    return data
+    return data.data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return 'Error'
   }
 }
