@@ -3,7 +3,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 
-export default async function GetIdMenuService(id: number) {
+export default async function GetIdMenuService(id: string) {
   try {
     const response = await ApiRoute(`/menu/${id}`, {
       method: 'GET',
@@ -20,10 +20,8 @@ export default async function GetIdMenuService(id: number) {
 
     const data = await response.json()
 
-    return data
+    return data.data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return 'Error'
   }
 }
