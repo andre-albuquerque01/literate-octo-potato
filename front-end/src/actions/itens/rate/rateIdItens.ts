@@ -2,7 +2,7 @@
 
 import ApiRoute from '@/data/apiRoute'
 
-export async function GetIdItensRate(id: number) {
+export async function GetIdItensRate(id: string) {
   try {
     const response = await ApiRoute(`/rate/${id}`, {
       method: 'GET',
