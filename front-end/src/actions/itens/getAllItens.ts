@@ -13,10 +13,8 @@ export async function GetAllItens() {
 
     const data = await response.json()
 
-    return data
+    return data.data
   } catch (error) {
-    return new Response(JSON.stringify('error'), {
-      status: 401,
-    })
+    return 'Error'
   }
 }
