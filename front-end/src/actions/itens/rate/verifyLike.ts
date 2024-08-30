@@ -3,7 +3,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 
-export async function VerifyLike(id: number) {
+export async function VerifyLike(id: string) {
   try {
     const response = await ApiRoute(`/rateU/${id}`, {
       method: 'GET',
