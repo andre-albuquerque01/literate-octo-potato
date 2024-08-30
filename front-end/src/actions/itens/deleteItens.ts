@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 import { revalidatePathAction } from '../revalidate/revalidatePathAction'
 import { revalidateTag } from 'next/cache'
 
-export async function DeleteItens(id: number) {
+export async function DeleteItens(id: string) {
   try {
     const response = await ApiRoute(`/itens/${id}`, {
       method: 'DELETE',
