@@ -3,9 +3,8 @@
 import ApiRoute from '@/data/apiRoute'
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
-export async function UpdateCategory(reqBody: object, id: number) {
+export async function UpdateCategory(reqBody: object, id: string) {
   try {
     const response = await ApiRoute(`/category/${id}`, {
       method: 'PUT',
@@ -19,12 +18,12 @@ export async function UpdateCategory(reqBody: object, id: number) {
     revalidateTag('category')
 
     const data = await response.json()
-    if (!response.ok) return NextResponse.json({ data })
+    if (data.message === 'The type category field is required.')
+      return 'O tipo de categoria é requerido!'
+    if (!response.ok) return data.data.message
 
-    return true
+    return 'success'
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return 'Desculpe, ocorreu um erro ao cadastrar o categoria. Por favor, tente novamente mais tarde.'
   }
 }
