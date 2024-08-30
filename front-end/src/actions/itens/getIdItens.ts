@@ -2,7 +2,7 @@
 
 import ApiRoute from '@/data/apiRoute'
 
-export async function GetIdItens(id: number) {
+export async function GetIdItens(id: string) {
   try {
     const response = await ApiRoute(`/itens/${id}`, {
       method: 'GET',
