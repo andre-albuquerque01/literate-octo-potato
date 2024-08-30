@@ -4,7 +4,7 @@ import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 import { revalidateTag } from 'next/cache'
 
-export async function DeleteCategory(id: number) {
+export async function DeleteCategory(id: string) {
   try {
     const response = await ApiRoute(`/category/${id}`, {
       method: 'DELETE',
