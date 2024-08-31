@@ -3,7 +3,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 
-export async function OrderMenu(id: number) {
+export async function OrderMenu(id: string) {
   try {
     const response = await ApiRoute(`/orderMenu/${id}`, {
       method: 'GET',
