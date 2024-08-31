@@ -1,10 +1,12 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { TranslateErroMenu } from '@/data/function/translate/translateErroMenu'
+import { ErrorResponse } from '@/data/type/erros'
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
-export async function UpdateMenu(reqBody: object, id: number) {
+export async function UpdateMenu(reqBody: object, id: string) {
   try {
     const response = await ApiRoute(`/menu/${id}`, {
       method: 'PUT',
@@ -16,13 +18,24 @@ export async function UpdateMenu(reqBody: object, id: number) {
       body: JSON.stringify(reqBody),
     })
 
-    if (!response.ok) return false
+    const data = (await response.json()) as ErrorResponse
+
+    if (!response.ok) {
+      const errorsArray = Object.values(data.errors ?? {})
+        .flat()
+        .map(TranslateErroMenu)
+
+      const formattedErrors = errorsArray
+        .map((error) => `- ${error}`)
+        .join('\n')
+
+      return `Por favor, verifique os seguintes campos:\n${formattedErrors}`
+    }
+
     revalidateTag('menu')
     revalidateTag('menuList')
-    return true
+    return 'success'
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return 'Desculpe, ocorreu um erro ao alterar o pedido. Por favor, tente novamente mais tarde.'
   }
 }
