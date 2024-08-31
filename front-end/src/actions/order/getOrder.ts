@@ -2,7 +2,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 
-export default async function GetOrderService(id: number) {
+export default async function GetOrderService(id: string) {
   try {
     const response = await ApiRoute(`/ordersa/${id}`, {
       method: 'GET',
@@ -19,10 +19,8 @@ export default async function GetOrderService(id: number) {
 
     const data = await response.json()
 
-    return data
+    return data.data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return 'Error'
   }
 }
