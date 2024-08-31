@@ -2,7 +2,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 
-export default async function ComandaService(id: number) {
+export default async function ComandaService(id: string) {
   try {
     const response = await ApiRoute(`/ordersa/${id}`, {
       method: 'GET',
