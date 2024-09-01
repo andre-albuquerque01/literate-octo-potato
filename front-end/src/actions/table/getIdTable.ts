@@ -3,7 +3,7 @@
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
 
-export async function GetIdTableService(id: number) {
+export async function GetIdTableService(id: string) {
   try {
     const response = await ApiRoute(`/table/${id}`, {
       method: 'GET',
@@ -12,12 +12,15 @@ export async function GetIdTableService(id: number) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${cookies().get('token')?.value}`,
       },
-      cache: 'no-cache',
+      next: {
+        revalidate: 60,
+        tags: ['table'],
+      },
     })
 
     const data = await response.json()
 
-    return data
+    return data.data
   } catch (error) {
     return 'Error'
   }
