@@ -4,7 +4,8 @@ import ApiRoute from '@/data/apiRoute'
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { revalidatePathAction } from '../revalidate/revalidatePathAction'
-import ApiError from '@/data/function/apiErro'
+import { ErrorResponse } from '@/data/type/erros'
+import { TranslateErroTable } from '@/data/function/translate/translateErroTable'
 
 export async function InsertTable(
   state: { ok: boolean; error: string; data: null },
@@ -27,14 +28,28 @@ export async function InsertTable(
       body: request,
     })
 
-    const data = await response.json()
-    if (data.data.message === 'The number mesa has already been taken.')
-      throw new Error('Número da mesa já cadastrado!')
+    const data = (await response.json()) as ErrorResponse
+
+    if (!response.ok) {
+      const errorsArray = Object.values(data.errors ?? {})
+        .flat()
+        .map(TranslateErroTable)
+
+      const formattedErrors = errorsArray
+        .map((error) => `- ${error}`)
+        .join('\n')
+
+      throw new Error(
+        `Por favor, verifique os seguintes campos:\n${formattedErrors}`,
+      )
+    }
 
     revalidateTag('table')
     revalidatePathAction('/table')
     return { data: null, error: '', ok: true }
   } catch (error) {
-    return ApiError(error)
+    throw new Error(
+      'Desculpe, ocorreu um erro ao cadastrar item. Por favor, tente novamente mais tarde.',
+    )
   }
 }
