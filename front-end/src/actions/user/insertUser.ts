@@ -56,6 +56,35 @@ export async function InsertUser(
 
     if (message && message.includes('The email has already been taken.'))
       throw new Error('E-mail já cadastrado!')
+
+    if (message && message.includes('The first name field is required.'))
+      throw new Error('O campo primeiro nome é obrigatório.')
+    if (message && message.includes('The cpf field is required.'))
+      throw new Error('O campo cpf é obrigatório.')
+
+    if (message && message.includes('The last name field is required.'))
+      throw new Error('O campo sobrenome é obrigatório.')
+
+    if (message && message.includes('The d d d field is required.'))
+      throw new Error('O campo DDD é obrigatório.')
+
+    if (message && message.includes('The phone number field is required.'))
+      throw new Error('O campo número de telefone é obrigatório.')
+
+    if (message && message.includes('The term aceite field is required.'))
+      throw new Error('O termo de aceitação é obrigatório.')
+
+    if (message && message.includes('The email field is required.'))
+      throw new Error('O campo email é obrigatório.')
+
+    if (message && message.includes('The password field is required.'))
+      throw new Error('O campo senha é obrigatório.')
+
+    if (
+      message &&
+      message.includes('The password confirmation field is required.')
+    )
+      throw new Error('O campo repita senha é obrigatório.')
     if (
       message &&
       message.includes('The password field must be at least 8 characters.')
