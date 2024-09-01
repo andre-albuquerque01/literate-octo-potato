@@ -5,11 +5,11 @@ import { cookies } from 'next/headers'
 export default async function GetAllTableService() {
   try {
     const response = await ApiRoute(`/table`, {
-      cache: 'no-cache',
       headers: {
         Authorization: `Bearer ${cookies().get('token')?.value}`,
       },
       next: {
+        revalidate: 60,
         tags: ['table'],
       },
     })
