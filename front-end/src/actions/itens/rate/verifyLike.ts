@@ -20,7 +20,7 @@ export async function VerifyLike(id: string) {
 
     const data = await response.json()
 
-    if (data.data !== 'false') return true
+    if (data.data === 'true') return true
     return false
   } catch (error) {
     return false
