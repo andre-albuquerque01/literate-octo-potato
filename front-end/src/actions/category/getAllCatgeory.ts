@@ -8,7 +8,6 @@ export async function GetAllCategory() {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
       },
       next: {
         revalidate: 60 * 30,
