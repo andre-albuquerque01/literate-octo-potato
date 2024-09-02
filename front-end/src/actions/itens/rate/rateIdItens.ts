@@ -8,10 +8,9 @@ export async function GetIdItensRate(id: string) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
       },
       next: {
-        revalidate: 1,
+        revalidate: 60 * 30,
         tags: ['rate'],
       },
     })
