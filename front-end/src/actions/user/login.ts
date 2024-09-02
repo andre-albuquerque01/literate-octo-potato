@@ -52,5 +52,5 @@ export async function LoginUser(
   } catch (error) {
     return ApiError(error)
   }
-  redirect('/user/profile')
+  redirect('/user')
 }
