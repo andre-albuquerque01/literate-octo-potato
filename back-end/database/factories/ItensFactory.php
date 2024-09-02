@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 /**
@@ -19,12 +20,12 @@ class ItensFactory extends Factory
         return [
             'codigo' => Str::random(10),
             'title' => fake()->name(),
-            'desc'  => fake()->text(50),
+            'description'  => fake()->text(50),
             'value' => fake()->randomNumber(3),
             'statusIten' => 1,
             'qtdIten' => fake()->randomNumber(),
             'urlImage' => $this->faker->imageUrl(480, 480),
-            'idCategory' => fake()->numberBetween(1, 5),
+            'idCategory' => Category::first()->idCategory,
             'waitTime' => fake()->randomNumber(1).' - '.fake()->randomNumber(2).' minutes',
             'position'=> 'entrada'
         ];
