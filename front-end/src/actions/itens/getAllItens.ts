@@ -6,7 +6,7 @@ export async function GetAllItens() {
   try {
     const response = await ApiRoute(`/itens`, {
       next: {
-        revalidate: 1,
+        revalidate: 60 * 30,
         tags: ['itens'],
       },
     })
