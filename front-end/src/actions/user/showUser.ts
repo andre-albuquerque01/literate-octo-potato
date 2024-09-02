@@ -2,7 +2,6 @@
 
 import ApiRoute from '@/data/apiRoute'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
 
 export async function ShowUser() {
   try {
@@ -20,8 +19,8 @@ export async function ShowUser() {
 
     const data = await response.json()
 
-    return data
+    return data.data
   } catch (error) {
-    return NextResponse.json({ error }, { status: 400 })
+    return 'Error'
   }
 }
