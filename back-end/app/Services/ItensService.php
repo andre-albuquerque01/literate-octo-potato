@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\ItenException;
+use App\Http\Resources\GeneralResource;
 use App\Http\Resources\ItensResouce;
 use App\Models\Itens;
 use Illuminate\Support\Str;
@@ -12,9 +13,7 @@ class ItensService
     public function index()
     {
         try {
-            $iten = Itens::with('category', function ($query) {
-                $query->whereNull('deleted_at');
-            })->whereNull('deleted_at')->where('statusIten',  1)->get();
+            $iten = Itens::with('category')->whereNull('deleted_at')->where('statusIten',  1)->get();
             return ItensResouce::collection($iten);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
@@ -24,9 +23,7 @@ class ItensService
     public function indexAll()
     {
         try {
-            $iten = Itens::with('category', function ($query) {
-                $query->whereNull('deleted_at');
-            })->whereNull('deleted_at')->paginate(16);
+            $iten = Itens::with('category')->whereNull('deleted_at')->paginate(16);
             return ItensResouce::collection($iten);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
@@ -55,7 +52,7 @@ class ItensService
             $data['waitTime'] = strtolower($data['waitTime']);
             $data['urlImage'] = strtolower($data['urlImage']);
             Itens::create($data);
-            return response()->json(['message' => 'success'], 200);
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
         }
@@ -64,7 +61,7 @@ class ItensService
     public function show(string $id)
     {
         try {
-            $iten = Itens::find($id)->with('category', function ($query) {
+            $iten = Itens::where('idItens', $id)->with('category', function ($query) {
                 $query->whereNull('deleted_at');
             })->whereNull('deleted_at')->first();
             if ($iten === null) {
@@ -112,8 +109,12 @@ class ItensService
     public function update(array $data, string $id)
     {
         try {
-            Itens::where('idItens',  $id)->update($data);
-            return response()->json(['message' => 'success'], 200);
+            $itens = Itens::where('idItens',  $id)->first();
+            if ($itens === null) {
+                throw new ItenException("Item not found");
+            }
+            $itens->update($data);
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
         }
@@ -122,8 +123,12 @@ class ItensService
     public function destroy(string $id)
     {
         try {
-            Itens::findOrFail($id)->touch('deleted_at');
-            return response()->json(['message' => 'success'], 204);
+            $itens = Itens::where('idItens',  $id)->first();
+            if ($itens === null) {
+                throw new ItenException("Item not found");
+            }
+            $itens->touch('deleted_at');
+            return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new ItenException($e->getMessage());
         }
