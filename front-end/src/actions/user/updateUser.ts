@@ -16,6 +16,16 @@ export async function UpdateUser(reqBody: FormData) {
 
     const data = await response.json()
 
+    const message =
+      data && data.data && typeof data.data.message === 'string'
+        ? data.data.message
+        : JSON.stringify(data?.data?.message || '')
+
+    if (message && message.includes('The email has already been taken.'))
+      return 'E-mail já cadastrado!'
+    if (message && message.includes('The cpf has already been taken.'))
+      return 'CPF já usado.'
+
     let text = ''
     switch (data) {
       case data.data.message === 'incorrect password':
@@ -24,16 +34,22 @@ export async function UpdateUser(reqBody: FormData) {
       case data.data.message === 'success':
         text = 'success'
         break
+      case data.data.message === 'The cpf has already been taken.':
+        text = 'CPF já usado.'
+        break
+      case data.data.message === 'The email has already been taken.':
+        text = 'E-mail já cadastrado!'
+        break
       default:
         return ''
     }
 
     if (!response.ok) {
-      return 'Erro ao fazer alteração!'
+      return 'Desculpe, ocorreu um erro ao alterar. Por favor, tente novamente mais tarde.'
     }
 
     return text
   } catch (error) {
-    return 'Erro ao fazer alteração!'
+    return 'Desculpe, ocorreu um erro ao alterar. Por favor, tente novamente mais tarde.'
   }
 }
