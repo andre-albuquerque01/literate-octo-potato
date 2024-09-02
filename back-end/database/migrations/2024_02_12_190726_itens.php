@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('position');
             $table->index('idCategory');
             $table->foreignUlid("idCategory")->references('idCategory')->on("categories")->onDelete("cascade")->onUpdate("cascade");
+            $table->softDeletes();
             $table->timestamps();
         });
     }
