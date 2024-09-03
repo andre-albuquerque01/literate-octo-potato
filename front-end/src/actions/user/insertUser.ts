@@ -2,7 +2,9 @@
 
 import ApiRoute from '@/data/apiRoute'
 import ApiError from '@/data/function/apiErro'
+import { ValidateCpf } from '@/data/function/validateCpf'
 import VerificationPassword from '@/data/function/validatePassword'
+import { ApiErrorResponse } from '@/data/type/errors'
 import { revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
@@ -38,6 +40,9 @@ export async function InsertUser(
     if (password !== passwordConfirmation) {
       throw new Error('Senha incompativel!')
     }
+    const validateCpf = ValidateCpf(cpf)
+    if (!validateCpf) throw new Error('CPF inválido.')
+
     VerificationPassword(password)
 
     const response = await ApiRoute('/user', {
@@ -48,71 +53,64 @@ export async function InsertUser(
       body: request,
     })
 
-    const data = await response.json()
-    const message =
-      data && data.data && typeof data.data.message === 'string'
-        ? data.data.message
-        : JSON.stringify(data?.data?.message || '')
+    const data: ApiErrorResponse = await response.json()
 
-    if (message && message.includes('The email has already been taken.'))
-      throw new Error('E-mail já cadastrado!')
+    if (data.errors) {
+      const errors = data.errors
 
-    if (message && message.includes('The first name field is required.'))
-      throw new Error('O campo primeiro nome é obrigatório.')
-    if (message && message.includes('The cpf field is required.'))
-      throw new Error('O campo cpf é obrigatório.')
-
-    if (message && message.includes('The last name field is required.'))
-      throw new Error('O campo sobrenome é obrigatório.')
-
-    if (message && message.includes('The d d d field is required.'))
-      throw new Error('O campo DDD é obrigatório.')
-
-    if (message && message.includes('The phone number field is required.'))
-      throw new Error('O campo número de telefone é obrigatório.')
-
-    if (message && message.includes('The term aceite field is required.'))
-      throw new Error('O termo de aceitação é obrigatório.')
-
-    if (message && message.includes('The email field is required.'))
-      throw new Error('O campo email é obrigatório.')
-
-    if (message && message.includes('The password field is required.'))
-      throw new Error('O campo senha é obrigatório.')
-
-    if (
-      message &&
-      message.includes('The password confirmation field is required.')
-    )
-      throw new Error('O campo repita senha é obrigatório.')
-    if (
-      message &&
-      message.includes('The password field must be at least 8 characters.')
-    )
-      throw new Error('A senha deve ter ao menos 8 caracters')
-    if (
-      message &&
-      message.includes('The password field must contain at least one symbol.')
-    )
-      throw new Error('A senha precisa de um caracter especial')
-    if (
-      message &&
-      message.includes(
-        'The password field must contain at least one uppercase and one lowercase letter.',
-      )
-    )
-      throw new Error(
-        'Senha precisa de ao menos uma letra maiúscula e uma minúsculas',
-      )
-    if (
-      message &&
-      message.includes(
-        'The given password has appeared in a data leak. Please choose a different password.',
-      )
-    )
-      throw new Error('Senha fraca.')
-    if (message && message.includes('The cpf has already been taken.'))
-      throw new Error('CPF já usado.')
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      for (const [field, messages] of Object.entries(errors)) {
+        messages.forEach((message) => {
+          if (message === 'The email has already been taken.') {
+            throw new Error('E-mail já cadastrado!')
+          } else if (message === 'The first name field is required.') {
+            throw new Error('O campo primeiro nome é obrigatório.')
+          } else if (message === 'The cpf field is required.') {
+            throw new Error('O campo cpf é obrigatório.')
+          } else if (message === 'The last name field is required.') {
+            throw new Error('O campo sobrenome é obrigatório.')
+          } else if (message === 'The d d d field is required.') {
+            throw new Error('O campo DDD é obrigatório.')
+          } else if (message === 'The phone number field is required.') {
+            throw new Error('O campo número de telefone é obrigatório.')
+          } else if (message === 'The term aceite field is required.') {
+            throw new Error('O termo de aceitação é obrigatório.')
+          } else if (message === 'The email field is required.') {
+            throw new Error('O campo email é obrigatório.')
+          } else if (message === 'The password field is required.') {
+            throw new Error('O campo senha é obrigatório.')
+          } else if (message.startsWith('The phone number field must')) {
+            throw new Error('O campo telefone é inválido.')
+          } else if (
+            message === 'The password confirmation field is required.'
+          ) {
+            throw new Error('O campo repita senha é obrigatório.')
+          } else if (
+            message === 'The password field must be at least 8 characters.'
+          ) {
+            throw new Error('A senha deve ter ao menos 8 caracteres.')
+          } else if (
+            message === 'The password field must contain at least one symbol.'
+          ) {
+            throw new Error('A senha precisa de um caracter especial.')
+          } else if (
+            message ===
+            'The password field must contain at least one uppercase and one lowercase letter.'
+          ) {
+            throw new Error(
+              'Senha precisa de ao menos uma letra maiúscula e uma minúsculas.',
+            )
+          } else if (
+            message ===
+            'The given password has appeared in a data leak. Please choose a different password.'
+          ) {
+            throw new Error('Senha fraca.')
+          } else if (message === 'The cpf has already been taken.') {
+            throw new Error('CPF já usado.')
+          }
+        })
+      }
+    }
   } catch (error) {
     return ApiError(error)
   }
