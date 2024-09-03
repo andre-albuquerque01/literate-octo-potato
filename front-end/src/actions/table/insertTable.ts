@@ -48,8 +48,9 @@ export async function InsertTable(
     revalidatePathAction('/table')
     return { data: null, error: '', ok: true }
   } catch (error) {
-    throw new Error(
-      'Desculpe, ocorreu um erro ao cadastrar item. Por favor, tente novamente mais tarde.',
-    )
+    return { data: null, error: 'Error', ok: false }
+    // throw new Error(
+    //   'Desculpe, ocorreu um erro ao cadastrar item. Por favor, tente novamente mais tarde.',
+    // )
   }
 }
