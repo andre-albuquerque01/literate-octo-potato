@@ -1,7 +1,7 @@
 'use client'
 import { GetIdCategory } from '@/actions/category/getIdCategory'
 import { UpdateCategory } from '@/actions/category/updateCategory'
-import { BtnForm } from '@/components/btnForm'
+import { BtnForm } from '@/components/buttons/btnForm'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -11,15 +11,15 @@ import { FormEvent, Suspense, useEffect, useState } from 'react'
 export default function UpdateCategoryPage({
   params,
 }: {
-  params: { id: number }
+  params: { id: string }
 }) {
   const router = useRouter()
   const [data, setData] = useState<CategoryInterface>()
+  const [returnError, setReturnError] = useState<string>('')
 
   useEffect(() => {
     const handleGet = async () => {
-      const getData = await GetIdCategory(params.id)
-      const dt = getData.data
+      const dt = await GetIdCategory(params.id)
       setData(dt)
     }
     handleGet()
@@ -30,11 +30,11 @@ export default function UpdateCategoryPage({
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
     const req = await UpdateCategory(data, params.id)
-    if (req) {
+    if (req === 'success') {
       alert('Alterado com sucesso!')
       router.back()
     } else {
-      alert('Não foi possível fazer a alteração!')
+      setReturnError(req)
     }
   }
 
@@ -52,9 +52,12 @@ export default function UpdateCategoryPage({
                 Voltar
               </Link>
               <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
-                Cadastro de categoria
+                Alterar a categoria
               </p>
               <form onSubmit={handleSubmit}>
+                {returnError && (
+                  <span className="text-xs text-red-600">{returnError}</span>
+                )}
                 <div className="flex flex-col mt-3 max-md:mt-3">
                   <label htmlFor="typeCategory">
                     Nome da categoria: <span className="text-red-600">*</span>{' '}
