@@ -1,35 +1,50 @@
 'use client'
 import { InsertCategory } from '@/actions/category/insertCategory'
-import { BtnForm } from '@/components/btnForm'
-import { ValidateFormCategoria } from '@/data/function/validateFormCategoria'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FormEvent, useState } from 'react'
+import { useEffect } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
+
+const BtnForm = () => {
+  const { pending } = useFormStatus()
+  return (
+    <>
+      {pending ? (
+        <div className="flex justify-center">
+          <button
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+            disabled={pending}
+          >
+            Cadastrando...
+          </button>
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <button className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500">
+            Cadastrar
+          </button>
+        </div>
+      )}
+    </>
+  )
+}
 
 export default function InsertCategoryPage() {
-  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
+  const [state, action] = useFormState(InsertCategory, {
+    ok: false,
+    error: '',
+    data: null,
+  })
 
-    const val = ValidateFormCategoria(
-      e.currentTarget.typeCategory.value,
-      e.currentTarget.urlImageCategory.value,
-    )
-
-    if (val !== '') setReturnError(val)
-
-    const req = await InsertCategory(data)
-    if (req) {
+  useEffect(() => {
+    if (state && state.ok) {
       alert('Cadastrado com sucesso!')
       router.back()
-    } else {
-      alert('Não foi possível fazer o cadastrado!')
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
   return (
     <div className="flex flex-col mx-auto justify-center min-h-[800px] w-full items-center">
@@ -43,9 +58,9 @@ export default function InsertCategoryPage() {
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
         Cadastro de categoria
       </p>
-      <form onSubmit={handleSubmit}>
-        {returnError === 'Preencha os dados!' && (
-          <span className="text-xs text-red-600">Preencha os dados!</span>
+      <form action={action}>
+        {state && state.error && (
+          <span className="text-xs text-red-600">{state.error}</span>
         )}
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="typeCategory">
@@ -72,7 +87,7 @@ export default function InsertCategoryPage() {
             required
           />
         </div>
-        <BtnForm title="Cadastrar" />
+        <BtnForm />
       </form>
     </div>
   )
