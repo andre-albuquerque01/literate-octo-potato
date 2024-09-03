@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
             "firstName" => "required|min:3|max:60|regex:/^[^<>]*$/",
             "lastName" => "required|min:3|max:60|regex:/^[^<>]*$/",
             "DDD" => "required|min:2|max:3|regex:/^[^<>]*$/",
-            "phoneNumber" => "required|min:8|max:12|regex:/^[^<>]*$/",
+            "phoneNumber" => "required|min:8|max:11|regex:/^[^<>]*$/",
             "cpf" => "required|min:14|max:14|unique:users,cpf|regex:/^[^<>]*$/",
             "term_aceite" => "required|regex:/^[^<>]*$/",
             "email" => [

@@ -36,7 +36,7 @@ class UserService
     public function show()
     {
         try {
-            $find = User::findOrFail(auth()->user()->idUser)->whereNull('deleted_at');
+            $find = User::findOrFail(auth()->user()->idUser)->whereNull('deleted_at')->first();
             return new UserResource($find);
         } catch (\Exception $e) {
             throw new GeneralExceptionCatch($e->getMessage());
@@ -115,7 +115,7 @@ class UserService
     {
         try {
             $user = User::findOrFail($id);
-            if (Crypt::decrypt($token) == $user->remember_token) {
+            if ($token == $user->remember_token) {
                 $user->touch("email_verified_at");
                 return new GeneralResource(['message' => 'success']);
             }
