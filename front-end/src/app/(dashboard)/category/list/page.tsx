@@ -1,5 +1,5 @@
 import { GetAllCategory } from '@/actions/category/getAllCatgeory'
-import { CategoryListComponent } from '@/components/categoryList'
+import { CategoryListComponent } from '@/components/category/categoryList'
 import { ArrowLeft, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
