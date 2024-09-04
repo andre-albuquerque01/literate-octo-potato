@@ -12,7 +12,7 @@ export async function UpdatePasswordUser(request: FormData) {
     | string
     | null
   try {
-    if (!password || passwordNew || passwordConfirmation) {
+    if (!password || !passwordNew || !passwordConfirmation) {
       return 'Preenchas os dados!'
     }
     if (passwordNew !== passwordConfirmation) {
@@ -32,7 +32,6 @@ export async function UpdatePasswordUser(request: FormData) {
     })
 
     const data: ApiErrorResponse = await response.json()
-    console.log(data)
 
     if (data.errors) {
       const errors = data.errors
