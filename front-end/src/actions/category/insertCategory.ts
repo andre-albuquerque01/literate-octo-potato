@@ -1,6 +1,8 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
+import { TranslateErroCategory } from '@/data/function/translate/translateErroCategory'
+import { ErrorResponse } from '@/data/type/erros'
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
@@ -23,17 +25,31 @@ export async function InsertCategory(
       body: request,
     })
 
-    const data = await response.json()
-    if (data.message === 'The type category field is required.')
-      throw new Error('O campo tipo de categoria é obrigatório.')
+    const data = (await response.json()) as ErrorResponse
 
-    if (!response.ok) return { data: null, error: '', ok: false }
+    if (!response.ok) {
+      const errorsArray = Object.values(data.errors ?? {})
+        .flat()
+        .map(TranslateErroCategory)
+
+      const formattedErrors = errorsArray
+        .map((error) => `- ${error}`)
+        .join('\n')
+
+      throw new Error(
+        `Por favor, verifique os seguintes campos:\n${formattedErrors}`,
+      )
+    }
+
     revalidateTag('category')
 
     return { data: null, error: '', ok: true }
   } catch (error) {
-    throw new Error(
-      'Desculpe, ocorreu um erro ao cadastrar o categoria. Por favor, tente novamente mais tarde.',
-    )
+    return {
+      data: null,
+      error:
+        'Desculpe, ocorreu um erro ao cadastrar o categoria. Por favor, tente novamente mais tarde.',
+      ok: false,
+    }
   }
 }
