@@ -22,7 +22,7 @@ class UpdateFunctionUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "cpf" => "required|min:11|max:11|regex:/^[^<>]*$/",
+            "cpf" => "required|min:11|max:14|regex:/^[^<>]*$/",
             "role" => "required|regex:/^[^<>]*$/",
         ];
     }

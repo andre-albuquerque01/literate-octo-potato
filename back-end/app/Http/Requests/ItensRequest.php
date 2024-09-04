@@ -24,7 +24,7 @@ class ItensRequest extends FormRequest
         $rules = [
             'title' => 'required|min:2|max:60|regex:/^[^<>]*$/',
             'description' => 'required|min:2|max:255|regex:/^[^<>]*$/',
-            'value' => 'required|min:2|max:8|regex:/^[^<>]*$/',
+            'value' => 'required|min:1|max:8|regex:/^[^<>]*$/',
             'qtdIten' => 'required|min:1|max:100|regex:/^[^<>]*$/',
             'urlImage' => 'required|min:1|regex:/^[^<>]*$/',
             'waitTime' => 'required|min:1|max:100|regex:/^[^<>]*$/',
