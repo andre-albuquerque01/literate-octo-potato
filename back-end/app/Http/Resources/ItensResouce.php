@@ -18,12 +18,14 @@ class ItensResouce extends JsonResource
         return [
             'idItens' => $this->idItens,
             'title' => $this->title,
-            'desc' => $this->desc,
+            'description' => $this->description,
             'value' => $this->value,
             'qtdIten' => $this->qtdIten,
             'position' => $this->position,
             'urlImage' => $this->urlImage,
             'waitTime' => $this->waitTime,
+            'idCategory' => $this->idCategory,
+            'statusIten' => $this->statusIten,
             'category' => new CategoryResource($this->category),
         ];
     }

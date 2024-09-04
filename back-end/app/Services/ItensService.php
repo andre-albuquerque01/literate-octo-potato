@@ -48,9 +48,8 @@ class ItensService
             $data['codigo'] = strtoupper(Str::random(10));
             $data['statusIten'] = 1;
             $data['title'] = strtolower($data['title']);
-            $data['desc'] = strtolower($data['desc']);
+            $data['description'] = strtolower($data['description']);
             $data['waitTime'] = strtolower($data['waitTime']);
-            $data['urlImage'] = strtolower($data['urlImage']);
             Itens::create($data);
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
@@ -63,8 +62,8 @@ class ItensService
         try {
             $iten = Itens::where('idItens', $id)->with('category', function ($query) {
                 $query->whereNull('deleted_at');
-            })->whereNull('deleted_at')->first();
-            if ($iten === null) {
+            })->where('deleted_at', null)->first();
+            if (!$iten) {
                 throw new ItenException("Item not found");
             }
             return new ItensResouce($iten);
@@ -94,7 +93,7 @@ class ItensService
             $iten = Itens::whereHas('category', function ($query) use ($typeCategory) {
                 $query->where('typeCategory', 'LIKE', '%' . $typeCategory . '%');
                 $query->whereNull('deleted_at');
-            })->with('category')->paginate(16);
+            })->with('category')->whereNull('deleted_at')->paginate(16);
 
             if ($iten->isEmpty())
                 throw new ItenException("Item not found");
@@ -123,7 +122,7 @@ class ItensService
     public function destroy(string $id)
     {
         try {
-            $itens = Itens::where('idItens',  $id)->first();
+            $itens = Itens::where('idItens', $id)->whereNull('deleted_at')->first();
             if ($itens === null) {
                 throw new ItenException("Item not found");
             }

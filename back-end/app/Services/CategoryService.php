@@ -12,7 +12,7 @@ class CategoryService
     public function index()
     {
         try {
-            return CategoryResource::collection(Category::get());
+            return CategoryResource::collection(Category::whereNull('deleted_at')->get());
         } catch (\Exception $e) {
             throw new CategoryException($e->getMessage());
         }
@@ -31,7 +31,7 @@ class CategoryService
     public function show(string $id)
     {
         try {
-            $category = Category::findOrFail($id);
+            $category = Category::where('idCategory', $id)->whereNull('deleted_at')->first();
             return new CategoryResource($category);
         } catch (\Exception $e) {
             throw new CategoryException($e->getMessage());
@@ -40,7 +40,7 @@ class CategoryService
     public function update(array $data, string $id)
     {
         try {
-            Category::find($id)->update($data);
+            Category::where('idCategory', $id)->whereNull('deleted_at')->update($data);
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new CategoryException($e->getMessage());
@@ -49,7 +49,7 @@ class CategoryService
     public function destroy(string $id)
     {
         try {
-            Category::findOrFail($id)->touch('deleted_at');
+            Category::where('idCategory', $id)->whereNull('deleted_at')->touch('deleted_at');
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new CategoryException($e->getMessage());
