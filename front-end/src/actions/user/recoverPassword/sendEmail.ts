@@ -17,7 +17,6 @@ export async function SendEmail(
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
       },
       body: request,
     })
