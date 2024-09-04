@@ -10,7 +10,10 @@ export async function GetIdCategory(id: string) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      cache: 'no-cache',
+      next: {
+        revalidate: 60 * 30,
+        tags: ['category'],
+      },
     })
 
     const data = await response.json()
