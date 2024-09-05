@@ -9,12 +9,11 @@ export default async function GetIdMenuService(id: string) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${cookies().get('token')?.value}`,
       },
       cache: 'no-cache',
       next: {
-        tags: ['menuId'],
+        tags: ['menuId', 'menu', 'menuList'],
       },
     })
 
