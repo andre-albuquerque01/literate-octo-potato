@@ -45,8 +45,17 @@ export async function InsertOrder(
 
     return { data: null, error: '', ok: true }
   } catch (error) {
-    throw new Error(
-      'Desculpe, ocorreu um erro ao cadastrar item. Por favor, tente novamente mais tarde.',
-    )
+    console.error(error)
+
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Desculpe, ocorreu um erro ao cadastrar. Por favor, tente novamente mais tarde.'
+
+    return {
+      data: null,
+      error: errorMessage,
+      ok: false,
+    }
   }
 }
