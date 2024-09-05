@@ -34,10 +34,13 @@ class MenuRequest extends FormRequest
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $rules['methodPay'] = [
-                "required",
+                "nullable",
             ];
             $rules['value'] = [
-                "required",
+                "nullable",
+            ];
+            $rules['statusOrder'] = [
+                "nullable",
             ];
         }
 

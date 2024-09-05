@@ -18,6 +18,7 @@ class MenuResource extends JsonResource
             'idMenu' => $this->idMenu,
             'codigo' => $this->codigo,
             'numberMesa' => $this->mesa->numberMesa ?? null, 
+            'idMesa' => $this->idMesa,
             'cpf' => $this->cpf,
             'statusOrder' => $this->statusOrder,
             'created_at' => $this->created_at,
