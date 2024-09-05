@@ -24,12 +24,7 @@ export async function SendEmailVerification(
 
     const data = await response.json()
 
-    const message =
-      typeof data.message === 'string'
-        ? data.message
-        : JSON.stringify(data.message)
-
-    if (message && message.includes('E-mail não cadastrado.'))
+    if (data.message && data.message === 'user not found')
       throw new Error('E-mail não cadastrado.')
 
     return { data: null, error: '', ok: true }
