@@ -13,7 +13,6 @@ class MenuService
     public function index()
     {
         try {
-            // $menu = Menu::join('mesa', 'mesa.idMesa', '=', 'menu.idMesa')->join('orders', 'menu.idMenu', '=', 'orders.idMenu')->join('itens', 'itens.idItens', '=', 'orders.idItens')->join('users', 'users.cpf', '=', 'menu.cpf')->where('menu.cpf', '=', $cpf)->get();
             $cpf = auth()->user()->cpf;
             $menu = Menu::with(['mesa', 'orders.itens'])
                 ->where('cpf', $cpf)->whereNull('deleted_at')
@@ -28,7 +27,7 @@ class MenuService
     {
         try {
             $cpf = auth()->user()->cpf;
-            $menu = Menu::where('cpf', $cpf)->where('menu.statusOrder', '=', 'aberto')->whereNull('deleted_at')->get();
+            $menu = Menu::where('cpf', $cpf)->where('menu.statusOrder', '=', 0)->whereNull('deleted_at')->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -47,7 +46,7 @@ class MenuService
     public function showAll()
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.statusOrder', '=', 'aberto')->whereNull('deleted_at')->get();
+            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.statusOrder', '=', 0)->whereNull('deleted_at')->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());

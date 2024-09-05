@@ -11,7 +11,7 @@ class Order extends Model
     use HasFactory, HasUlids;
 
     protected $table = "orders";
-    protected $primarykey = "idOrder";
+    protected $primaryKey = "idOrder";
     protected $fillable = [
         'idItens',
         'idMenu',
