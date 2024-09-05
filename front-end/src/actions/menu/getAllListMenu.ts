@@ -9,12 +9,11 @@ export async function GetAllListMenu(page: number) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${cookies().get('token')?.value}`,
       },
       next: {
         revalidate: 30,
-        tags: ['menuList'],
+        tags: ['menuId', 'menu', 'menuList'],
       },
     })
     const datas = await response.json()
