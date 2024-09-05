@@ -32,6 +32,7 @@ export async function UpdateMenu(reqBody: object, id: string) {
       return `Por favor, verifique os seguintes campos:\n${formattedErrors}`
     }
 
+    revalidateTag('menuId')
     revalidateTag('menu')
     revalidateTag('menuList')
     return 'success'
