@@ -17,7 +17,7 @@ return new class extends Migration
             $table->index('idMesa');
             $table->foreignUlid('idMesa')->references('idMesa')->on('mesa')->onDelete('cascade')->onUpdate('cascade');
             $table->string('cpf', 14);
-            $table->string('statusOrder', 20)->nullable();
+            $table->boolean('statusOrder')->nullable();
             $table->string('methodPay')->nullable();
             $table->string('value')->nullable();
             $table->double('desconto')->nullable();
