@@ -1,7 +1,6 @@
 'use server'
 
 import ApiRoute from '@/data/apiRoute'
-import ApiError from '@/data/function/apiErro'
 import { ValidateCpf } from '@/data/function/validateCpf'
 import VerificationPassword from '@/data/function/validatePassword'
 import { ApiErrorResponse } from '@/data/type/errors'
@@ -112,7 +111,16 @@ export async function InsertUser(
       }
     }
   } catch (error) {
-    return ApiError(error)
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Desculpe, ocorreu um erro ao cadastrar. Por favor, tente novamente mais tarde.'
+
+    return {
+      data: null,
+      error: errorMessage,
+      ok: false,
+    }
   }
   revalidateTag('user')
   redirect('/user/login')
