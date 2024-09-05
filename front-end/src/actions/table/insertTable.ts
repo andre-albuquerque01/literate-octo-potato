@@ -48,10 +48,14 @@ export async function InsertTable(
     revalidatePathAction('/table')
     return { data: null, error: '', ok: true }
   } catch (error) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Desculpe, ocorreu um erro ao cadastrar. Por favor, tente novamente mais tarde.'
+
     return {
       data: null,
-      error:
-        'Desculpe, ocorreu um erro ao cadastrar item. Por favor, tente novamente mais tarde.',
+      error: errorMessage,
       ok: false,
     }
   }
