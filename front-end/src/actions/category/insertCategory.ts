@@ -45,10 +45,15 @@ export async function InsertCategory(
 
     return { data: null, error: '', ok: true }
   } catch (error) {
+    console.error(error)
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Desculpe, ocorreu um erro ao cadastrar. Por favor, tente novamente mais tarde.'
+
     return {
       data: null,
-      error:
-        'Desculpe, ocorreu um erro ao cadastrar o categoria. Por favor, tente novamente mais tarde.',
+      error: errorMessage,
       ok: false,
     }
   }
