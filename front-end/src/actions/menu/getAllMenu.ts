@@ -8,12 +8,11 @@ export default async function GetAllMenuService() {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${cookies().get('token')?.value}`,
       },
       next: {
         revalidate: 60,
-        tags: ['menu'],
+        tags: ['menuId', 'menu', 'menuList'],
       },
     })
 
