@@ -1,6 +1,6 @@
 import { GetAllCategory } from '@/actions/category/getAllCatgeory'
-import { CategorySearch } from '@/components/categorySearch'
-import { FormSearch } from '@/components/form-search'
+import { CategorySearch } from '@/components/category/categorySearch'
+import { FormSearch } from '@/components/forms/form-search'
 import { CategoryInterface } from '@/data/type/category'
 import { Suspense } from 'react'
 
@@ -13,7 +13,7 @@ export default async function SearchIten() {
         <FormSearch />
         <div className="space-y-3">
           <h1 className="font-normal text-[20px]">Categorias</h1>
-          <div className="max-md:space-y-[19px] md:flex w-full flex-wrap gap-6 ">
+          <div className="max-md:space-y-[19px] md:flex w-full flex-wrap gap-4">
             {data &&
               data.length > 0 &&
               data.map((category: CategoryInterface, index: number) => (
