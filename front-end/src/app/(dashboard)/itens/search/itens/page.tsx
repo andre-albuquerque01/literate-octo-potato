@@ -1,12 +1,12 @@
-import { GetListItens } from '@/actions/itens/listItens'
-import { GetListSearchCategory } from '@/actions/itens/search/GetListSearchCategory'
-import { GetListSearchTitle } from '@/actions/itens/search/GetListSearchTitle'
-import LinkPagination from '@/components/LinkPagination'
-import LinkPaginationQuery from '@/components/LinkPaginationQuery'
-import { ListItens } from '@/components/ListItens'
-import { FormSearch } from '@/components/form-search'
+import LinkPagination from '@/components/pagination/LinkPagination'
+import { FormSearch } from '@/components/forms/form-search'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { Suspense } from 'react'
+import { GetListSearchCategory } from '@/actions/itens/search/GetListSearchCategory'
+import { GetListSearchTitle } from '@/actions/itens/search/GetListSearchTitle'
+import { GetListItens } from '@/actions/itens/listItens'
+import LinkPaginationQuery from '@/components/pagination/LinkPaginationQuery'
+import { ListItens } from '@/components/itens/ListItens'
 
 interface SearchParamsProps {
   searchParams: {
