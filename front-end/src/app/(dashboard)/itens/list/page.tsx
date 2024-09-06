@@ -1,6 +1,6 @@
 import { GetListItens } from '@/actions/itens/listItens'
-import LinkPagination from '@/components/LinkPagination'
-import { RemoveIten } from '@/components/removeItem'
+import LinkPagination from '@/components/pagination/LinkPagination'
+import { RemoveIten } from '@/components/remove/removeItem'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { ArrowLeft, PenBoxIcon, PlusCircle } from 'lucide-react'
 import Image from 'next/image'
@@ -51,17 +51,19 @@ export default async function ListItens({ searchParams }: PropsSearchParams) {
                     className="rounded-lg max-h-[150px] max-w-[150px]"
                   />
                   <div className="flex flex-col justify-evenly">
-                    <p className="font-medium text-lg text-wrap">
-                      {itens.title}
-                    </p>
-                    <p className="font-medium text-md">
-                      {itens.value.toLocaleString('pt-br', {
-                        style: 'currency',
-                        currency: 'BRL',
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 2,
-                      })}
-                    </p>
+                    <Link href={`/itens/${itens.idItens}`}>
+                      <p className="font-medium text-lg text-wrap">
+                        {itens.title}
+                      </p>
+                      <p className="font-medium text-md">
+                        {itens.value.toLocaleString('pt-br', {
+                          style: 'currency',
+                          currency: 'BRL',
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        })}
+                      </p>
+                    </Link>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
