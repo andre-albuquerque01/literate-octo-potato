@@ -2,23 +2,47 @@
 import { GetAllCategory } from '@/actions/category/getAllCatgeory'
 import { GetIdItens } from '@/actions/itens/getIdItens'
 import { UpdateItens } from '@/actions/itens/updateItens'
-import { BtnForm } from '@/components/btnForm'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 
+const BtnForm = ({ pending }: { pending: boolean }) => {
+  return (
+    <>
+      {pending ? (
+        <div className="flex justify-center">
+          <button
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+            disabled={pending}
+          >
+            Alterando...
+          </button>
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <button className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500">
+            Alterar
+          </button>
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function UpdateItensPage({
   params,
 }: {
-  params: { id: number }
+  params: { id: string }
 }) {
   const router = useRouter()
+  const [status, setStatus] = useState<boolean>(false)
+  const [returnError, setReturnError] = useState<string>('')
   const [category, setCategory] = useState<CategoryInterface[]>([])
   const [itens, setItens] = useState({
     title: '',
-    desc: '',
+    description: '',
     value: '',
     statusIten: '',
     qtdIten: '',
@@ -31,16 +55,14 @@ export default function UpdateItensPage({
 
   useEffect(() => {
     const handleCategory = async () => {
-      const reqBody = await GetAllCategory()
-      const data = reqBody.data
-      setCategory(data)
+      const dt = await GetAllCategory()
+      setCategory(dt)
     }
     handleCategory()
 
     const handleItens = async () => {
-      const reqBody = await GetIdItens(params.id)
-      const item = reqBody.data
-      setItens(item)
+      const dt = await GetIdItens(params.id)
+      setItens(dt)
     }
     handleItens()
   }, [params.id])
@@ -57,15 +79,18 @@ export default function UpdateItensPage({
 
   async function handleSubmite(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    setStatus(true)
     const req = await UpdateItens(itens, params.id)
 
-    if (req) {
-      alert('Item alterado')
+    if (req === 'success') {
+      setStatus(false)
+      alert('Item alterado!')
       router.back()
     } else {
-      alert('Não foi possívle ser alterado!')
+      setStatus(false)
+      setReturnError(req)
     }
+    setStatus(false)
   }
 
   return (
@@ -83,6 +108,9 @@ export default function UpdateItensPage({
             Alterar item
           </p>
           <form onSubmit={handleSubmite}>
+            {returnError && (
+              <span className="text-xs text-red-600">{returnError}</span>
+            )}
             <div className="flex flex-col mt-3 max-md:mt-3">
               <label htmlFor="title">
                 Titulo: <span className="text-red-600">*</span>{' '}
@@ -98,15 +126,15 @@ export default function UpdateItensPage({
               />
             </div>
             <div className="flex flex-col mt-3">
-              <label htmlFor="desc">
+              <label htmlFor="description">
                 Descrição: <span className="text-red-600">*</span>{' '}
               </label>
               <input
                 type="text"
-                name="desc"
-                id="desc"
+                name="description"
+                id="description"
                 className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-                defaultValue={itens?.desc ?? ''}
+                defaultValue={itens?.description ?? ''}
                 onChange={handleChange}
                 required
               />
@@ -181,7 +209,7 @@ export default function UpdateItensPage({
                 onChange={handleChange}
                 required
               >
-                <option value="">Selecione a categoria</option>
+                <option disabled>Selecione a categoria</option>
                 {category.map((categ, key) => (
                   <option value={categ.idCategory} key={key}>
                     {categ.typeCategory}
@@ -201,7 +229,7 @@ export default function UpdateItensPage({
                 onChange={handleChange}
                 required
               >
-                <option value="">Selecione a posição</option>
+                <option disabled>Selecione a posição</option>
                 <option value="carrossel">Carrossel</option>
                 <option value="entrada">Entrada</option>
                 <option value="outros">Outros</option>
@@ -219,12 +247,12 @@ export default function UpdateItensPage({
                 onChange={handleChange}
                 required
               >
-                <option value="">Selecione o status</option>
+                <option disabled>Selecione o status</option>
                 <option value="1">Ativo</option>
                 <option value="0">Desativo</option>
               </select>
             </div>
-            <BtnForm title="Alterar" />
+            <BtnForm pending={status} />
           </form>
         </>
       ) : (
