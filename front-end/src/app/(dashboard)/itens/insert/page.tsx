@@ -1,24 +1,45 @@
 'use client'
 import { GetAllCategory } from '@/actions/category/getAllCatgeory'
 import { InsertItens } from '@/actions/itens/insertItens'
-import { BtnForm } from '@/components/btnForm'
-import { ValidateFormItens } from '@/data/function/validateFormItens'
+import Loading from '@/app/loading'
 import { CategoryInterface } from '@/data/type/category'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, Suspense, useEffect, useState } from 'react'
 
+const BtnForm = ({ pending }: { pending: boolean }) => {
+  return (
+    <>
+      {pending ? (
+        <div className="flex justify-center">
+          <button
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+            disabled={pending}
+          >
+            Cadastrando...
+          </button>
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <button className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500">
+            Cadastrar
+          </button>
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function InsertItensPage() {
   const [category, setCategory] = useState<CategoryInterface[]>([])
   const [returnError, setReturnError] = useState<string>('')
+  const [status, setStatus] = useState<boolean>(false)
   const router = useRouter()
 
   useEffect(() => {
     const handleCategory = async () => {
-      const dt = await GetAllCategory()
-      const data = dt.data
-
+      const data = await GetAllCategory()
       setCategory(data)
     }
     handleCategory()
@@ -26,30 +47,19 @@ export default function InsertItensPage() {
 
   async function handleSubmite(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    setStatus(true)
     const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
+    const req = await InsertItens(formData)
 
-    const val = ValidateFormItens(
-      e.currentTarget.desc.value,
-      e.currentTarget.value.value,
-      e.currentTarget.qtdIten.value,
-      e.currentTarget.urlImage.value,
-      e.currentTarget.waitTime.value,
-      e.currentTarget.idCategory.value,
-      e.currentTarget.position.value,
-    )
-
-    if (val !== '') setReturnError(val)
-
-    const req = await InsertItens(data)
-
-    if (req) {
+    if (req === 'success') {
+      setStatus(false)
       alert('Item cadastrado!')
       router.push('/itens/list')
     } else {
-      alert('Item não cadastrado!')
+      setStatus(false)
+      setReturnError(req)
     }
+    setStatus(false)
   }
 
   return (
@@ -64,11 +74,13 @@ export default function InsertItensPage() {
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
         Cadastro do item
       </p>
-      <Suspense fallback={'Carregando...'}>
+      {returnError && (
+        <span className="text-xs text-red-600 max-w-80 md:max-w-96 text-justify text-wrap">
+          {returnError}
+        </span>
+      )}
+      <Suspense fallback={<Loading />}>
         <form onSubmit={handleSubmite}>
-          {returnError === 'Preencha os dados!' && (
-            <span className="text-xs text-red-600">Preencha os dados!</span>
-          )}
           <div className="flex flex-col mt-3 max-md:mt-3">
             <label htmlFor="title">
               Titulo: <span className="text-red-600">*</span>{' '}
@@ -82,13 +94,13 @@ export default function InsertItensPage() {
             />
           </div>
           <div className="flex flex-col mt-3">
-            <label htmlFor="desc">
+            <label htmlFor="description">
               Descrição: <span className="text-red-600">*</span>{' '}
             </label>
             <input
               type="text"
-              name="desc"
-              id="desc"
+              name="description"
+              id="description"
               className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
               required
             />
@@ -186,7 +198,7 @@ export default function InsertItensPage() {
               <option value="outros">Outros</option>
             </select>
           </div>
-          <BtnForm title="Cadastrar" />
+          <BtnForm pending={status} />
         </form>
       </Suspense>
     </div>
