@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
-import { Header } from '@/components/header'
-import { Footer } from '@/components/footer'
+import { Header } from '@/components/nav/header'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -12,10 +11,12 @@ export const metadata: Metadata = {
 
 export default function Dashboard({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto md:px-5 py-2 w-full h-screen max-w-[1600px]">
+    <>
       <Header />
-      {children}
-      <Footer />
-    </div>
+      <div className="mx-auto md:px-5 py-2 w-full max-w-[1200px] p-4 max-md:mb-20">
+        {children}
+      </div>
+      {/* <Footer /> */}
+    </>
   )
 }
