@@ -31,13 +31,13 @@ const BtnForm = () => {
 }
 
 export default function InsertCategoryPage() {
-  const router = useRouter()
   const [state, action] = useFormState(InsertCategory, {
     ok: false,
     error: '',
     data: null,
   })
 
+  const router = useRouter()
   useEffect(() => {
     if (state && state.ok) {
       alert('Cadastrado com sucesso!')
