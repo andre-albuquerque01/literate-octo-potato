@@ -7,7 +7,6 @@ import { LunchCarrossel } from '@/components/itens/lunchCarousel'
 
 export default async function Dashboard() {
   const data = await GetAllItens()
-
   return (
     <div className="max-md:mb-14 mb-10">
       <div>
