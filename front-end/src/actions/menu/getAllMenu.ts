@@ -20,8 +20,6 @@ export default async function GetAllMenuService() {
 
     return data.data
   } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 401,
-    })
+    return []
   }
 }
