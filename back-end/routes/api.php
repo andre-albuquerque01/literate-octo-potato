@@ -36,6 +36,7 @@ Route::prefix('v2')->group(function () {
         Route::get('/menuUser', [MenuController::class, 'showUser']);
         Route::get('/menuHistoric', [MenuController::class, 'showHistoric']);
         Route::get('/menucpf/{cpf}', [MenuController::class, 'showCPF']);
+        Route::get('/menucpfOpen/{cpf}', [MenuController::class, 'showCPFOpen']);
         Route::get('/menuCodigo/{codigo}', [MenuController::class, 'showCodigo']);
         // Order check
         Route::get('/ordersa/{id}', [OrderController::class, 'getMenuOrder']);

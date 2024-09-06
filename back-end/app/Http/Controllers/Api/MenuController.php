@@ -92,6 +92,15 @@ class MenuController extends Controller
             throw new MenuException($e->getMessage());
         }
     }
+    
+    public function showCPFOpen(string $cpf)
+    {
+        try {
+            return $this->menuService->showCPFOpen($cpf);
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
+        }
+    }
 
     public function showCodigo(string $codigo)
     {

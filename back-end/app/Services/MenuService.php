@@ -87,7 +87,23 @@ class MenuService
     public function showCPF(string $cpf)
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.cpf', 'LIKE', '%' . $cpf . '%')->whereNull('deleted_at')->paginate(20);
+            $menu = Menu::with(['mesa', 'orders.itens'])
+            ->where('menu.cpf', 'LIKE', '%' . $cpf . '%')
+            ->whereNull('deleted_at')
+            ->paginate(20);
+            return MenuResource::collection($menu);
+        } catch (\Exception $e) {
+            throw new MenuException($e->getMessage());
+        }
+    }
+
+    public function showCPFOpen(string $cpf)
+    {
+        try {
+            $menu = Menu::with(['mesa', 'orders.itens'])
+            ->where('menu.cpf', 'LIKE', '%' . $cpf . '%')
+            ->where('menu.statusOrder', '=', 0)
+            ->whereNull('deleted_at');
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
