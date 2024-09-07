@@ -1,48 +1,63 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
+
 import { InsertMenu } from '@/actions/menu/insertMenu'
 import GetAllTableService from '@/actions/table/getAllTable'
-import { BtnForm } from '@/components/btnForm'
-import { ValidateFormMenu } from '@/data/function/validateFormMenu'
 import { TableInterface } from '@/data/type/table'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FormEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
+import ReactInputMask from 'react-input-mask-next'
+
+const BtnForm = () => {
+  const { pending } = useFormStatus()
+  return (
+    <>
+      {pending ? (
+        <div className="flex justify-center">
+          <button
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+            disabled={pending}
+          >
+            Cadastrando...
+          </button>
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <button className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500">
+            Cadastrar
+          </button>
+        </div>
+      )}
+    </>
+  )
+}
 
 export default function InsertOrder() {
+  const [state, action] = useFormState(InsertMenu, {
+    ok: false,
+    error: '',
+    data: null,
+  })
   const [data, setData] = useState<TableInterface[]>([])
-  const [returnError, setReturnError] = useState<string>('')
   const router = useRouter()
+
   useEffect(() => {
     const hanldeData = async () => {
       const dt = await GetAllTableService()
-      const dat = dt.data
-      setData(dat)
+      setData(dt)
     }
     hanldeData()
   }, [])
 
-  const handleData = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
-
-    const val = ValidateFormMenu(
-      e.currentTarget.cpf.value,
-      e.currentTarget.value.value,
-      e.currentTarget.idMesa.value,
-      e.currentTarget.statusOrder.value,
-      e.currentTarget.methodPay.value,
-    )
-
-    if (val !== '') setReturnError(val)
-
-    const req = await InsertMenu(data)
-    if (req) {
-      alert('Cadastrado com sucesso!')
+  useEffect(() => {
+    if (state.error === '' && state.ok) {
+      alert('Realizado com sucesso.')
       router.back()
-    } else alert('Não foi feito o cadastrado!')
-  }
+    }
+  }, [state.ok, state.error])
 
   return (
     <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
@@ -54,19 +69,22 @@ export default function InsertOrder() {
         Voltar
       </Link>
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">Nova comanda</p>
-      <form onSubmit={handleData}>
-        {returnError === 'Preencha os dados!' && (
-          <span className="text-xs text-red-600">Preencha os dados!</span>
-        )}
+      {state.error && state.error && (
+        <span className="text-xs text-red-600 text-wrap max-md:w-80 w-96 text-justify ">
+          {state.error}
+        </span>
+      )}
+      <form action={action}>
         <div className="flex flex-col mt-3">
           <label htmlFor="cpf">
             CPF do cliente: <span className="text-red-600">*</span>{' '}
           </label>
-          <input
-            type="number"
+          <ReactInputMask
+            mask="999.999.999-99"
+            type="text"
             name="cpf"
             id="cpf"
-            min={0}
+            placeholder="Informe o número do documento"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
             required
           />
@@ -78,6 +96,7 @@ export default function InsertOrder() {
             name="value"
             id="value"
             step="0.00"
+            placeholder="Informe o valor"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
           />
         </div>
@@ -111,8 +130,8 @@ export default function InsertOrder() {
             required
           >
             <option value="">Selecione o status</option>
-            <option value="aberto">Aberto</option>
-            <option value="finalizado">Finalizado</option>
+            <option value="0">Aberto</option>
+            <option value="1">Finalizado</option>
           </select>
         </div>
 
@@ -131,7 +150,7 @@ export default function InsertOrder() {
             <option value="outros">Outros</option>
           </select>
         </div>
-        <BtnForm title="Cadastrar" />
+        <BtnForm />
       </form>
     </div>
   )
