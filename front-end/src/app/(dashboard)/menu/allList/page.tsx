@@ -1,9 +1,9 @@
 import { GetAllListMenu } from '@/actions/menu/getAllListMenu'
 import { GetCpfMenu } from '@/actions/menu/getCpfMenu'
-import LinkPagination from '@/components/LinkPagination'
-import LinkPaginationQuery from '@/components/LinkPaginationQuery'
-import { FormSearchMenuCPF } from '@/components/form-search-menuCpf'
-import { GetAllMenuComponent } from '@/components/getAllMenu'
+import { FormSearchMenuCPF } from '@/components/forms/form-search-menuCpf'
+import { GetAllMenuOldOrderComponent } from '@/components/menu/getAllMenuOldOrder'
+import LinkPagination from '@/components/pagination/LinkPagination'
+import LinkPaginationQuery from '@/components/pagination/LinkPaginationQuery'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
@@ -61,7 +61,7 @@ export default async function allListMenu({ searchParams }: PropsSearchParams) {
     <div className="flex flex-col min-h-[90%] w-full px-3">
       <Link
         href="/user"
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-3 max-md:w-80"
+        className="flex items-center gap-1 text-sm mt-5 w-96 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
@@ -71,7 +71,7 @@ export default async function allListMenu({ searchParams }: PropsSearchParams) {
       <p className="text-xl mb-1 max-md:mb-0 mt-5">
         Lista de todos pedido, tanto aberto como fechados.
       </p>
-      <GetAllMenuComponent data={data} />
+      <GetAllMenuOldOrderComponent data={data} />
       <div className="max-md:h-28">
         <div className="flex justify-center mt-4 h-10">{VerifyQuery()}</div>
       </div>
