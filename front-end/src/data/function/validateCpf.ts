@@ -1,4 +1,4 @@
-export function validarCPF(cpf: string) {
+export function ValidateCpf(cpf: string) {
   cpf = cpf.replace(/\D/g, '')
 
   if (cpf.length !== 11) {
