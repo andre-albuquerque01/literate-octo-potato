@@ -1,4 +1,4 @@
-export default function apiError(error: unknown): {
+export default function ApiError(error: unknown): {
   ok: false
   error: string
   data: null
