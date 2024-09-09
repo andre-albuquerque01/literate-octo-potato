@@ -1,7 +1,7 @@
 export interface InterfaceItens {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any
-  idItens: number
+  idItens: string
   title: string
   desc: string
   value: number
