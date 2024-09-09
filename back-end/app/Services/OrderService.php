@@ -32,7 +32,12 @@ class OrderService
     public function show(string $id)
     {
         try {
-            $order = Order::with(['menu', 'itens'])->where('orders.idOrder', $id)->whereNull('deleted_at')->paginate();
+            $order = Order::with(['menu', 'itens' => function ($query) {
+                $query->whereNull('deleted_at');
+            }])
+                ->where('orders.idOrder', $id)
+                ->whereNull('deleted_at')
+                ->paginate();
             return OrderResource::collection($order);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
@@ -43,8 +48,13 @@ class OrderService
     {
         try {
             $order = Order::whereHas('menu', function ($query) use ($id) {
-                $query->where('menu.idMenu', $id);
-            })->with(['menu.mesa', 'itens'])->whereNull('deleted_at')->get();
+                $query->where('menu.idMenu', $id)->whereNull('deleted_at');
+            })
+                ->with(['menu.mesa', 'itens' => function ($query) {
+                    $query->whereNull('deleted_at');
+                }])
+                ->whereNull('deleted_at')
+                ->get();
             return OrderResource::collection($order);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
@@ -55,8 +65,12 @@ class OrderService
     {
         try {
             $order = Order::whereHas('menu', function ($query) use ($id) {
-                $query->where('menu.idMenu', $id);
-            })->with(['menu', 'itens'])->whereNull('deleted_at')->get();
+                $query->where('menu.idMenu', $id)->whereNull('deleted_at');
+            })
+                ->with(['menu', 'itens' => function ($query) {
+                    $query->whereNull('deleted_at');
+                }])
+                ->whereNull('deleted_at')->get();
             return OrderResource::collection($order);
         } catch (\Exception $e) {
             throw new OrderException($e->getMessage());
