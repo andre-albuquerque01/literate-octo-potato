@@ -1,5 +1,5 @@
 export interface CategoryInterface {
-  idCategory: number
+  idCategory: string
   typeCategory: string
   urlImageCategory: string
   created_at: string
