@@ -1,6 +1,6 @@
 export interface MenuInterface {
+  idMesa: string
   codigo: string
-  idMesa: number
   idMenu: number
   numberMesa: number
   cpf: number
@@ -13,6 +13,7 @@ export interface MenuInterface {
       idOrder: number
       qtdOrder: number
       valueOrder: number
+      observation: string
       itens: {
         idItens: number
         title: string
