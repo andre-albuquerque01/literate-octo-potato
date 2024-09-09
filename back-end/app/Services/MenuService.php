@@ -14,8 +14,11 @@ class MenuService
     {
         try {
             $cpf = auth()->user()->cpf;
-            $menu = Menu::with(['mesa', 'orders.itens'])
-                ->where('cpf', $cpf)->whereNull('deleted_at')
+            $menu = Menu::with(['mesa',  'orders' => function ($query) {
+                $query->whereNull('deleted_at');
+            }, 'orders.itens'])
+                ->where('cpf', $cpf)
+                ->whereNull('deleted_at')
                 ->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
@@ -27,7 +30,10 @@ class MenuService
     {
         try {
             $cpf = auth()->user()->cpf;
-            $menu = Menu::where('cpf', $cpf)->where('menu.statusOrder', '=', 0)->whereNull('deleted_at')->get();
+            $menu = Menu::where('cpf', $cpf)
+                ->where('menu.statusOrder', '=', 0)
+                ->whereNull('deleted_at')
+                ->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -37,7 +43,12 @@ class MenuService
     {
         try {
             $cpf = auth()->user()->cpf;
-            $menu = Menu::with(['mesa', 'orders.itens'])->where('cpf', $cpf)->whereNull('deleted_at')->get();
+            $menu = Menu::with(['mesa',  'orders' => function ($query) {
+                $query->whereNull('deleted_at');
+            }, 'orders.itens'])
+                ->where('cpf', $cpf)
+                ->whereNull('deleted_at')
+                ->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -46,7 +57,12 @@ class MenuService
     public function showAll()
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])->where('menu.statusOrder', '=', 0)->whereNull('deleted_at')->get();
+            $menu = Menu::with(['mesa',  'orders' => function ($query) {
+                $query->whereNull('deleted_at');
+            }, 'orders.itens'])
+                ->where('menu.statusOrder', '=', 0)
+                ->whereNull('deleted_at')
+                ->get();
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -56,7 +72,11 @@ class MenuService
     public function showAllOpenAndClose()
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])->whereNull('deleted_at')->paginate(20);
+            $menu = Menu::with(['mesa',  'orders' => function ($query) {
+                $query->whereNull('deleted_at');
+            }, 'orders.itens'])
+                ->whereNull('deleted_at')
+                ->paginate(20);
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -87,10 +107,12 @@ class MenuService
     public function showCPF(string $cpf)
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])
-            ->where('menu.cpf', 'LIKE', '%' . $cpf . '%')
-            ->whereNull('deleted_at')
-            ->paginate(20);
+            $menu = Menu::with(['mesa',  'orders' => function ($query) {
+                $query->whereNull('deleted_at');
+            }, 'orders.itens'])
+                ->where('menu.cpf', 'LIKE', '%' . $cpf . '%')
+                ->whereNull('deleted_at')
+                ->paginate(20);
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
@@ -100,10 +122,12 @@ class MenuService
     public function showCPFOpen(string $cpf)
     {
         try {
-            $menu = Menu::with(['mesa', 'orders.itens'])
-            ->where('menu.cpf', 'LIKE', '%' . $cpf . '%')
-            ->where('menu.statusOrder', '=', 0)
-            ->whereNull('deleted_at');
+            $menu = Menu::with(['mesa',  'orders' => function ($query) {
+                $query->whereNull('deleted_at');
+            }, 'orders.itens'])
+                ->where('menu.cpf', 'LIKE', '%' . $cpf . '%')
+                ->where('menu.statusOrder', '=', 0)
+                ->whereNull('deleted_at');
             return MenuResource::collection($menu);
         } catch (\Exception $e) {
             throw new MenuException($e->getMessage());
