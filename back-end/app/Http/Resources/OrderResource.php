@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
         return [
             'idOrder' => $this->idOrder,
             'qtdOrder' => $this->qtdOrder,
+            'observation' => $this->observation,
             'valueOrder' => $this->valueOrder,
             'updated_at' => $this->updated_at,
             'numberMesa' => $this->menu->mesa->numberMesa ?? null,
