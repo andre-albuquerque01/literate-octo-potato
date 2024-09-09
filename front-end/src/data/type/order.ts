@@ -1,5 +1,5 @@
 export interface OrderInterface {
-  idItens: number
+  idItens: string
   codigo: number
   idMenu: number
   qtdOrder: number
