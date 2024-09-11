@@ -39,23 +39,25 @@ export const Header = () => {
             <Search className="h-6 w-6" />
             <span className="max-md:hidden">Buscar</span>
           </Link>
-          <Link
-            href="/order/menuUser"
-            className={`flex items-center gap-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden ${r?.value && 'hidden'}`}
-            title="Pedido"
-          >
-            <ScrollText className="h-6 w-6" />{' '}
-            <span className="max-md:hidden">Pedido</span>
-          </Link>
           {token ? (
-            <Link
-              href="/user"
-              className="flex items-center gap-2 mr-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
-              title="Perfil"
-            >
-              <CircleUser className="h-6 w-6" />{' '}
-              <span className="max-md:hidden">Perfil</span>
-            </Link>
+            <>
+              <Link
+                href="/order/user/historicUser"
+                className={`flex items-center gap-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden ${r?.value && 'hidden'}`}
+                title="Pedido"
+              >
+                <ScrollText className="h-6 w-6" />{' '}
+                <span className="max-md:hidden">Pedido</span>
+              </Link>
+              <Link
+                href="/user"
+                className="flex items-center gap-2 mr-2 hover:scale-105 hover:text-zinc-400 transition-transform duration-500 overflow-hidden"
+                title="Perfil"
+              >
+                <CircleUser className="h-6 w-6" />{' '}
+                <span className="max-md:hidden">Perfil</span>
+              </Link>
+            </>
           ) : (
             <Link
               href="/user/login"
