@@ -1,17 +1,16 @@
 import GetAllTableService from '@/actions/table/getAllTable'
-import { TableListComponent } from '@/components/tableList'
-import { TableInterface } from '@/data/type/table'
+import { TableListComponent } from '@/components/table/tableList'
 import { ArrowLeft, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
-export default async function GetAll() {
-  const data = (await GetAllTableService()) as TableInterface[]
+export default async function List() {
+  const data = await GetAllTableService()
 
   return (
-    <div className="flex flex-col min-h-[90%] w-full px-3">
+    <div className="flex flex-col w-full px-3">
       <Link
         href="/table"
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-3 max-md:w-80"
+        className="flex items-center gap-1 text-sm w-96 mt-3 max-md:w-80"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
