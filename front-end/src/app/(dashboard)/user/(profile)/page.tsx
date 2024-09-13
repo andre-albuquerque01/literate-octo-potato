@@ -33,7 +33,7 @@ export default async function User() {
   }
 
   return (
-    <div className="mt-6 space-y-3 w-36 max-md:p-8 max-md:mt-0 max-md:w-56">
+    <div className="mt-6 space-y-3 w-36 max-md:mt-3 max-md:w-56">
       <h1 className="">{getDate()}</h1>
       <Link
         href="/itens/search"
@@ -64,7 +64,7 @@ export default async function User() {
         Alterar senha
       </Link>
       <Link
-        href="/order/list"
+        href="/order/user/menuUser"
         className={`flex items-center gap-2 hover:underline ${r?.value && 'hidden'}`}
       >
         <ListIcon className="h-5 w-5" />
@@ -88,10 +88,10 @@ export default async function User() {
           </Link>
           <Link
             href="/menu/list"
-            className="flex items-center w-[240px] gap-2 hover:underline"
+            className="flex items-center w-[180px] gap-2 hover:underline"
           >
             <BookAIcon className="h-5 w-5" />
-            Pedidos do cliente abertos
+            Pedidos em aberto
           </Link>
           <Link
             href="/menu/allList"
@@ -117,7 +117,7 @@ export default async function User() {
         </>
       )}
       <Link
-        href="/order/historic"
+        href="/order/user/historicUser"
         className={`flex items-center gap-2 hover:underline ${r?.value && 'hidden'}`}
       >
         <History className="h-5 w-5" />
