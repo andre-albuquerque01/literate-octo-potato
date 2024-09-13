@@ -1,41 +1,54 @@
 'use client'
+
 import { InsertTable } from '@/actions/table/insertTable'
-import { BtnForm } from '@/components/btnForm'
-import { ValidateFormTable } from '@/data/function/validateFormTable'
+import { BtnForm } from '@/components/buttons/btnForm'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { FormEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
 
-export default function InsertTablePage() {
-  const [returnError, setReturnError] = useState<string>('')
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
-
-    const val = ValidateFormTable(
-      e.currentTarget.numberMesa.value,
-      e.currentTarget.lotacao.value,
-    )
-
-    if (val !== '') setReturnError(val)
-
-    const req = await InsertTable(data)
-
-    if (req.message === 'sucess') {
-      alert('Cadastrado com sucesso!')
-      window.history.back()
-    } else if (req.message === 'The number mesa has already been taken.') {
-      setReturnError('Número da mesa já cadastrado!')
-    }
-  }
+function FormButton() {
+  const { pending } = useFormStatus()
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
+    <>
+      {pending ? (
+        <div className="flex justify-center">
+          <button
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+            disabled={pending}
+          >
+            Cadastrando...
+          </button>
+        </div>
+      ) : (
+        <BtnForm title="Cadastrar" />
+      )}
+    </>
+  )
+}
+export default function InsertTablePage() {
+  const [state, action] = useFormState(InsertTable, {
+    ok: false,
+    error: '',
+    data: null,
+  })
+
+  const router = useRouter()
+  useEffect(() => {
+    if (state && state.ok) {
+      alert('Mesa cadastrada com sucesso!')
+      router.back()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
+
+  return (
+    <div className="flex flex-col mx-auto justify-center md:min-h-screen md:mt-[-100px] w-full items-center">
       <Link
         href="/table/list"
-        className="md:hidden flex items-center w-80 mb-5 mx-auto"
+        className="flex items-center gap-1 text-sm w-96 max-md:mt-5 max-md:w-80 mb-5"
       >
         <ArrowLeft className="w-5 h-4" />
         Voltar
@@ -43,10 +56,12 @@ export default function InsertTablePage() {
       <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
         Cadastro da mesa
       </p>
-      <form onSubmit={handleSubmit}>
-        {returnError === 'Preencha os dados!' && (
-          <span className="text-xs text-red-600">Preencha os dados!</span>
-        )}
+      {state.error && state.error && (
+        <span className="text-xs text-red-600 max-w-80 md:max-w-96 text-justify text-wrap">
+          {state.error}
+        </span>
+      )}
+      <form action={action}>
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label htmlFor="numberMesa">
             Número da mesa: <span className="text-red-600">*</span>{' '}
@@ -56,10 +71,9 @@ export default function InsertTablePage() {
             name="numberMesa"
             id="numberMesa"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
           />
         </div>
-        {returnError === 'Número da mesa já cadastrado!' && (
+        {state.error && state.error === 'Número da mesa já cadastrado!' && (
           <span className="text-xs text-red-600">
             Número da mesa já cadastrado!
           </span>
@@ -73,10 +87,9 @@ export default function InsertTablePage() {
             name="lotacao"
             id="lotacao"
             className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
-            required
           />
         </div>
-        <BtnForm title="Cadastrar" />
+        <FormButton />
       </form>
     </div>
   )
