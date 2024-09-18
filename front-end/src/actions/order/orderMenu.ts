@@ -12,7 +12,10 @@ export async function OrderMenu(id: string) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${cookies().get('token')?.value}`,
       },
-      cache: 'no-cache',
+      next: {
+        revalidate: 60 * 30,
+        tags: ['order'],
+      },
     })
 
     const data = await response.json()
