@@ -31,6 +31,9 @@ export async function LoginUser(
       throw new Error('error')
     }
 
+    if (data.message === 'Email ou senha incorreta.') {
+      throw new Error('Email ou senha incorreta.')
+    }
     if (data.message === 'E-mail não verificado') {
       throw new Error('E-mail não verificado')
     }
