@@ -20,7 +20,7 @@ class AuthService
     {
         try {
             if (!Auth::attempt($data)) {
-                throw new LoginInvalidException;
+                return response()->json(['message' => 'Email ou senha incorreta.']);
             }
             $user = Auth::user();
             if (User::where('email', $user->email)->whereNull('email_verified_at')->exists()) {
