@@ -65,7 +65,9 @@ class OrderService
     {
         try {
             $order = Order::whereHas('menu', function ($query) use ($id) {
-                $query->where('menu.idMenu', $id)->whereNull('deleted_at');
+                $query->where('menu.idMenu', $id)
+                ->whereNull('deleted_at')
+                ->where('menu.statusOrder', '=', 0);
             })
                 ->with(['menu', 'itens' => function ($query) {
                     $query->whereNull('deleted_at');
