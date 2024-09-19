@@ -47,10 +47,10 @@ export default function InsertCategoryPage() {
   }, [state])
 
   return (
-    <div className="flex flex-col mx-auto justify-center min-h-[800px] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center md:min-h-screen md:mt-[-100px] w-full items-center">
       <Link
         href="/category/list"
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
+        className="flex items-center gap-1 text-sm w-96 max-md:mt-5 max-md:w-80 mb-5"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
