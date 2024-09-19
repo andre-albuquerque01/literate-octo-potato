@@ -63,10 +63,10 @@ export default function InsertItensPage() {
   }
 
   return (
-    <div className="flex flex-col mx-auto items-center  max-md:min-h-[100%] max-md:max-h-[150%] md:mt-5 w-full">
+    <div className="flex flex-col mx-auto justify-center min-h-screen md:mt-[-100px] w-full items-center">
       <Link
         href="/itens/list"
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-10 max-md:w-80"
+        className="flex items-center gap-1 text-sm w-96 max-md:mt-5 max-md:w-80 mb-5"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
