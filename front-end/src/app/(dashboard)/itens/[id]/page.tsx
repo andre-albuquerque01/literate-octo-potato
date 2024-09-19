@@ -2,9 +2,8 @@ import { GetIdItens } from '@/actions/itens/getIdItens'
 import { GetIdItensRate } from '@/actions/itens/rate/rateIdItens'
 import { VerifyLike } from '@/actions/itens/rate/verifyLike'
 import { BtnLike } from '@/components/buttons/btnLike'
-import { ArrowLeft } from 'lucide-react'
+import { GoBack } from '@/components/nav/goBack'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Suspense } from 'react'
 
 export default async function Iten({ params }: { params: { id: string } }) {
@@ -17,9 +16,7 @@ export default async function Iten({ params }: { params: { id: string } }) {
       <div className="md:flex md:flex-col md:items-center md:justify-center md:mt-8">
         {data ? (
           <>
-            <Link href="" className="flex items-center px-8 py-4 md:hidden">
-              <ArrowLeft className="w-5 h-5" /> Voltar
-            </Link>
+            <GoBack />
             <Image
               src={data.urlImage}
               width={100}
