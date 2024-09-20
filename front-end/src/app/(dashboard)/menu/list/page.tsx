@@ -37,6 +37,9 @@ export default async function listMenu({ searchParams }: PropsSearchParams) {
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
+      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80 mt-5">
+        Lista de comandas abertas
+      </p>
       <Link
         href="/menu/insert"
         className="flex items-center gap-2 w-[170px] py-2 text-sm max-md:mb-0 max-md:w-80 mt-3 border-b-2 border-transparent hover:border-red-600 transition duration-500"
@@ -44,9 +47,6 @@ export default async function listMenu({ searchParams }: PropsSearchParams) {
         <PlusCircle className="w-5 h-5" />
         Nova comanda
       </Link>
-      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80 mt-5">
-        Lista de comandas abertas
-      </p>
       <FormSearchMenuCPF />
       <GetAllMenuComponent data={data} />
     </div>
