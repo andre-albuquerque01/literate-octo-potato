@@ -58,19 +58,19 @@ export default async function allListMenu({ searchParams }: PropsSearchParams) {
   }
 
   return (
-    <div className="flex flex-col min-h-[90%] w-full px-3">
+    <div className="flex flex-col min-h-[90%] w-full">
       <Link
         href="/user"
-        className="flex items-center gap-1 text-sm mt-5 w-96 max-md:w-80"
+        className="flex items-center gap-1 text-sm mt-5 w-96 max-md:w-80 mb-3"
       >
         <ArrowLeft className="w-5 h-5" />
         Voltar
       </Link>
-      <FormSearchMenuCPF />
-      <div className="text-sm mt-5">{title && title}</div>
-      <p className="text-xl mb-1 max-md:mb-0 mt-5">
+      <p className="text-xl mb-1 max-md:mb-3">
         Lista de todos pedido, tanto aberto como fechados.
       </p>
+      <FormSearchMenuCPF />
+      <div className="text-sm mt-5">{title && title}</div>
       <GetAllMenuOldOrderComponent data={data} />
       <div className="max-md:h-28">
         <div className="flex justify-center mt-4 h-10">{VerifyQuery()}</div>
