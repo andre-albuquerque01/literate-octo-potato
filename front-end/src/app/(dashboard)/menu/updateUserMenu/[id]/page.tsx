@@ -84,12 +84,12 @@ export default function UpdateOrder({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
+    <div className="flex flex-col mx-auto justify-center md:h-screen  md:mt-[-125px] w-full items-center">
       <Suspense fallback={<Loading />}>
         <>
           <Link
             href="/menu/list"
-            className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
+            className="flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-4 max-md:w-80"
           >
             <ArrowLeft className="w-5 h-5" />
             Voltar
