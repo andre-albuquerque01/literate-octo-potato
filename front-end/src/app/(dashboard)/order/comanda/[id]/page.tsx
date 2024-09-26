@@ -1,5 +1,5 @@
 import ComandaService from '@/actions/order/comanda'
-import { RemoveItenComanda } from '@/components/removeItemComanda'
+import { RemoveItenComanda } from '@/components/remove/removeItemComanda'
 import { FormatData } from '@/data/function/formateData'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import { OrderInterface } from '@/data/type/order'
@@ -7,7 +7,7 @@ import { ArrowLeft, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default async function Comanda({ params }: { params: { id: number } }) {
+export default async function Comanda({ params }: { params: { id: string } }) {
   const data = await ComandaService(params.id)
 
   let soma = 0
@@ -28,10 +28,14 @@ export default async function Comanda({ params }: { params: { id: number } }) {
 
   return (
     <div className="w-full">
-      <div className="max-md:w-[90%] min-h-full max-md:mx-auto md:mt-4">
+      <div className="min-h-full max-md:mx-auto md:mt-4">
         <h1 className="text-2xl">Comanda</h1>
-        <Link href="/menu/list" className="flex items-center py-4">
-          <ArrowLeft className="w-5 h-5" /> Voltar
+        <Link
+          href="/menu/list"
+          className="flex items-center gap-1 text-sm w-96 mt-3 max-md:mb-4 max-md:w-80"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Voltar
         </Link>
         <div className="flex flex-wrap max-md:justify-center gap-5 md:mt-4">
           {data &&
@@ -44,9 +48,9 @@ export default async function Comanda({ params }: { params: { id: number } }) {
                   <Image
                     src={itens.itens.urlImage}
                     alt={`Imagem do ${itens.title}`}
-                    width={150}
-                    height={150}
-                    className="rounded-lg w-[145px] h-[115px]"
+                    width={130}
+                    height={130}
+                    className="rounded-lg w-[130px] h-[115px]"
                   />
                   <div className="flex flex-col justify-evenly w-[150px]">
                     <p className="font-medium text-lg truncate">
