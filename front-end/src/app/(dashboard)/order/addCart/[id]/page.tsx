@@ -1,14 +1,14 @@
-import { GetListItens } from '@/actions/itens/listItens'
-import { GetListSearchTitle } from '@/actions/itens/search/GetListSearchTitle'
-import LinkPagination from '@/components/LinkPagination'
-import LinkPaginationQuery from '@/components/LinkPaginationQuery'
-import { AddCartComanda } from '@/components/addCart'
-import { FormSearchAddCart } from '@/components/form-search-add-cart'
-import { GoBack } from '@/components/goBack'
+import LinkPagination from '@/components/pagination/LinkPagination'
+import { AddCartComanda } from '@/components/menu/addCart'
+import { FormSearchAddCart } from '@/components/forms/form-search-add-cart'
+import { GoBack } from '@/components/nav/goBack'
 import { InterfaceItens } from '@/data/type/interfaceItens'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { GetListSearchTitle } from '@/actions/itens/search/GetListSearchTitle'
+import { GetListItens } from '@/actions/itens/listItens'
+import LinkPaginationQuery from '@/components/pagination/LinkPaginationQuery'
 
 interface SearchParamsProps {
   searchParams: {
@@ -16,7 +16,7 @@ interface SearchParamsProps {
     page: number
   }
   params: {
-    id: number
+    id: string
   }
 }
 
@@ -66,7 +66,7 @@ export default async function AddCart({
   }
 
   return (
-    <div className="max-md:w-[360px] mx-auto mt-5 space-y-5">
+    <div className="w-full mx-auto mt-5 space-y-5">
       <Suspense fallback={'Carregando...'}>
         <GoBack />
         <FormSearchAddCart id={params.id} />
@@ -84,9 +84,9 @@ export default async function AddCart({
                 <Image
                   src={itens.urlImage}
                   alt={`Imagem do ${itens.title}`}
-                  width={150}
-                  height={150}
-                  className="rounded-lg max-w-[150px] max-h-[115px] object-cover"
+                  width={130}
+                  height={130}
+                  className="rounded-lg max-w-[130px] max-h-[115px] object-cover"
                 />
                 <div className="flex flex-col justify-evenly w-[155px]">
                   <p className="font-medium text-lg truncate">{itens.title}</p>
