@@ -1,19 +1,51 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { GetIdItens } from '@/actions/itens/getIdItens'
 import { InsertOrder } from '@/actions/order/insertOrder'
-import { BtnForm } from '@/components/btnForm'
-import { ValidateFormOrder } from '@/data/function/validateFormOrder'
+import { BtnForm } from '@/components/buttons/btnForm'
+import { GoBack } from '@/components/nav/goBack'
 import { InterfaceItens } from '@/data/type/interfaceItens'
-import { ArrowLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { FormEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
+
+function FormBtn() {
+  const { pending } = useFormStatus()
+  return (
+    <>
+      {pending ? (
+        <div className="flex justify-center">
+          <button
+            className="mx-auto font-semibold w-52 h-10 bg-red-600 text-zinc-50 text-xl rounded-[9px] mt-3 max-md:w-44 max-md:mb-5 hover:bg-red-500"
+            disabled={pending}
+          >
+            Adicionando...
+          </button>
+        </div>
+      ) : (
+        <BtnForm title="Adicionar" />
+      )}
+    </>
+  )
+}
 
 export default function InsertOrderPage() {
-  const [data, setData] = useState<InterfaceItens>()
-  const [returnError, setReturnError] = useState<string>('')
+  const [state, action] = useFormState(InsertOrder, {
+    ok: false,
+    error: '',
+    data: null,
+  })
+
+  const searchParams = useSearchParams()
+  const itens = searchParams.get('iten')
+  const menu = searchParams.get('menu')
+
   const router = useRouter()
+  const [data, setData] = useState<InterfaceItens>()
+
   const [dados, setDados] = useState({
     qtdOrder: '',
+    observation: '',
     valueOrder: 0,
   })
 
@@ -27,11 +59,6 @@ export default function InsertOrderPage() {
     }))
   }
 
-  const searchParams = useSearchParams()
-
-  const itens = searchParams.get('iten')
-  const menu = searchParams.get('menu')
-
   function calculateValurProduct() {
     let total = 0
     for (let i = 0; i < Number(dados.qtdOrder); i++) {
@@ -43,55 +70,37 @@ export default function InsertOrderPage() {
   dados.valueOrder = calculateValurProduct()
 
   useEffect(() => {
+    if (itens === null || menu === null) router.back()
+  }, [itens, menu])
+
+  useEffect(() => {
     const handleData = async () => {
-      const reqBody = await GetIdItens(Number(itens))
-      const dt = reqBody.data
-      setData(dt)
-    }
-    handleData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (itens && menu) {
-      const formData = new FormData(e.currentTarget)
-      formData.append('idItens', itens)
-      formData.append('idMenu', menu)
-      const objet = Object.fromEntries(formData)
-
-      const val = ValidateFormOrder(
-        e.currentTarget.qtdOrder.value,
-        e.currentTarget.valueOrder.value,
-      )
-
-      if (val !== '') setReturnError(val)
-
-      const req = await InsertOrder(objet)
-      if (req) {
-        alert('Item inserido com sucesso!')
-        router.back()
+      if (itens && menu) {
+        const dt = await GetIdItens(itens)
+        setData(dt)
       }
     }
-  }
+    handleData()
+  }, [])
+
+  useEffect(() => {
+    if (state && state.ok) {
+      alert('Realizado com sucesso.')
+      router.back()
+    }
+  }, [state])
+
   return (
-    <div className="flex flex-col mx-auto justify-center h-[800px] w-full items-center">
-      <div
-        onClick={(e) => {
-          e.preventDefault()
-          router.back()
-        }}
-        className="md:hidden flex items-center gap-1 text-sm mb-3 w-96 max-md:mt-24 max-md:w-80"
-      >
-        <ArrowLeft className="w-5 h-5" />
-        Voltar
-      </div>
-      <p className="text-xl mb-1 w-96 max-md:mb-0 max-md:w-80">
+    <div className="flex flex-col mx-auto justify-center md:h-screen min-h-96 md:mt-[-125px] w-full items-center">
+      <GoBack />
+      <p className="text-xl mb-1 w-96 max-md:mb-0 mt-4 max-md:w-80">
         Cadastrado do pedido
       </p>
-      <form onSubmit={handleSubmit}>
-        {returnError === 'Preencha os dados!' && (
-          <span className="text-xs text-red-600">Preencha os dados!</span>
+      <form action={action}>
+        <input type="hidden" name="idItens" defaultValue={itens ?? ''} />
+        <input type="hidden" name="idMenu" defaultValue={menu ?? ''} />
+        {state.error && state.error && (
+          <span className="text-xs text-red-600">{state.error}</span>
         )}
         <div className="flex flex-col mt-3 max-md:mt-3">
           <label>Item:</label>
@@ -139,7 +148,17 @@ export default function InsertOrderPage() {
             required
           />
         </div>
-        <BtnForm title="Adicionar" />
+        <div className="flex flex-col mt-3 max-md:mt-3">
+          <label htmlFor="observation">Observação:</label>
+          <input
+            type="text"
+            name="observation"
+            id="observation"
+            className="w-96 h-9 border border-zinc-400 rounded-[5px] max-md:w-80 px-2"
+            defaultValue={dados.observation ?? ''}
+          />
+        </div>
+        <FormBtn />
       </form>
     </div>
   )
