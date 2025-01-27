@@ -109,7 +109,7 @@ Abra o navegador e acesse `http://localhost:3000` para utilizar o serviço.
 
 ### Imagens do sistema
 
-## A seguir, apresentamos algumas imagens que demonstram as funcionalidades do sistema:
+#### A seguir, apresentamos algumas imagens que demonstram as funcionalidades do sistema:
 
 - Início
 
