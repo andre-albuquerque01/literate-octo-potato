@@ -6,6 +6,36 @@ O sistema de comandas online oferece um serviço conveniente onde os clientes po
 
 Para operar o sistema, são necessários os seguintes requisitos mínimos na sua máquina: PHP, Composer, Node.js e Docker. O PHP e o Composer são essenciais para executar o Laravel, que contém a API principal do sistema. O Node.js é necessário para executar o front-end, enquanto o Docker é utilizado para virtualizar o ambiente no qual a API é executada. Estes componentes garantem a funcionalidade e o desempenho ideais do nosso sistema de forma integrada e eficiente.
 
+## Requisitos Funcionais
+- Deve ser possível se cadastrar;
+- Deve ser possível se autenticar;
+- Deve ser possível obter o perfil de um usuário logado;
+- Deve ser possível visualizar os produtos do estabelecimento;
+- Deve ser possível o usuário obter seu histórico de pedidos;
+- Deve ser possível o usuário buscar itens pelo nome;
+- Deve ser possível o usuário buscar itens pela categoria;
+- Deve ser possível o usuário realizar consulta ao seu histórico;
+- Deve ser possível os administradores realizarem consultas ao histórico dos pedidos;
+- Deve ser possível os administradores verem pedidos em aberto;
+- Deve ser possível os administradores gerenciarem pedidos;
+- Deve ser possível os administradores gerenciarem mesas;
+- Deve ser possível os administradores gerenciarem itens;
+- Deve ser possível os administradores gerenciarem categorias;
+- Deve ser possível os administradores gerenciarem funcionários;
+- Deve ser possível que a empresa utilize seus métodos de pagamento;
+
+## Regras de negócio
+- O usuário não deve se cadastrar com um e-mail duplicado;
+- O usuário não deve se cadastrar com um CPF duplicado;
+- O usuário não pode fazer pedidos;
+- Os itens só podem ser cadastrados por administradores;
+- Os pedidos só podem ser cadastrados por administradores;
+
+## Requisitos não Funcionais
+- A senha do usuário precisa estar criptografada;
+- Os dados da aplicação precisam estar persistidos em um banco de dados;
+- O usuário deve ser identificado por um token;
+
 ## Arquitetura do Sistema
 
 O sistema utiliza as seguintes linguagens:
