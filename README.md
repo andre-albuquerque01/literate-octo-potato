@@ -1,66 +1,48 @@
 # Sistema Eletrônico para Restaurantes
 
-O sistema de comandas online oferece um serviço conveniente onde os clientes podem acompanhar os seus pedidos em tempo real através do smartphone. Com a integração do CPF do cliente, os pedidos são registados automaticamente, permitindo que o cliente acompanhe todas as adições e remoções na sua comanda. Esta solução é especialmente útil para estabelecimentos que não possuem um sistema de comandas físicas visíveis para os clientes, garantindo transparência e praticidade em todo o processo de pedido.
+O sistema de comandas online oferece um serviço conveniente onde os clientes podem acompanhar os seus pedidos em tempo real através do smartphone. Com a integração do CPF do cliente, os pedidos são registrados automaticamente, permitindo que o cliente acompanhe todas as adições e remoções na sua comanda. Esta solução é especialmente útil para estabelecimentos que não possuem um sistema de comandas físicas visíveis para os clientes, garantindo transparência e praticidade em todo o processo de pedido.
 
 ## Requisitos do Sistema
 
 Para operar o sistema, são necessários os seguintes requisitos mínimos na sua máquina: PHP, Composer, Node.js e Docker. O PHP e o Composer são essenciais para executar o Laravel, que contém a API principal do sistema. O Node.js é necessário para executar o front-end, enquanto o Docker é utilizado para virtualizar o ambiente no qual a API é executada. Estes componentes garantem a funcionalidade e o desempenho ideais do nosso sistema de forma integrada e eficiente.
 
 ## Requisitos Funcionais
-- Deve ser possível se cadastrar;
-- Deve ser possível se autenticar;
-- Deve ser possível obter o perfil de um usuário logado;
-- Deve ser possível visualizar os produtos do estabelecimento;
-- Deve ser possível o usuário obter seu histórico de pedidos;
-- Deve ser possível o usuário buscar itens pelo nome;
-- Deve ser possível o usuário buscar itens pela categoria;
-- Deve ser possível o usuário realizar consulta ao seu histórico;
-- Deve ser possível os administradores realizarem consultas ao histórico dos pedidos;
-- Deve ser possível os administradores verem pedidos em aberto;
-- Deve ser possível os administradores gerenciarem pedidos;
-- Deve ser possível os administradores gerenciarem mesas;
-- Deve ser possível os administradores gerenciarem itens;
-- Deve ser possível os administradores gerenciarem categorias;
-- Deve ser possível os administradores gerenciarem funcionários;
-- Deve ser possível que a empresa utilize seus métodos de pagamento;
 
-## Regras de negócio
+- Deve ser possível que o usuário se cadastre;
+- Deve ser possível que o usuário se autentique;
+- Deve ser possível que o usuário obtenha o perfil de um usuário logado;
+- Deve ser possível que o usuário visualize os produtos do estabelecimento;
+- Deve ser possível que o usuário acesse o histórico de pedidos;
+- Deve ser possível que o usuário busque itens pelo nome;
+- Deve ser possível que o usuário busque itens pela categoria;
+- Deve ser possível que os administradores realizem consultas ao histórico dos pedidos;
+- Deve ser possível que os administradores vejam pedidos em aberto;
+- Deve ser possível que os administradores gerenciem pedidos, mesas, itens, categorias e funcionários;
+- Deve ser possível que a empresa configure métodos de pagamento.
+
+## Regras de Negócio
+
 - O usuário não deve se cadastrar com um e-mail duplicado;
 - O usuário não deve se cadastrar com um CPF duplicado;
-- O usuário não pode fazer pedidos;
+- O usuário não pode fazer pedidos sem estar autenticado;
 - Os itens só podem ser cadastrados por administradores;
-- Os pedidos só podem ser cadastrados por administradores;
+- Os pedidos só podem ser cadastrados por administradores.
 
-## Requisitos não Funcionais
+## Requisitos Não Funcionais
+
 - A senha do usuário precisa estar criptografada;
 - Os dados da aplicação precisam estar persistidos em um banco de dados;
-- O usuário deve ser identificado por um token;
+- O usuário deve ser identificado por um token.
 
 ## Arquitetura do Sistema
 
-O sistema utiliza as seguintes linguagens:
+O sistema utiliza as seguintes tecnologias:
 
-- PHP
-- TypeScript
-
-Banco de dados:
-
-- MySQL
-
-Frameworks:
-
-- Laravel
-- Next.js
-
-Arquitetura da API:
-
-- MVC
-- RESTful
-
-Além disso, faz uso de:
-
-- React
-- Docker
+- **Linguagens:** PHP, TypeScript
+- **Banco de Dados:** MySQL
+- **Frameworks:** Laravel, Next.js
+- **Arquitetura da API:** MVC, RESTful
+- **Outras Tecnologias:** React, Docker
 
 ## Como Iniciar o Sistema
 
@@ -92,22 +74,10 @@ Execute `php artisan config:cache` para aplicar as configurações do arquivo `.
 Inicie o servidor da API:
 
 ```bash
-./vendor/bin/sail up
-```
-
-No Linux:
-
-```bash
 sudo ./vendor/bin/sail up
 ```
 
 Para desativar o servidor da API:
-
-```bash
-./vendor/bin/sail down
-```
-
-No Linux:
 
 ```bash
 sudo ./vendor/bin/sail down
@@ -133,6 +103,26 @@ Inicie o servidor do Next.js:
 npm run dev
 ```
 
-### Passo 4: Acesso ao Sistema
+### Passo 4: Acesso ao sistema
 
 Abra o navegador e acesse `http://localhost:3000` para utilizar o serviço.
+
+### Imagens do sistema
+
+## A seguir, apresentamos algumas imagens que demonstram as funcionalidades do sistema:
+
+- Início
+
+<img src="mold/imgSystem/index.png" alt="Index" />
+
+- Dashboard
+
+<img src="mold/imgSystem/dashboard.png" alt="Dashboard" />
+
+- Pesquisa do Item
+
+<img src="mold/imgSystem/search.png" alt="Pesquisa" />
+
+- Histórico do Usuário
+
+<img src="mold/imgSystem/listHistoric.png" alt="Histórico" />
