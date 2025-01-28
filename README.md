@@ -44,6 +44,10 @@ O sistema utiliza as seguintes tecnologias:
 - **Arquitetura da API:** MVC, RESTful
 - **Outras Tecnologias:** React, Docker
 
+### Observação
+
+- O sistema utiliza filas (queues) no Laravel para enviar e-mails de forma assíncrona, funcionando em segundo plano.
+
 ## Como Iniciar o Sistema
 
 ### Passo 1: Download dos Arquivos
@@ -51,7 +55,7 @@ O sistema utiliza as seguintes tecnologias:
 Clone o repositório:
 
 ```bash
-git clone https://github.com/andre-albuquerque01/literate-octo-potato.git
+git clone https://github.com/andre-albuquerque01/smart-restaurant-system.git
 ```
 
 ### Passo 2: Configuração do Back-end
@@ -74,13 +78,13 @@ Execute `php artisan config:cache` para aplicar as configurações do arquivo `.
 Inicie o servidor da API:
 
 ```bash
-sudo ./vendor/bin/sail up
+./vendor/bin/sail up
 ```
 
 Para desativar o servidor da API:
 
 ```bash
-sudo ./vendor/bin/sail down
+./vendor/bin/sail down
 ```
 
 ### Passo 3: Configuração do Front-end
